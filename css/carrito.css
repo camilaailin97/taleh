@@ -1,0 +1,286 @@
+/* ==========================================================================
+   📖 TALEH - ESTILOS DEL CARRITO COMPONENTE
+   ========================================================================== */
+/* Asegura que los tamaños incluyan los paddings sin estirar las cajas */
+#carrito-lateral, 
+#carrito-lateral *, 
+.carrito-footer {
+    box-sizing: border-box !important;
+}
+/* 🛒 1. Botón Flotante (Aparece fijo en la esquina superior derecha) */
+#carrito-boton-flotante {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(45, 30, 20, 0.85); /* Tono marrón oscuro translúcido */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid #f4ebd0;
+    padding: 12px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#carrito-boton-flotante:hover {
+    transform: scale(1.05);
+    background: rgba(45, 30, 20, 0.95);
+}
+
+#carrito-contador {
+    color: #f4ebd0;
+    font-family: 'Cinzel Decorative', serif;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* 📂 2. Panel Lateral Desplazable (Estructura rígida vertical) */
+#carrito-lateral {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 380px;
+    max-width: 100%;
+    height: 100vh;
+    background: #1a120c; /* Fondo místico profundo sólido para evitar transparencias raras */
+    border-left: 1px solid rgba(244, 235, 208, 0.2);
+    box-shadow: -5px 0 25px rgba(0,0,0,0.7);
+    z-index: 10000;
+    
+    /* Forzamos el flujo de arriba hacia abajo sin usar 'order' que marea al navegador */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Estado Oculto (Se va de la pantalla a la derecha) */
+.carrito-oculto {
+    transform: translateX(100%);
+}
+
+/* 📌 CABECERA: Fija arriba de todo */
+.carrito-header {
+    padding: 24px;
+    border-bottom: 1px solid rgba(244, 235, 208, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a120c;
+}
+
+.carrito-header h2 {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 1px;
+}
+
+#carrito-cerrar {
+    background: none;
+    border: none;
+    color: #f4ebd0;
+    font-size: 28px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+#carrito-cerrar:hover {
+    opacity: 1;
+}
+
+/* 📜 LISTA DE ÍTEMS: Se estira en el medio y genera scroll si hay muchos */
+#carrito-items-lista {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Mensaje poético cuando está vacío */
+.carrito-vacio-msg {
+    color: rgba(244, 235, 208, 0.5);
+    font-style: italic;
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* Filas de cada Producto */
+.carrito-item-row {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(244, 235, 208, 0.08);
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-info h4 {
+    margin: 0 0 5px 0;
+    color: #f4ebd0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.item-info p {
+    margin: 0;
+    color: #bfa17a; /* Dorado suave para el precio */
+    font-size: 14px;
+}
+
+/* Controles de (+ / - / tacho) */
+.item-controles {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.item-controles button {
+    background: rgba(244, 235, 208, 0.1);
+    border: 1px solid rgba(244, 235, 208, 0.2);
+    color: #f4ebd0;
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.item-controles button:hover {
+    background: rgba(244, 235, 208, 0.25);
+}
+
+.item-controles .btn-eliminar {
+    background: none;
+    border: none;
+    font-size: 16px;
+    padding: 0;
+    margin-left: 5px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.item-controles .btn-eliminar:hover {
+    background: none;
+    opacity: 1;
+}
+
+.item-controles span {
+    color: #f4ebd0;
+    font-size: 14px;
+    min-width: 15px;
+    text-align: center;
+}
+
+/* 💰 FOOTER: Fijo abajo de todo con margen interno de seguridad */
+.carrito-footer {
+    background: #140e09; /* Fondo marrón más oscuro para diferenciarlo */
+    padding: 20px 24px 30px 24px; /* Buen colchón abajo para que no lo tape la pantalla */
+    border-top: 1px solid rgba(244, 235, 208, 0.15);
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.carrito-total-linea {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    color: #f4ebd0;
+    font-weight: bold;
+    margin-bottom: 15px; /* Espacio antes del botón */
+}
+
+#carrito-subtotal-valor {
+    color: #bfa17a;
+}
+
+/* Botón de continuar compra */
+#carrito-boton-checkout {
+    display: block;
+    width: 100%;
+    background-color: #f4ebd0;
+    color: #1a120c;
+    border: none;
+    padding: 14px;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.2s, transform 0.2s;
+}
+
+#carrito-boton-checkout:hover {
+    background-color: #bfa17a;
+    transform: translateY(-1px);
+}
+
+/* 🛍️ Botón genérico "Agregar al carrito" en la tienda */
+.boton-comprar {
+    display: inline-block;
+    background-color: #2d1e14;
+    color: #f4ebd0 !important;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-decoration: none !important;
+    padding: 12px 28px;
+    border: 1px solid #bfa17a;
+    border-radius: 4px;
+    margin: 20px auto 10px auto;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.boton-comprar:hover {
+    background-color: #bfa17a;
+    color: #1a120c !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* 🔘 Selectores de variantes */
+.selector-variante {
+    display: block;
+    width: 80%;
+    max-width: 200px;
+    margin: 0 auto 10px auto;
+    background-color: rgba(26, 18, 12, 0.8);
+    color: #f4ebd0;
+    border: 1px solid rgba(191, 161, 122, 0.5);
+    padding: 8px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.selector-variante:focus {
+    outline: none;
+    border-color: #bfa17a;
+}
+
+/* 📱 Optimización para Celulares */
+@media (max-width: 480px) {
+    #carrito-lateral {
+        width: 100%;
+    }
+}

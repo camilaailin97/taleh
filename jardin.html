@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taleh - El Jardín de la Comunidad</title>
+    <!-- Fuentes mágicas -->
+    <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/jardin.css">
+</head>
+<body>
+
+    <div class="contenedor-jardin">
+        <!-- Botón para volver a la plaza principal -->
+        <a href="index.html" class="boton-volver">← Volver a la Plaza</a>
+
+        <h1 class="titulo-jardin">El Jardín</h1>
+        <p class="subtitulo-jardin">
+    <span style="max-width: 750px; display: block;">
+        El Jardín es el espacio de intimidad y crecimiento de nuestra comunidad. Así como una semilla necesita tierra fértil, riego y cuidado constante para florecer, nuestras vidas se fortalecen cuando sembramos gratitud, regamos nuestra fe a través de la oración y compartimos los frutos de lo que el Creador hace en nosotros. Este es un rincón para detenerse, respirar, dejar tus peticiones y contemplar cómo florecen las promesas en el diseño original.
+    </span>
+</p>
+        <!-- ── SECCIÓN CENTRAL: ORACIÓN DEL MES Y TESTIMONIOS SELECTED ── -->
+        <div class="bloque-central">
+            
+            <!-- Oración del Mes guiada por vos -->
+            <div class="oracion-mes-caja">
+                <h2>✨ Oración Guiada del Mes</h2>
+                <p class="texto-oracion">
+                    "Bendito eres, mi Señor, Dios Padre que estás en los cielos. <br><br>
+
+En este nuevo mes de Tamuz que has creado y que estamos transitando, quiero pedirte que abras mis ojos para poder ver más allá de lo evidente. Quiero encontrarme con tu presencia en cada momento del día, en lo cotidiano, mientras hago aquello que hoy me toca hacer, siendo consciente de que estás aquí conmigo.<br><br>
+
+Que pueda ser alumbrado/a con tu luz para también iluminar a quienes me rodean. Que, en cada desafío que me toque atravesar durante este tiempo, pueda verte en medio de la tormenta, recibiendo tu paz y siendo guiado/a por ti.<br><br>
+
+Abba, te entrego este mes y confío en que cada tormenta que tenga que atravesar será una oportunidad para aprender a confiar aún más en ti y encontrarte en los momentos más difíciles. Sé que Tú, Yeshua, estás conmigo en la barca, al control de todo.<br><br>
+
+Mi Señor, en este día entrego mi corazón a Ti para que Tú lo dirijas, lo bendigas y habites en él. Que vivas dentro de mí y hagas resplandecer tu rostro sobre el mío, por siempre.<br><br>
+
+Amén."
+                </p>
+            </div>
+
+            <!-- Altar de Testimonios seleccionados -->
+            <div class="testimonios-contenedor">
+                <h2>📜 Historias & Testimonios</h2>
+                
+                <div class="testimonio-tarjeta">
+                    <p class="testimonio-texto">"Recibir la carta del Mail Club a mi puerta este mes fue una caricia directa al alma. Estaba pasando por una semana de mucha incertidumbre y la meditación sobre los nuevos comienzos era justo la respuesta que le pedía a Dios."</p>
+                    <p class="testimonio-autor">— Abigail M.</p>
+                </div>
+
+                <div class="testimonio-tarjeta">
+                    <p class="testimonio-texto">"Las agendas artesanales no solo son preciosas, sino que se nota el amor y el propósito con el que están hechas. Es un espacio hermoso para mis devocionales diarios."</p>
+                    <p class="testimonio-autor">— Sol G.</p>
+                </div>
+            </div>
+
+        </div>
+
+<!-- ── SECCIÓN INFERIOR: FORMULARIO DE PEDIDOS DE ORACIÓN ── -->
+<div class="pergamino-pedidos">
+    <h2>🙏 Muro de Intenciones</h2>
+    <p>Deja aquí tu pedido de oración de este mes de forma confidencial. Nos uniremos en fe por tus peticiones.</p>
+    
+    <!-- 🔄 CAMBIADO A FORMSUBMIT CON TU CORREO -->
+    <form class="formulario-oracion" action="https://formsubmit.co/camilaailinramoss@gmail.com" method="POST">
+        
+        <!-- 🛠️ ASUNTO EXCLUSIVO: Para que en tu mail veas clarito qué es un pedido de oración -->
+        <input type="hidden" name="_subject" value="🙏 NUEVA INTENCIÓN EN EL JARDÍN">
+        
+        <!-- 🔄 REDIRECCIÓN MÁGICA: Te devuelve al Jardín al instante sin pantalla blanca -->
+        <input type="hidden" name="_next" value="https://lovely-sundae-08ae08.netlify.app/jardin.html">
+        
+        <!-- ⚡ DIRECTO: Saca el captcha molesto -->
+        <input type="hidden" name="_captcha" value="false">
+
+        <div class="grupo-input">
+            <label for="nombre-oracion">Tu Nombre (O dejas vacío para Anónimo)</label>
+            <input type="text" id="nombre-oracion" name="Nombre / Anónimo" placeholder="Ej. Elías">
+        </div>
+        
+        <div class="grupo-input">
+            <label for="pedido">¿Cuál es tu pedido o motivo de agradecimiento?</label>
+            <textarea id="pedido" name="Pedido de Oración" rows="4" placeholder="Escribe aquí con total libertad para que oremos por vos..." required></textarea>
+        </div>
+
+        <button type="submit" class="boton-enviar-oracion">Enviar al Muro</button>
+    </form>
+</div>
+
+        <!-- ── SECCIÓN DE COSECHA Y APOJO (DONACIONES) ── -->
+<div class="seccion-ofrendas">
+    <h2 class="titulo-jardin-sec">Sembrar en el Reino</h2>
+<p class="subtitulo-jardin-sec">
+    <span style="max-width: 600px; display: block; width: 100%;">
+        Tu generosidad nos ayuda a expandir este espacio de arte y fe, y a bendecir a quienes más lo necesitan.
+    </span>
+</p>
+
+    <div class="contenedor-donaciones">
+        
+        <!-- Destino 1: Sostener Taleh -->
+        <div class="tarjeta-donacion">
+            <div class="icono-donacion">🌱</div>
+            <h3>Sostener el Proyecto</h3>
+            <p>Tu aporte impulsa la producción de nuestra papelería artesanal, agendas y el crecimiento del Mail Club para que el mensaje siga viajando a más hogares.</p>
+            <a href="https://link.mercadopago.com.ar/taleh" target="_blank" class="boton-donar">Ofrendar en Taleh</a>
+        </div>
+
+        <!-- Destino 2: Entidades Benéficas -->
+        <div class="tarjeta-donacion">
+            <div class="icono-donacion">🤝</div>
+            <h3>Donaciones Benéficas</h3>
+            <p>Destinamos estos fondos a entidades y comedores benéficos para llevar asistencia física y acompañamiento a los sectores más vulnerables.</p>
+            <a href="https://link.mercadopago.com.ar/taleh" target="_blank" class="boton-donar-benefico">Donar a Causas</a>
+        </div>
+
+    </div>
+</div>
+
+    </div>
+
+</body>
+</html>

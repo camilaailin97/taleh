@@ -1,0 +1,516 @@
+/* Reinicio básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ── AMBIENTACIÓN DE LA HABITACIÓN DE TALEH ── */
+.contenedor-biblioteca {
+    width: 100%;
+    min-height: 100vh;
+    /* Poné acá tu ilustración de la habitación. Si no tenés la ruta exacta todavía, podés usar un color de respaldo */
+    background: url('../imagenes/seccion-biblioteca/fondo-biblioteca.jpeg') no-repeat center top; 
+    background-size: cover;
+    background-attachment: fixed; /* El fondo se queda quieto y las tarjetas suben mágicamente */
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+
+
+/* Botón flotante estilo "Cápsula de Cuento" */
+.boton-volver {
+    position: absolute;
+    top: 35px;
+    left: 30px;
+    background-color: #f5eed7; /* Tono papel pergamino como tus referencias */
+    color: #2a1b10;
+    text-decoration: none;
+    font-family: 'Almendra', serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 30px; /* Súper redondeado, idéntico a tus imágenes */
+    border: 1px solid #bba374;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.boton-volver:hover {
+    background-color: #dfb76c;
+    transform: translateY(-2px);
+}
+
+/* Títulos principales (Base) */
+.titulo-biblioteca {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    font-size: 45px;
+    text-align: center;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.9);
+    word-wrap: break-word; 
+}
+
+/* ── SUBTÍTULO DE LA BIBLIOTECA COMO BANDA DE PUNTA A PUNTA ── */
+.subtitulo-biblioteca {
+    font-family: 'Almendra', serif;
+    color: #f4ebd0; 
+    font-size: 17px;
+    text-align: center;
+    margin-top: 25px;
+    line-height: 1.7;
+    
+    /* 🌟 TRUCO MÁGICO: Rompe el padding del contenedor padre */
+    width: calc(100% + 40px); /* Absorbe los 20px de espacio de cada lado */
+    margin-left: -20px;       /* Se estira 20px hacia la izquierda */
+    margin-right: -20px;      /* Se estira 20px hacia la derecha */
+    
+    padding: 25px 40px; /* Aire interno para el texto */
+    
+    /* Fondo oscuro ultra-translúcido con desenfoque */
+    background-color: rgba(18, 25, 23, 0.45); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* Compatibilidad con Safari */
+    
+    /* Sombreado de separación */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 
+                0 -4px 30px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+
+    /* Centrado perfecto del contenido */
+    display: flex;
+    justify-content: center;
+}
+
+/* ── DISEÑO DEL CATÁLOGO ── */
+.seccion-productos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 1100px;
+}
+
+.categoria-caja {
+    /* Un fondo marrón ultra-translúcido que absorbe el color de la habitación de fondo */
+    background-color: rgba(26, 13, 7, 0.75); 
+    backdrop-filter: blur(4px); /* Suaviza lo que se ve detrás */
+    border: 2px solid #5d402d;
+    border-radius: 20px; /* Curvas mega orgánicas y suaves */
+    padding: 30px 25px;
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    transition: all 0.3s ease;
+}
+
+.categoria-caja:hover {
+    transform: translateY(-8px); /* Flota elegantemente */
+    border-color: #dfb76c;      /* Brilla en dorado al acercarte */
+    background-color: rgba(26, 13, 7, 0.85);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+}
+
+.producto-imagen-placeholder {
+    width: 100%;
+    height: 180px; /* En computadoras el CSS responsivo abajo lo sube a 220px automáticamente */
+    background-color: #2c1a11;
+    border-radius: 12px; /* Curva suave que acompaña tu diseño */
+    margin-bottom: 20px;
+    border: 1px solid #5d402d; /* Línea sólida fina en vez de la discontinua anterior */
+    overflow: hidden; /* ¡CLAVE! Corta cualquier pedazo de foto que intente salirse de las esquinas redondeadas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- ESTILO PARA QUE LA IMAGEN SE ADAPTE PERFECTAMENTE AL CUADRANTE --- */
+.producto-imagen-placeholder .imagen-seccion {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recorta y llena el recuadro de manera proporcional sin estirar tus ilustraciones */
+    transition: transform 0.5s ease; /* Efecto sutil de zoom */
+}
+
+/* Efecto mágico: cuando pasás el mouse por la tarjeta, la foto se acerca un poquito */
+.categoria-caja:hover .imagen-seccion {
+    transform: scale(1.06);
+}
+
+.categoria-caja h3 {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.categoria-caja p {
+    font-family: 'Almendra', serif;
+    color: #bfa893;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* ── DISEÑO DEL PERGAMINO (MAIL CLUB) ── */
+.pergamino-mail-club {
+    background-color: #f3eacf; /* Color tipo papel pergamino antiguo */
+    border: 2px solid #bba374;
+    border-radius: 4px;
+    padding: 40px 30px;
+    margin-top: 70px;
+    width: 100%;
+    max-width: 650px;
+    box-shadow: 5px 15px 30px rgba(0,0,0,0.6), inset 0 0 20px rgba(184,153,107,0.2);
+    color: #2a1b10;
+}
+
+.titulo-club {
+    font-family: 'Cinzel Decorative', serif;
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+.texto-club {
+    font-family: 'Almendra', serif;
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Formulario */
+.formulario-club {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.grupo-input label {
+    font-family: 'Almendra', serif;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.grupo-input input {
+    padding: 12px;
+    border: 1px solid #b39b70;
+    border-radius: 4px;
+    background-color: #fffbf2;
+    font-family: 'Almendra', serif;
+    font-size: 16px;
+    color: #2a1b10;
+}
+
+.grupo-input input:focus {
+    outline: 2px solid #5d402d;
+}
+
+/* Botón del Club */
+.boton-suscripcion {
+    background-color: #2a1b10;
+    color: #f4ebd0;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.boton-suscripcion:hover {
+    background-color: #4a321f;
+    transform: translateY(-1px);
+}
+
+/* Estilo para que los enlaces de las tarjetas no se vean como enlaces comunes */
+.enlace-categoria {
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    max-width: 380px; /* Mantiene la coherencia con el diseño de las cajas */
+    display: flex;
+    justify-content: center;
+}
+
+
+/* --- ESTILOS PARA LA FICHA DE PRODUCTO --- */
+.ficha-producto {
+    display: flex;
+    flex-wrap: wrap;
+    background: #1a0d07;
+    border: 1px solid #4a3121;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 40px 0; /* Espacio arriba y abajo */
+    max-width: 800px;
+    width: 90%;
+    gap: 25px;
+    align-items: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.foto-producto {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 6px;
+    border: 1px solid #4a3121;
+}
+
+.info-producto {
+    flex: 1;
+    text-align: left;
+    color: #f4ebd0;
+    font-family: 'Almendra', serif;
+}
+
+.info-producto h2 {
+    font-family: 'Cinzel Decorative', serif;
+    margin-bottom: 10px;
+    color: #dfb76c;
+}
+
+.precio {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #c9b097;
+}
+
+.descripcion {
+    line-height: 1.6;
+    color: #bfa893;
+}
+
+
+.contenedor-detalle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 900px;
+    margin-top: 50px;
+    color: #f4ebd0;
+    text-align: center;
+}
+
+.foto-detalle {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+}
+
+.texto-detalle {
+    margin-top: 30px;
+    line-height: 1.8;
+}
+
+.descripcion-larga {
+    text-align: left;
+    margin-top: 20px;
+    line-height: 1.8;
+}
+
+.descripcion-larga p {
+    margin-bottom: 15px;
+}
+
+.descripcion-larga ul {
+    margin: 15px 0;
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.descripcion-larga li {
+    margin-bottom: 8px;
+}
+
+/* --- BOTÓN VER DETALLES (CATÁLOGO) --- */
+.boton-ver-detalles {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: #4a3121; /* Marrón oscuro a tono con las cajas */
+    color: #f4ebd0;            /* Texto crema */
+    text-decoration: none;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border: 1px solid #dfb76c; /* Borde dorado fino */
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.boton-ver-detalles:hover {
+    background-color: #dfb76c; /* Se vuelve dorado al pasar el cursor */
+    color: #2a1b10;            /* Texto marrón oscuro */
+    transform: translateY(-2px); /* Pequeño salto elegante */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.boton-ver-detalles:active {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   🌟 AJUSTE CON MÁS IMPACTO PARA EL TÍTULO EN CELULARES 📱
+   ========================================================================== */
+@media (max-width: 599px) {
+    .titulo-biblioteca {
+        font-size: 39px !important;       /* 💡 Subido casi al tamaño de compu para que sea imponente */
+        letter-spacing: 0px !important;   /* Juntamos las letras al revés para que entren en el ancho del celu */
+        margin-top: 20px;      
+        padding: 0 5px;                   /* Aprovechamos al máximo el espacio de la pantalla */
+        line-height: 1.1;                 /* Si llega a bajar a dos renglones, que no quede muy separado */
+    }
+}
+
+/* ==========================================================================
+    MODO RESPONSIVO COMPUTADORA 🖥️ (Copiá y reemplazá desde acá)
+   ========================================================================== */
+
+/* --- CAMBIO DE FONDO PARA COMPUTADORAS 🖥️ --- */
+@media (min-width: 1024px) {
+    .contenedor-biblioteca {
+        /* ACÁ VA TU IMAGEN HORIZONTAL DE COMPU (16:9) */
+        background: url('../imagenes/seccion-biblioteca/fondo-biblioteca-compu.jpeg') no-repeat center top; 
+        background-size: cover;
+        background-attachment: fixed; /* Efecto mágico tridimensional en compu */
+        padding: 100px 40px; /* 💡 Recordar: Acá tenés 40px a los costados */
+    }
+}
+
+@media (min-width: 768px) {
+    .titulo-biblioteca {
+        font-size: 55px;
+        margin-top: 40px;
+    }
+    
+    .pergamino-mail-club {
+        padding: 50px 50px;
+    }
+}
+
+/* --- Ajustes nuevos para el formulario en filas ordenadas --- */
+.grupo-fila, .grupo-fila-doble, .grupo-fila-tres-cuartos, .grupo-fila-tres {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+/* MODO RESPONSIVO Y COMPUTADORA VIA MEDIANA 🖥️ */
+@media (min-width: 600px) {
+    .grupo-fila-doble {
+        flex-direction: row;
+    }
+    .grupo-fila-doble .grupo-input {
+        flex: 1;
+        min-width: 0; /* Evita que los inputs desborden el contenedor */
+    }
+    
+    .grupo-fila-tres-cuartos {
+        flex-direction: row;
+    }
+    .grupo-input.calle { flex: 3; min-width: 0; }
+    .grupo-input.numero { flex: 1; min-width: 0; }
+
+    .grupo-fila-tres {
+        flex-direction: row;
+    }
+    .grupo-fila-tres .grupo-input {
+        flex: 1;
+        min-width: 0; 
+    }
+
+    /* Contenedor del catálogo */
+    .seccion-productos {
+        max-width: 1300px; 
+        gap: 40px;         
+    }
+
+    /* Tarjetas del catálogo */
+    .categoria-caja {
+        max-width: 380px;  
+    }
+}
+
+/* ── 🌟 ESCALA PROPORCIONAL Y PARCHES PARA PANTALLAS GRANDES (1024px o más) ── */
+@media (min-width: 1024px) {
+    .titulo-biblioteca { 
+        font-size: 65px; 
+    }
+    
+    /* 🌟 EL TRUCO DEFINITIVO: Como el padre tiene 40px de padding, 
+       absorbemos esos 40px de cada lado (80px en total) para tocar el borde */
+    .subtitulo-biblioteca {
+        width: calc(100% + 80px); 
+        margin-left: -40px;       
+        margin-right: -40px;      
+        max-width: none;          
+    }
+
+    .categoria-caja p { 
+        font-size: 18px; 
+    }
+    
+    .pergamino-mail-club { 
+        max-width: 800px; 
+    } 
+
+    /* Hacemos que las tarjetas del catálogo sean más flexibles */
+    .categoria-caja {
+        flex: 1 1 350px; 
+        max-width: 400px; 
+    }
+
+    /* Ajustamos el placeholder de imagen */
+    .producto-imagen-placeholder {
+        height: 220px; 
+    }
+}
+
+/* ==========================================================================
+   ARREGLO EXCLUSIVO PARA AGENDAS Y DETALLES EN CELULARES 📱
+   ========================================================================== */
+@media (max-width: 599px) {
+    .seccion-productos {
+        padding: 0 10px; 
+        gap: 25px;       
+    }
+
+    .categoria-caja {
+        width: 100% !important;     
+        max-width: 100% !important; 
+        padding: 25px 20px;         
+    }
+
+    .categoria-caja h3 {
+        font-size: 22px; 
+    }
+
+    .categoria-caja p {
+        font-size: 16px; 
+    }
+}

@@ -1,0 +1,226 @@
+/* Reinicio básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contenedor-reflexiones {
+    width: 100%;
+    min-height: 100vh;
+    /* Poné acá tu ilustración de la habitación. Si no tenés la ruta exacta todavía, podés usar un color de respaldo */
+    background: url('../imagenes/seccion-reflexiones/fondo-reflexiones.jpeg') no-repeat center top; 
+    background-size: cover;
+    background-attachment: fixed; /* El fondo se queda quieto y las tarjetas suben mágicamente */
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    
+}
+
+/* Botón flotante estilo "Cápsula de Cuento" */
+.boton-volver {
+    position: absolute;
+    top: 35px;
+    left: 30px;
+    background-color: #f5eed7; /* Tono papel pergamino como tus referencias */
+    color: #2a1b10;
+    text-decoration: none;
+    font-family: 'Almendra', serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 30px; /* Súper redondeado, idéntico a tus imágenes */
+    border: 1px solid #bba374;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.boton-volver:hover {
+    background-color: #dfb76c;
+    transform: translateY(-2px);
+}
+
+/* Títulos */
+.titulo-reflexiones {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    font-size: 36px;
+    text-align: center;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.subtitulo-reflexiones {
+    font-family: 'Almendra', serif;
+    color: #f4ebd0; 
+    font-size: 17px;
+    text-align: center;
+    margin-top: 25px;
+    line-height: 1.7;
+    
+    /* 🌟 TRUCO MÁGICO: Rompe el padding del contenedor padre */
+    width: calc(100% + 40px); /* Absorbe los 20px de espacio de cada lado */
+    margin-left: -20px;       /* Se estira 20px hacia la izquierda */
+    margin-right: -20px;      /* Se estira 20px hacia la derecha */
+    
+    padding: 25px 40px; /* Aire interno para el texto */
+    
+    /* Fondo oscuro ultra-translúcido con desenfoque */
+    background-color: rgba(18, 25, 23, 0.45); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* Compatibilidad con Safari */
+    
+    /* Sombreado de separación */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 
+                0 -4px 30px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+
+    /* Centrado perfecto del contenido */
+    display: flex;
+    justify-content: center;
+}
+
+/* ── FEED DE ARTÍCULOS ── */
+.feed-articulos {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 800px; /* Centrado y cómodo para la lectura larga */
+}
+
+.articulo-tarjeta {
+    /* 🌟 CAMBIO CLAVE: Fondo oscuro translúcido en vez de sólido */
+    background-color: rgba(9, 18, 15, 0.65); /* 0.65 de opacidad para que se note la transparencia */
+    
+    /* Efecto de desenfoque de cristal (frosted glass) */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px); /* Compatibilidad con Safari */
+    
+    /* Mantenemos tus bordes y sombras estilizadas */
+    border: 1px solid #1c332b;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor del video responsivo de YouTube (Truco para que mantenga proporción 16:9) */
+.contenedor-video {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* Esto mantiene la proporción de pantalla 16:9 perfecta en cualquier celular */
+    overflow: hidden;
+    border-radius: 6px 6px 0 0; /* Si querés que las esquinas de arriba queden redondeadas con la tarjeta */
+}
+
+.contenedor-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.articulo-imagen-placeholder {
+    width: 100%;
+    height: 250px;
+    
+    /* 🌟 Pasamos el fondo del recuadro a translúcido sutil */
+    background-color: rgba(18, 36, 31, 0.4); 
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    border-bottom: 1px solid #1c332b;
+}
+
+/* Contenido del texto */
+.articulo-contenido {
+    padding: 30px;
+}
+
+.articulo-fecha {
+    font-family: 'Almendra', serif;
+    font-style: italic;
+    color: #dfb76c;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.articulo-contenido h2 {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    font-size: 22px;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.articulo-extracto {
+    font-family: 'Almendra', serif;
+    color: #b3c7c0;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.boton-leer {
+    display: inline-block;
+    font-family: 'Almendra', serif;
+    color: #dfb76c;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.boton-leer:hover {
+    color: #fffbf2;
+    transform: translateX(3px);
+}
+
+
+/* 🖥️ CAMBIO DE FONDO PARA COMPUTADORAS (Imagen horizontal 16:9) */
+@media (min-width: 1024px) {
+    .contenedor-reflexiones {
+        /* Aquí va tu imagen horizontal de compu */
+        background: url('../imagenes/seccion-reflexiones/fondo-reflexiones-compu.png') no-repeat center top; 
+        background-size: cover;
+        background-attachment: fixed; /* Efecto tridimensional al hacer scroll */
+        padding: 100px 40px; 
+    }
+}
+
+/* MODO COMPUTADORA 🖥️ (Acomoda el video/imagen a la izquierda y el texto a la derecha) */
+@media (min-width: 768px) {
+    .titulo-reflexiones {
+        font-size: 50px;
+        margin-top: 40px;
+    }
+
+    .articulo-tarjeta {
+        flex-direction: row; /* Se pone en horizontal en pantallas grandes */
+        height: 320px;
+    }
+
+    .contenedor-video, .articulo-imagen-placeholder {
+        width: 45%; /* El video ocupa la mitad izquierda */
+        height: 100%;
+        padding-bottom: 0; /* Desactivamos el truco del celu porque acá fijamos el alto */
+    }
+
+    .articulo-contenido {
+        width: 55%; /* El texto ocupa la otra mitad */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centrado vertical del texto */
+    }
+}

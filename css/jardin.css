@@ -1,0 +1,434 @@
+/* Reinicio básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contenedor-jardin {
+    width: 100%;
+    min-height: 100vh;
+    /* Poné acá tu ilustración de la habitación. Si no tenés la ruta exacta todavía, podés usar un color de respaldo */
+    background: url('../imagenes/seccion-jardin/fondo-jardin.jpeg') no-repeat center top; 
+    background-size: cover;
+    background-attachment: fixed; /* El fondo se queda quieto y las tarjetas suben mágicamente */
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Botón flotante estilo "Cápsula de Cuento" */
+.boton-volver {
+    position: absolute;
+    top: 35px;
+    left: 30px;
+    background-color: #f5eed7; /* Tono papel pergamino como tus referencias */
+    color: #2a1b10;
+    text-decoration: none;
+    font-family: 'Almendra', serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 30px; /* Súper redondeado, idéntico a tus imágenes */
+    border: 1px solid #bba374;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.boton-volver:hover {
+    background-color: #dfb76c;
+    transform: translateY(-2px);
+}
+
+/* Títulos */
+/* Títulos con el aire perfecto */
+.titulo-jardin {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    font-size: 45px;
+    text-align: center;
+    margin-top: 40px;      /* Más espacio con respecto al botón de arriba */
+    text-transform: uppercase;
+    letter-spacing: 15px;   /* Separación ideal para que no se pisen los remates */
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* ── SUBTÍTULO COMO BANDA DE PUNTA A PUNTA ── */
+/* ── SUBTÍTULO COMO BANDA DE PUNTA A PUNTA REAL ── */
+.subtitulo-jardin {
+    font-family: 'Almendra', serif;
+    color: #f4ebd0; 
+    font-size: 17px;
+    text-align: center;
+    margin-top: 25px;
+    line-height: 1.7;
+    
+    /* 🌟 TRUCO MÁGICO: Rompe el padding del contenedor padre */
+    width: calc(100% + 40px); /* Absorbe los 20px de espacio de cada lado */
+    margin-left: -20px;       /* Se estira 20px hacia la izquierda */
+    margin-right: -20px;      /* Se estira 20px hacia la derecha */
+    
+    padding: 25px 40px; /* Aire interno para el texto */
+    
+    /* Fondo oscuro ultra-translúcido con desenfoque */
+    background-color: rgba(18, 25, 23, 0.45); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* Compatibilidad con Safari */
+    
+    /* Sombreado de separación */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 
+                0 -4px 30px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+
+    /* Centrado perfecto del contenido */
+    display: flex;
+    justify-content: center;
+}
+
+/* ── CORRECCIÓN DEL CONTENEDOR CENTRAL ── */
+.bloque-central {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 900px;
+    align-items: center; /* 🌟 CLAVE 1: Centra la caja de oración en dispositivos móviles */
+}
+
+/* ── MEJORA Y AMPLIACIÓN DE LA CAJA DE ORACIÓN ── */
+.oracion-mes-caja {
+    background-color: rgba(38, 48, 44, 0.8); /* Ajustado para que combine con el verde del jardín */
+    backdrop-filter: blur(6px); 
+    border-radius: 20px; 
+    padding: 40px 30px; /* Más aire interno */
+    width: 100%;
+    /* 🌟 CLAVE 2: Ampliamos el ancho máximo de 320px a 600px para que el texto respire, 
+       no se haga un pergamino infinito y luzca imponente como en un libro real */
+    max-width: 600px; 
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+    border: 1px solid rgba(223, 183, 108, 0.2); /* Sutil borde dorado apagado */
+    transition: all 0.3s ease;
+}
+
+.oracion-mes-caja h2, .testimonios-contenedor h2 {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4e3d0;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.texto-oracion {
+    font-family: 'Almendra', serif;
+    font-style: italic;
+    color: #dfb76c;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+/* Contenedor de Testimonios */
+.testimonios-contenedor {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    
+}
+
+.testimonio-tarjeta {
+    background-color: #0d0612;
+    border-left: 3px solid #dfb76c;
+    border-radius: 0 8px 8px 0;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+}
+
+.testimonio-texto {
+    font-family: 'Almendra', serif;
+    color: #bfaec9;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.testimonio-autor {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    font-size: 12px;
+    text-align: right;
+}
+
+/* ── PERGAMINO DE PEDIDOS DE ORACIÓN ── */
+.pergamino-pedidos {
+    background-color: #f6f0fa; /* Un papel crema ligeramente frío para combinar con el lila */
+    border: 2px solid #a38db3;
+    border-radius: 4px;
+    padding: 40px 30px;
+    margin-top: 60px;
+    width: 100%;
+    max-width: 650px;
+    box-shadow: 5px 15px 30px rgba(0,0,0,0.6);
+    color: #2b1736;
+    text-align: center;
+}
+
+.pergamino-pedidos h2 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.pergamino-pedidos p {
+    font-family: 'Almendra', serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 25px;
+    color: #523b61;
+}
+
+/* Formulario */
+.formulario-oracion {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: left;
+}
+
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.grupo-input label {
+    font-family: 'Almendra', serif;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.grupo-input input, .grupo-input textarea {
+    padding: 12px;
+    border: 1px solid #b29cb3;
+    border-radius: 4px;
+    background-color: #fdfbfe;
+    font-family: 'Almendra', serif;
+    font-size: 16px;
+    color: #2b1736;
+    width: 100%;
+}
+
+.grupo-input textarea {
+    resize: none;
+}
+
+.grupo-input input:focus, .grupo-input textarea:focus {
+    outline: 2px solid #4a2b5c;
+}
+
+/* Botón */
+.boton-enviar-oracion {
+    background-color: #4a2b5c;
+    color: #f4ebd0;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 15px;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.boton-enviar-oracion:hover {
+    background-color: #2e163b;
+    transform: translateY(-1px);
+}
+
+
+/* ── 1. MODIFICACIÓN: La sección ahora ocupa todo el ancho disponible ── */
+.seccion-ofrendas {
+    width: 100%;
+    /* Quitamos el max-width de acá para que las bandas puedan tocar los bordes */
+    margin: 60px 0 40px 0;
+    text-align: center;
+    padding: 0; /* Dejamos que las cajas internas manejen sus márgenes */
+}
+
+.titulo-jardin-sec {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4e3d0;
+    font-size: 20px;
+    margin-bottom: 15px;
+    text-align: center;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* ── 2. CORRECCIÓN: Banda perfecta utilizando el mismo método que la primera ── */
+.subtitulo-jardin-sec {
+    font-family: 'Almendra', serif;
+    color: #f4ebd0;
+    font-size: 16px;
+    text-align: center;
+    line-height: 1.6;
+    
+    /* 🌟 SOLUCIÓN: Usamos el cálculo limpio respecto al contenedor padre */
+    width: calc(100% + 40px); 
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: 40px;
+    padding: 25px 40px;
+    
+    /* Fondo oscuro ultra-translúcido */
+    background-color: rgba(18, 25, 23, 0.45); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    
+    /* Sombras y eliminación de desbordes */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 
+                0 -4px 30px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+    
+    display: flex;
+    justify-content: center;
+}
+
+/* ── 3. NUEVO ACENTUADO: Aquí contenemos el ancho de las tarjetas de donación ── */
+.contenedor-donaciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    /* 🌟 CLAVE: Trasladamos el límite de 900px aquí para que las tarjetas de 
+       Mercado Pago queden perfectamente agrupadas y centradas en la pantalla */
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.tarjeta-donacion {
+    background-color: #0f111f;
+    border: 1px solid #2c3154;
+    border-radius: 8px;
+    padding: 30px 20px;
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.tarjeta-donacion:hover {
+    transform: translateY(-4px);
+    border-color: #dfb76c;
+}
+
+.icono-donacion {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.tarjeta-donacion h3 {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.tarjeta-donacion p {
+    font-family: 'Almendra', serif;
+    color: #a4adc1;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    flex-grow: 1; /* Hace que los botones queden alineados abajo aunque un texto sea más largo */
+}
+
+/* Botones de Donación */
+.boton-donar, .boton-donar-benefico {
+    display: inline-block;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 13px;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+.boton-donar {
+    background-color: #dfb76c;
+    color: #0b0c16;
+    box-shadow: 0 4px 12px rgba(223, 183, 108, 0.15);
+}
+
+.boton-donar:hover {
+    background-color: #fffbf2;
+}
+
+.boton-donar-benefico {
+    background-color: transparent;
+    color: #dfb76c;
+    border: 1px solid #dfb76c;
+}
+
+.boton-donar-benefico:hover {
+    background-color: rgba(223, 183, 108, 0.1);
+    color: #fffbf2;
+}
+
+/* Adaptación para celulares */
+@media (max-width: 600px) {
+    .seccion-ofrendas {
+        margin-top: 60px;
+    }
+    .titulo-jardin-sec {
+        font-size: 24px;
+    }
+}
+
+/* 🖥️ CAMBIO DE FONDO PARA COMPUTADORAS (Imagen horizontal 16:9) */
+@media (min-width: 1024px) {
+    .contenedor-jardin {
+        /* Aquí va tu hermosa imagen horizontal de compu */
+        background: url('../imagenes/seccion-jardin/fondo-jardin-compu.png') no-repeat center top; 
+        background-size: cover;
+        background-attachment: fixed; /* Efecto mágico tridimensional al hacer scroll */
+        padding: 100px 40px; /* Los 40px que absorbe el subtítulo en PC */
+    }
+}
+
+/* RESPONSIVO COMPUTADORA 🖥️ */
+@media (min-width: 768px) {
+    .titulo-jardin {
+        font-size: 55px;
+        margin-top: 40px;
+    }
+
+    /* En compu, vuelven a acomodarse en paralelo */
+    .bloque-central {
+        flex-direction: row;
+        align-items: flex-start; /* Alinea ambas tarjetas desde el tope superior */
+        justify-content: center;
+    }
+
+    .oracion-mes-caja {
+        width: 50%;
+        max-width: 500px; /* Ancho ideal de lectura en escritorio */
+    }
+
+    .testimonios-contenedor {
+        width: 50%;
+        max-width: 500px;
+    }
+}

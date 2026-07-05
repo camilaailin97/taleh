@@ -1,0 +1,124 @@
+/* Reinicio básico para que no haya márgenes raros */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Contenedor principal que maneja el fondo en pantalla completa */
+.contenedor-principal {
+    width: 100%;
+    min-height: 100vh; 
+    background-image: url('../imagenes/fondo-inicio-celu.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 20px 0 40px 0; 
+}
+
+/* Título de bienvenida en el cielo (Grande para Celu y Compu) */
+.titulo-bienvenida {
+    font-family: 'Cinzel Decorative', 'Almendra', serif; 
+    color: #f4ebd0;               
+    font-size: 50px;            /* Tu medida perfecta gigante */
+    text-align: center;
+    text-transform: uppercase;     
+    letter-spacing: 6px;           
+    margin-top: 50px;           /* Tu margen original */
+    z-index: 10;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); 
+}
+
+/* Contenedor de los botones abajo y bien responsivo */
+.menu-botones {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 90%; 
+    max-width: 400px; /* Reduje un poco el ancho total del menú */
+    z-index: 10;
+    margin-top: auto;
+}
+
+/* Forzamos a que cada botón se adapte al espacio que le toca */
+.boton {
+    flex: 1;          
+    max-width: 110px; 
+}
+
+/* Estilo de las imágenes adentro de los botones */
+.boton img {
+    width: 100%;      
+    height: auto;     
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+/* Tu efecto de hover original */
+.boton img:hover {
+    transform: scale(1.05);
+}
+
+/* ── NUEVA CONFIGURACIÓN DEL CORDERITO CLICKABLE ── */
+
+/* El contenedor del enlace ahora toma las coordenadas que tenías antes en Celu */
+/* Ajustes para celular */
+.enlace-revelado {
+    text-decoration: none;
+    position: absolute;
+    bottom: 20%;       /* Subilo o bajalo cambiando este % */
+    right: 5%;         /* Moverlo a la izquierda/derecha */
+    z-index: 5;
+    display: inline-block;
+}
+
+/* Ajuste en el bloque principal (celular) */
+.personaje-cordero {
+    position: absolute;
+    bottom: 15%; 
+    right: 5%;
+    width: 200px; /* Reduje un poco el tamaño para que no se vea tan invasivo */
+    height: auto;
+    z-index: 5;
+}
+
+/* Efecto al pasar el mouse sobre el personaje */
+.personaje-cordero:hover {
+    transform: scale(1.05);
+}
+
+/* --- MODO COMPUTADORA 🖥️ --- */
+@media (min-width: 768px) {
+    .contenedor-principal {
+        background-image: url('../imagenes/fondo-inicio-compu.png'); 
+        padding: 40px 0 60px 0; 
+    }
+
+    /* Redirigimos las coordenadas al enlace en Compu con tus medidas calibradas */
+    .enlace-revelado {
+        bottom: 15%;      /* Tu posición original en compu */
+        right: 50%;       /* Tu posición original en compu */
+    }
+
+    .personaje-cordero {
+        width: 200px; /* Ajustado para que sea más sutil en pantalla grande */
+        bottom: 10%;
+        right: 15%;
+    }
+    
+    /* Agrandamos el contenedor de la botonera en compu */
+ .menu-botones {
+        max-width: 900px; /* Un tamaño más cómodo para compu */
+        gap: 80px;
+    }
+    
+    .boton {
+        max-width: 150px; /* Reduje un poco el tamaño individual de cada botón */
+    }
+}
+

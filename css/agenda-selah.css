@@ -1,0 +1,188 @@
+/* ==========================================================================
+   AGENDA-SELAH.CSS - ESTILO EMBAJADA
+   ========================================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Mantenemos tu fondo pero agregamos suavidad */
+    background: radial-gradient(circle at center, #2c1a11 0%, #120905 100%);
+    background-image: url('../imagenes/seccion-biblioteca/fondo-biblioteca.jpeg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    
+    /* --- LOS CAMBIOS CLAVE AQUÍ --- */
+    background-size: cover; 
+    background-attachment: fixed; /* ¡ESTA ES LA MAGIA! El fondo se clava a la pantalla y no acompaña al scroll */
+    
+    color: #f4ebd0;
+    font-family: 'Almendra', 'Georgia', serif;
+    padding: 60px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Botón Volver estilo "Cartel de Madera de la Aldea" */
+.boton-volver-blog {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    color: #2a1b10;
+    background-color: #e8dbae; /* Tono papel viejo */
+    text-decoration: none;
+    font-family: 'Almendra', serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 30px; /* Bordes mega redondeados como tus referencias */
+    border: 2px solid #b39b70;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.boton-volver-blog:hover {
+    background-color: #dfb76c;
+    transform: translateY(-2px);
+}
+
+/* El contenedor del post ahora es un manuscrito/pergamino del Reino */
+.blog-post {
+    max-width: 680px;
+    width: 100%;
+    background-color: #f5eed7; /* Fondo papel pergamino claro y acogedor */
+    color: #2a1b10;            /* Texto marrón oscuro para máxima lectura */
+    padding: 40px 35px;
+    border-radius: 24px;       /* Curvas orgánicas como los carteles de Raleh */
+    border: 3px solid #c5ae82;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(184,153,107,0.15);
+    margin-top: 40px;
+}
+
+/* Títulos con tipografía de cuento antiguo (Tamaño base para computadora) */
+.blog-post h1 {
+    font-family: 'Cinzel Decorative', serif;
+    color: #5d402d;
+    font-size: 42px;
+    text-align: center;
+    margin-bottom: 5px;
+    
+    /* Seguridad por si hay una palabra súper larga */
+    word-wrap: break-word; 
+}
+
+.blog-post .precio {
+    text-align: center;
+    font-family: 'Almendra', serif;
+    font-size: 22px;
+    color: #8f6d48;
+    font-style: italic;
+    margin-bottom: 35px;
+}
+
+/* Las fotos ya no son rígidas: tienen esquinas suaves y un marco de cuadro antiguo */
+.foto-blog {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
+    border-radius: 16px;       /* Bordes redondeados de ilustración */
+    border: 6px solid #fffbf2; /* Marco de cuadro color crema */
+    box-shadow: 0 8px 20px rgba(42, 27, 16, 0.25);
+}
+
+/* Los textos fluyen de forma natural, como si leyeras un diario personal */
+.blog-post p {
+    text-align: center;        /* Centrado poético, imitando tus imágenes de bienvenida */
+    font-family: 'Almendra', serif;
+    font-size: 19px;
+    line-height: 1.7;
+    color: #3d2a1c;
+    margin-bottom: 45px;       /* Espacio de aire entre cada escena/imagen */
+    background: transparent;   /* Eliminamos los bloques oscuros que daban vibra de web común */
+    border: none;
+    box-shadow: none;
+    padding: 0 10px;
+}
+
+/* Sección de Cierre (La Cita Bíblica) */
+.caja-final-blog {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px dashed #c5ae82; /* Separador sutil antiguo */
+    text-align: center;
+}
+
+.caja-final-blog .cita-texto {
+    font-size: 18px;
+    color: #7a5c43;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+/* Botón de compra: Redondeado, flotante y mágico */
+.boton-comprar-blog {
+    display: inline-block;
+    width: auto;
+    min-width: 260px;
+    background: #5d402d;       /* Color madera de la biblioteca */
+    color: #f5eed7;            /* Letras de pergamino */
+    padding: 16px 32px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+    border-radius: 40px;       /* Súper redondeado, estilo "entra y quédate un rato" */
+    border: 2px solid #e8dbae;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.boton-comprar-blog:hover {
+    background: #e8dbae;
+    color: #2a1b10;
+    border-color: #5d402d;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+/* ==========================================================================
+   🌟 AJUSTE EXCLUSIVO PARA LOS TÍTULOS DE PRODUCTOS EN CELULARES 📱
+   ========================================================================== */
+@media (max-width: 599px) {
+    .blog-post h1 {
+        font-size: 26px;       /* 💡 Lo bajamos a una escala ideal para pantallas chicas */
+        letter-spacing: 1px;   /* Ajustamos levemente el espaciado interno si tuviera */
+        padding: 0 15px;       /* Le damos aire a los costados para que respire dentro de la tarjeta */
+        line-height: 1.3;      /* Aseguramos un buen espacio entre líneas si el título ocupa dos renglones */
+    }
+}
+
+/* ==========================================================================
+   MODO RESPONSIVO COMPUTADORA 🖥️ - FONDO DE DETALLE DE PRODUCTO
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+    body {
+        /* Cambiamos la ruta por tu ilustración horizontal de escritorio (16:9) */
+        background-image: url('../imagenes/seccion-biblioteca/fondo-biblioteca-compu.jpeg');
+        background-position: center top;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed; /* Mantiene la imagen congelada y nítida */
+        padding: 80px 40px;
+    }
+
+    /* Opcional: Agranda un poquito el manuscrito para que se lea mejor en monitores grandes */
+    .blog-post {
+        max-width: 780px;
+        padding: 50px 60px;
+        margin-top: 60px;
+    }
+}

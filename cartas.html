@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taleh - Hayom Cartas</title>
+    <!-- Fuentes mágicas -->
+    <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/cartas.css">
+</head>
+<body>
+
+    <div class="contenedor-cartas">
+        <!-- Botón para volver a la plaza principal -->
+        <a href="index.html" class="boton-volver">← Volver a la Plaza</a>
+
+        <h1 class="titulo-cartas">Hayom Cartas</h1>
+        <p class="subtitulo-cartas">Un recorrido por las correspondencias y enseñanzas enviadas a lo largo de los meses bíblicos.</p>
+
+        <!-- Galería de cartas anteriores -->
+<div class="galeria-cartas">
+    
+    <!-- SOBRE TAMUZ -->
+    <div class="sobre-contenedor" onclick="abrirCarta('modal-tamuz')">
+        <div class="sobre">
+            <div class="sobre-dorso"></div>
+            
+            <div class="sobre-carta">
+                <span class="sobre-carta-emoji">📜</span>
+                <h4 class="sobre-carta-titulo">Mes de Tamuz</h4>
+                <p class="sobre-carta-click">Click para abrir</p>
+            </div>
+            
+            <div class="sobre-frente"></div>
+            <div class="sobre-solapa"></div>
+            <div class="sobre-sello">R</div>
+
+            <!-- 🔄 MOVIDO AQUÍ ADENTRO: Abajo del sello -->
+            <div class="sobre-etiqueta">
+                <h3>Mes de Tamuz</h3>
+                <p class="temporada">Primera carta de Hayom <br> Jun/Jul 2026 </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOBRE AV -->
+    <div class="sobre-contenedor" onclick="abrirCarta('modal-av')">
+        <div class="sobre">
+            <div class="sobre-dorso"></div>
+            
+            <div class="sobre-carta">
+                <span class="sobre-carta-emoji">📜</span>
+                <h4 class="sobre-carta-titulo">Mes de AV</h4>
+                <p class="sobre-carta-click">Muy Pronto...</p>
+            </div>
+            
+            <div class="sobre-frente"></div>
+            <div class="sobre-solapa"></div>
+            <div class="sobre-sello">R</div>
+
+            <!-- 🔄 MOVIDO AQUÍ ADENTRO -->
+            <div class="sobre-etiqueta">
+                <h3>Mes de Av</h3>
+                <p class="temporada">Jul/Ago 2026</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOBRE ELUL -->
+    <div class="sobre-contenedor" onclick="abrirCarta('modal-elul')">
+        <div class="sobre">
+            <div class="sobre-dorso"></div>
+            
+            <div class="sobre-carta">
+                <span class="sobre-carta-emoji">📜</span>
+                <h4 class="sobre-carta-titulo">Mes de Elul</h4>
+                <p class="sobre-carta-click">Muy Pronto...</p>
+            </div>
+            
+            <div class="sobre-frente"></div>
+            <div class="sobre-solapa"></div>
+            <div class="sobre-sello">R</div>
+
+            <!-- 🔄 MOVIDO AQUÍ ADENTRO -->
+            <div class="sobre-etiqueta">
+                <h3>Mes de Elul</h3>
+                <p class="temporada">Ago/Sep 2026</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- ==========================================================================
+     VENTANA EMERGENTE (MODAL) DE LA CARTA DE TAMUZ
+     ========================================================================== -->
+<div id="modal-tamuz" class="carta-modal">
+    <div class="contenido-modal-pergamino">
+        <!-- Botón para cerrar la carta (X) -->
+        <span class="cerrar-modal" onclick="cerrarCarta('modal-tamuz')">&times;</span>
+        
+        <h2 class="titulo-carta-abierta">Carta del Mes de Tamuz</h2>
+        <p class="fecha-carta-abierta">Carta de reconocimiento y convocatoria </p>
+        
+        <div class="cuerpo-carta-texto">
+            <p>Estimado ciudadano en formación:</p>
+            
+            <p>Si esta carta ha llegado a tus manos, no ha sido por accidente.</p>
+            
+            <p>Durante mucho tiempo has habitado el mundo visible: calles, horarios, obligaciones, sueños, alegrías y preguntas. Sin embargo, existe una realidad más amplia que aquella que perciben los ojos. Desde antes de tu nacimiento, tu vida fue conocida, tu nombre fue registrado y tu existencia tuvo significado.</p>
+
+            <p>Por esta razón, el Reino de los Cielos emite la presente notificación. Se te informa que has sido creado con propósito, dotado de valor y llamado a participar en una historia mayor que tú mismo.</p>
+            
+            <p>Aunque quizá aún no conozcas plenamente tu función, tu origen o el motivo de tu existencia, la búsqueda de esas respuestas forma parte del viaje para el que fuiste diseñado.</p>
+
+            <p>Muchos atraviesan sus días creyendo que son simples espectadores de la vida. Sin embargo, cada persona posee una asignación única, talentos que desarrollar y una huella que dejar. Nada de esto fue determinado por el azar.</p>
+
+            <p>El Rey, quien gobierna sobre todo lo creado, continúa obrando aun cuando no siempre sea visible. Su Reino existe, su autoridad permanece y su invitación sigue abierta para todos aquellos que desean conocer la verdad acerca de quiénes son y por qué están aquí.</p>
+
+            <p>Por medio de esta correspondencia se extiende una convocatoria oficial para comenzar el proceso de descubrimiento. Durante las próximas entregas recibirás registros, cartas, documentos y recursos destinados a ayudarte a comprender la naturaleza del Reino, la identidad de sus ciudadanos y el propósito para el cual cada vida fue diseñada.</p>
+
+            <!-- 🌟 FRASE DESTACADA CON AIRE -->
+            <span class="texto-destacado-carta">
+                No se requiere conocimiento previo.  |  No se exige perfección.  |  Solo disposición para buscar.
+            </span>
+
+            <p>Las puertas permanecen abiertas para quienes desean aprender. Y aunque actualmente el Reino permanece oculto a muchos ojos, llegará el día en que será visto por todas las naciones y el Rey establecerá su gobierno sobre la tierra.</p>
+            
+            <p>Hasta entonces, esta invitación permanece vigente. Conserva esta carta. Podría convertirse en el inicio de un viaje que transforme para siempre la manera en que ves el mundo, tu historia y tu lugar dentro de ella.</p>
+
+            <!-- 🌟 EL CIERRE SE VE RELEVANTE -->
+            <p class="frase-final-carta">El Reino está más cerca de lo que te imaginas.</p>
+            
+            <p style="text-align: center; font-style: italic; color: #8a704a;">
+                Esta primera correspondencia marca el inicio de una travesía compartida a través de las estaciones bíblicas...
+            </p>
+            
+            <h3>Reflexión de Tamuz:</h3>
+            <p>Tamuz es una invitación a detenernos y aprender a mirar más allá de lo evidente. Es un mes para entrenar la visión espiritual, descubrir que Dios sigue obrando aun cuando las circunstancias parezcan inciertas y recordar que ninguna tormenta tiene la última palabra.</p>
+
+            <p>A lo largo de este recorrido profundizamos en Emuná, una confianza que va más allá de creer: es descansar en la fidelidad de Dios incluso cuando todavía no vemos el resultado.</p>
+
+            <p>Cada carta, ilustración, lectura y oración fue pensada para ayudarte a redescubrir el propósito de tu vida, fortalecer tu comunión con Dios y encontrar paz en medio del proceso.</p>
+
+            <p>Porque muchas veces el mayor milagro no es que cambie la tormenta, sino que Dios transforme nuestra manera de atravesarla.</p>
+
+            <h3>¿QUÉ INCLUÍA ESTE SOBRE?</h3>
+            <ul>
+                <li>Carta estilo oficial de convocatoria del Reino.</li>
+                <li>Carta devocional inspirada para el mes.</li>
+                <li>Enseñanza sobre Tamuz y su significado bíblico.</li>
+                <li>Palabra del mes en hebreo: Emuná.</li>
+                <li>Tema del mes: Paz en la tormenta.</li>
+                <li>Oraciones y desafíos prácticos para vivir durante el mes.</li>
+                <li>Calendario con las fases de la luna y un versículo para meditar.</li>
+                <li>Plan de lecturas bíblicas semanales.</li>
+                <li>Dos ilustraciones originales para contemplación y reflexión.</li>
+                <li>Señalador coleccionable.</li>
+                <li>Stickers exclusivos para decorar y recordar el mensaje del mes.</li>
+                <li>Nota sobre el propósito de Taleh y el proyecto Hayom Mail Club.</li>
+            </ul>
+
+            <div class="contenedor-imagen-carta">
+                <img src="imagenes/seccion-cartas/cartas/tamuz.png" alt="Contenido del sobre del mes de Tamuz" class="imagen-carta-despliegue">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPT MÁGICO PARA HACERLA FUNCIONAR (Pegalo justo antes de cerrar el </body>) -->
+<script>
+    function abrirCarta(idModal) {
+        document.getElementById(idModal).style.display = "flex";
+        document.body.style.overflow = "hidden"; // Evita que la página del fondo se mueva mientras lees
+    }
+
+    function cerrarCarta(idModal) {
+        document.getElementById(idModal).style.display = "none";
+        document.body.style.overflow = "auto"; // Devuelve el scroll normal
+    }
+
+    // Cerrar también si hacen clic afuera del pergamino papel
+    window.onclick = function(event) {
+        if (event.target.classList.contains('carta-modal')) {
+            event.target.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    }
+</script>
+
+
+<!-- ── SECCIÓN: EL MAIL CLUB ── -->
+        <div class="pergamino-mail-club">
+
+            <h2 class="titulo-club">¿Querés recibir la próxima carta en tu puerta?</h2>
+            <p class="texto-club">Sumate al Mail Club Hayom para recibir cada mes una pieza de arte y enseñanza física en tu hogar.</p>
+            <h2 class="titulo-club">📜 Hayom: Mail Club</h2>
+            <p class="texto-club">
+                Cada mes bíblico, una nueva carta física con enseñanzas, reflexiones y arte viaja directo a tu puerta. Completa tus datos para suscribirte al envío mensual.
+            </p>
+            
+            <!-- Formulario detallado paso a paso -->
+            <form class="formulario-club" action="https://formsubmit.co/camilaailinramoss@gmail.com" method="POST">
+                
+                <!-- CONFIGURACIÓN INTERNA PARA EL MAIL -->
+                <input type="hidden" name="_subject" value="✨ ¡Nueva suscripción al Mail Club de Taleh!">
+                <input type="hidden" name="_captcha" value="false"> <!-- Saca el captcha para que sea directo -->
+                
+                <!-- 🔥 LA LÍNEA MÁGICA DE REDIRECCIÓN: Ahora vuelve automáticamente a las cartas sin pantalla blanca -->
+                <input type="hidden" name="_next" value="https://lovely-sundae-08ae08.netlify.app/cartas.html">
+
+                <!-- Datos Personales -->
+                <div class="grupo-fila">
+                    <div class="grupo-input">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" name="Nombre Completo" placeholder="Ej. Abigail Pérez" required>
+                    </div>
+                </div>
+
+                <div class="grupo-fila-doble">
+                    <div class="grupo-input">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="Email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="celular">Celular (Opcional)</label>
+                        <input type="tel" id="celular" name="Celular" placeholder="Ej. 11 1234-5678">
+                    </div>
+                </div>
+
+                <!-- Dirección Separada -->
+                <div class="grupo-fila-tres-cuartos">
+                    <div class="grupo-input calle">
+                        <label for="calle">Calle</label>
+                        <input type="text" id="calle" name="Calle" placeholder="Nombre de la calle" required>
+                    </div>
+                    <div class="grupo-input numero">
+                        <label for="numero">Número / Altura</label>
+                        <input type="text" id="numero" name="Altura" placeholder="Ej. 1482" required>
+                    </div>
+                </div>
+
+                <div class="grupo-fila-tres">
+                    <div class="grupo-input">
+                        <label for="ciudad">Ciudad / Localidad</label>
+                        <input type="text" id="ciudad" name="Ciudad/Localidad" placeholder="Ej. San Miguel" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="provincia">Provincia</label>
+                        <input type="text" id="provincia" name="Provincia" placeholder="Ej. Buenos Aires" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="cp">Código Postal</label>
+                        <input type="text" id="cp" name="Codigo Postal" placeholder="Ej. 1663" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="boton-suscripcion">Unirme a Hayom</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

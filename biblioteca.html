@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taleh - Biblioteca y Taller</title>
+    <!-- Fuentes mágicas -->
+    <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/biblioteca.css">
+    <link rel="stylesheet" href="css/carrito.css">
+</head>
+<body>
+
+    <div class="contenedor-biblioteca">
+        <!-- Botón para volver a la plaza principal -->
+        <a href="index.html" class="boton-volver">← Volver a la Plaza</a>
+
+        <h1 class="titulo-biblioteca">La Biblioteca</h1>
+<p class="subtitulo-biblioteca">
+    <span style="max-width: 750px; display: block;">
+        Explora nuestras creaciones de papelería artesanal y obras hechas a mano.
+    </span>
+</p>
+
+        <!-- ── SECCIÓN DE PRODUCTOS (4 CATEGORÍAS) ── -->
+<div class="seccion-productos">
+    
+    <!-- Categoría 1: Agendas -->
+    <a href="agendas.html" class="enlace-categoria">
+        <div class="categoria-caja">
+            <div class="producto-imagen-placeholder">
+                <img src="imagenes/seccion-biblioteca/biblioteca-portadas/agendas.jpeg" alt="Agendas" class="imagen-seccion">
+            </div>
+            <h3>Agendas, Cuadernos & Anotadores</h3>
+            <p>Encuadernación artesanal, hechos a mano, pensados para tus registros diarios y proyectos.</p>
+        </div>
+    </a>
+
+    <!-- Categoría 2: Señaladores -->
+    <a href="señaladores.html" class="enlace-categoria">
+        <div class="categoria-caja">
+            <div class="producto-imagen-placeholder">
+                <img src="imagenes/seccion-biblioteca/biblioteca-portadas/señaladores.jpeg" alt="Señaladores" class="imagen-seccion">
+            </div>
+            <h3>Señaladores</h3>
+            <p>Detalles que inspiran. Perfectos para acompañar tus anotaciones, libros, cuadernos, etc.</p>
+        </div>
+    </a>
+
+    <!-- Categoría 3: Láminas -->
+    <a href="laminas.html" class="enlace-categoria">
+        <div class="categoria-caja">
+            <div class="producto-imagen-placeholder">
+                <img src="imagenes/seccion-biblioteca/biblioteca-portadas/cuadros.jpeg" alt="Laminas" class="imagen-seccion">
+            </div>
+            <h3>Láminas, Ilustraciones</h3>
+            <p>Ilustraciones inspirados en la palabra, con alta fidelidad de color y contraste, listas para vestir tus rincones favoritos.</p>
+        </div>
+    </a>
+
+    <!-- Categoría 4: Calendarios -->
+    <a href="calendarios.html" class="enlace-categoria">
+        <div class="categoria-caja">
+            <div class="producto-imagen-placeholder">
+                <img src="imagenes/seccion-biblioteca/biblioteca-portadas/calendario.jpeg" alt="Laminas" class="imagen-seccion">
+            </div>
+            <h3>Calendarios</h3>
+            <p>Organización con propósito, diseñada bajo los tiempos de Dios para acompañar tu año de forma espiritual.</p>
+        </div>
+    </a>
+
+</div>
+
+       <!-- ── SECCIÓN: EL MAIL CLUB ── -->
+        <div class="pergamino-mail-club">
+            <h2 class="titulo-club">📜 Hayom: Mail Club</h2>
+            <p class="texto-club">
+                Cada mes bíblico, una nueva carta física con enseñanzas, reflexiones y arte viaja directo a tu puerta. Completa tus datos para suscribirte al envío mensual.
+            </p>
+            
+            <!-- Formulario detallado paso a paso -->
+            <form class="formulario-club" action="https://formsubmit.co/camilaailinramoss@gmail.com" method="POST">
+                
+                <!-- CONFIGURACIÓN INTERNA PARA EL MAIL -->
+                <input type="hidden" name="_subject" value="✨ ¡Nueva suscripción al Mail Club de Taleh!">
+                <input type="hidden" name="_captcha" value="false"> <!-- Saca el captcha para que sea directo -->
+                
+                <!-- 🔥 LA LÍNEA MÁGICA DE REDIRECCIÓN: Ahora vuelve automáticamente a la biblioteca sin pantalla blanca -->
+                <input type="hidden" name="_next" value="https://lovely-sundae-08ae08.netlify.app/biblioteca.html">
+
+                <!-- Datos Personales -->
+                <div class="grupo-fila">
+                    <div class="grupo-input">
+                        <label for="nombre">Nombre Completo</label>
+                        <input type="text" id="nombre" name="Nombre Completo" placeholder="Ej. Abigail Pérez" required>
+                    </div>
+                </div>
+
+                <div class="grupo-fila-doble">
+                    <div class="grupo-input">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" name="Email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="celular">Celular (Opcional)</label>
+                        <input type="tel" id="celular" name="Celular" placeholder="Ej. 11 1234-5678">
+                    </div>
+                </div>
+
+                <!-- Dirección Separada -->
+                <div class="grupo-fila-tres-cuartos">
+                    <div class="grupo-input calle">
+                        <label for="calle">Calle</label>
+                        <input type="text" id="calle" name="Calle" placeholder="Nombre de la calle" required>
+                    </div>
+                    <div class="grupo-input numero">
+                        <label for="numero">Número / Altura</label>
+                        <input type="text" id="numero" name="Altura" placeholder="Ej. 1482" required>
+                    </div>
+                </div>
+
+                <div class="grupo-fila-tres">
+                    <div class="grupo-input">
+                        <label for="ciudad">Ciudad / Localidad</label>
+                        <input type="text" id="ciudad" name="Ciudad/Localidad" placeholder="Ej. San Miguel" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="provincia">Provincia</label>
+                        <input type="text" id="provincia" name="Provincia" placeholder="Ej. Buenos Aires" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="cp">Código Postal</label>
+                        <input type="text" id="cp" name="Codigo Postal" placeholder="Ej. 1663" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="boton-suscripcion">Unirme Hayom</button>
+            </form>
+        </div>
+
+    </div>
+<script src="js/carrito.js"></script>
+    <script src="js/tiendaUI.js"></script>
+</body>
+</html>

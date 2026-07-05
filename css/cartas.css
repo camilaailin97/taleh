@@ -1,0 +1,661 @@
+/* Reinicio básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contenedor-cartas {
+    width: 100%;
+    min-height: 100vh;
+    background: radial-gradient(circle, #1a1c2e 0%, #0b0c16 100%); /* Un tono azul oscuro místico/nocturno para diferenciarlo de la biblioteca */
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    /* Poné acá tu ilustración de la habitación. Si no tenés la ruta exacta todavía, podés usar un color de respaldo */
+    background: url('../imagenes/seccion-cartas/fondo-celu.png') no-repeat center top; 
+    background-size: cover;
+    background-attachment: fixed; /* El fondo se queda quieto y las tarjetas suben mágicamente */
+}
+
+/* Botón flotante estilo "Cápsula de Cuento" */
+.boton-volver {
+    position: absolute;
+    top: 35px;
+    left: 30px;
+    background-color: #f5eed7; /* Tono papel pergamino como tus referencias */
+    color: #2a1b10;
+    text-decoration: none;
+    font-family: 'Almendra', serif;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 30px; /* Súper redondeado, idéntico a tus imágenes */
+    border: 1px solid #bba374;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+
+.boton-volver:hover {
+    background-color: #dfb76c;
+    transform: translateY(-2px);
+}
+
+/* Títulos */
+.titulo-cartas {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    font-size: 45px;
+    text-align: center;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.subtitulo-cartas {
+    font-family: 'Almendra', serif;
+    color: #f4ebd0; 
+    font-size: 17px;
+    text-align: center;
+    margin-top: 25px;
+    line-height: 1.7;
+    
+    /* 🌟 TRUCO MÁGICO: Rompe el padding del contenedor padre */
+    width: calc(100% + 40px); /* Absorbe los 20px de espacio de cada lado */
+    margin-left: -20px;       /* Se estira 20px hacia la izquierda */
+    margin-right: -20px;      /* Se estira 20px hacia la derecha */
+    
+    padding: 25px 40px; /* Aire interno para el texto */
+    
+    /* Fondo oscuro ultra-translúcido con desenfoque */
+    background-color: rgba(18, 25, 23, 0.45); 
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* Compatibilidad con Safari */
+    
+    /* Sombreado de separación */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 
+                0 -4px 30px rgba(0, 0, 0, 0.3);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+
+    /* Centrado perfecto del contenido */
+    display: flex;
+    justify-content: center;
+}
+
+/* ── GALERÍA DE CARTAS ── */
+.galeria-cartas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 1100px;
+}
+
+.carta-caja {
+    background-color: #0f111f;
+    border: 1px solid #2c3154;
+    border-radius: 8px;
+    padding: 25px;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.carta-caja:hover {
+    transform: translateY(-5px);
+    border-color: #535d9e;
+}
+
+.carta-imagen-placeholder {
+    width: 100%;
+    height: 200px;
+    background-color: #171a2f;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    margin-bottom: 20px;
+    border: 1px dashed #3a4275;
+}
+
+.carta-caja h3 {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.carta-caja .temporada {
+    font-family: 'Almendra', serif;
+    font-style: italic;
+    color: #dfb76c;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.carta-caja .descripcion-carta {
+    font-family: 'Almendra', serif;
+    color: #a4adc1;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ── SECCIÓN DE INVITACIÓN ── */
+/* ── DISEÑO DEL PERGAMINO (MAIL CLUB) EN CARTAS ── */
+.pergamino-mail-club {
+    background-color: #f3eacf; /* Color tipo papel pergamino antiguo */
+    border: 2px solid #bba374;
+    border-radius: 4px;
+    padding: 40px 30px;
+    margin-top: 70px;
+    width: 100%;
+    max-width: 650px;
+    box-shadow: 5px 15px 30px rgba(0,0,0,0.6), inset 0 0 20px rgba(184,153,107,0.2);
+    color: #2a1b10;
+}
+
+.titulo-club {
+    font-family: 'Cinzel Decorative', serif;
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+.texto-club {
+    font-family: 'Almendra', serif;
+    text-align: center;
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Formulario Estructura */
+.formulario-club {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.grupo-input label {
+    font-family: 'Almendra', serif;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: left; /* Alineado limpio para los labels */
+}
+
+.grupo-input input {
+    padding: 12px;
+    border: 1px solid #b39b70;
+    border-radius: 4px;
+    background-color: #fffbf2;
+    font-family: 'Almendra', serif;
+    font-size: 16px;
+    color: #2a1b10;
+    width: 100%;
+}
+
+.grupo-input input:focus {
+    outline: 2px solid #5d402d;
+}
+
+/* Botón del Club */
+.boton-suscripcion {
+    background-color: #2a1b10;
+    color: #f4ebd0;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.boton-suscripcion:hover {
+    background-color: #4a321f;
+    transform: translateY(-1px);
+}
+
+/* Manejo de Filas del Formulario */
+.grupo-fila, .grupo-fila-doble, .grupo-fila-tres-cuartos, .grupo-fila-tres {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+
+/* Estilo del puntero para notar que es cliqueable */
+
+
+/* ── ESTILOS DEL MODAL (CARTA ABIERTA) ── */
+.carta-modal {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    z-index: 2000; /* Se superpone a todo */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(6, 7, 13, 0.85); /* Fondo místico oscuro translúcido */
+    backdrop-filter: blur(5px); /* Efecto blur de fondo */
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* El cuadro interior que imita el pergamino abierto */
+.contenido-modal-pergamino {
+    background-color: #f3eacf;
+    border: 3px double #bba374;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 700px;
+    max-height: 85vh; /* Evita que se vaya de la pantalla */
+    overflow-y: auto; /* Si el texto es larguísimo, permite hacer scroll interno */
+    padding: 40px 30px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    color: #2a1b10;
+    animation: aparecerCarta 0.3s ease-out;
+}
+
+@keyframes aparecerCarta {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Botón de cerrar (X) */
+.cerrar-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    color: #8a704a;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.cerrar-modal:hover {
+    color: #2a1b10;
+}
+
+/* Textos dentro de la carta abierta */
+.titulo-carta-abierta {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 5px;
+    padding-right: 20px;
+}
+
+.fecha-carta-abierta {
+    font-family: 'Almendra', serif;
+    font-style: italic;
+    color: #8a704a;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 15px;
+}
+
+.cuerpo-carta-texto {
+    font-family: 'Almendra', serif;
+    font-size: 18px; /* Subido un pelito para que no requiera esfuerzo */
+    line-height: 1.85; /* 🌟 CLAVE: Más espacio entre líneas para que el ojo descanse */
+    text-align: justify;
+    color: #2a1b10;
+}
+
+.cuerpo-carta-texto p {
+    margin-bottom: 24px; /* 🌟 CLAVE: Más separación entre párrafos */
+}
+
+/* Un toque de diseño para las citas o textos destacados como "No se requiere..." */
+.texto-destacado-carta {
+    display: block;
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+    color: #8a704a;
+    margin: 30px 0;
+    font-size: 19px;
+}
+
+.frase-final-carta {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    color: #8a704a;
+    margin-top: 25px;
+}
+
+.cuerpo-carta-texto h3 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 18px;
+    margin: 25px 0 10px 0;
+}
+
+.cuerpo-carta-texto ul {
+    padding-left: 20px;
+    margin-bottom: 15px;
+}
+
+.cuerpo-carta-texto li {
+    margin-bottom: 8px;
+}
+
+/* ── FOTO DE CONTENIDO DENTRO DE LA CARTA ABIERTA ── */
+.contenedor-imagen-carta {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 35px; /* Separa la foto de la lista de arriba */
+    margin-bottom: 10px;
+    padding: 0 5px;
+}
+
+.imagen-carta-despliegue {
+    width: 100%;
+    max-width: 550px; /* Evita que la foto sea gigante en computadoras */
+    height: auto; /* Mantiene la proporción perfecta de la imagen */
+    border-radius: 6px;
+    border: 1px solid #d3c4a3; /* Un borde sutil color lacre/oro viejo */
+    box-shadow: 0 4px 15px rgba(42, 27, 16, 0.15); /* Sombra suave para dar volumen sobre el papel */
+    object-fit: cover;
+}
+
+/* Ajuste fino para pantallas muy chicas de celular */
+@media (max-width: 480px) {
+    .contenedor-imagen-carta {
+        margin-top: 25px;
+    }
+}
+
+
+/* ── INGENIERÍA DEL SOBRE INTERACTIVO 3D ── */
+.sobre-contenedor {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    perspective: 1000px; /* Habilita el espacio 3D para la solapa */
+}
+
+.sobre {
+    position: relative;
+    width: 280px;
+    height: 180px;
+    background-color: #171a2f;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+/* 1. REEMPLAZÁ TU REGLA DE .sobre-solapa POR ESTA (Ajustamos un poquito el alto) */
+.sobre-solapa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 140px solid transparent;
+    border-right: 140px solid transparent;
+    border-top: 105px solid #24294b; /* Bajamos apenas la punta para que muerda bien el sello */
+    transform-origin: top;
+    transition: transform 0.4s ease 0.2s, z-index 0.1s ease 0.2s;
+    z-index: 4;
+}
+
+/* 2. REEMPLAZÁ TU REGLA DE .sobre-frente POR ESTA NUEVA CON CLIP-PATH */
+.sobre-frente {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Usamos un degradado para simular las sombras de los pliegues laterales reales */
+    background: linear-gradient(135deg, #1c203a 0%, #15182d 50%, #111324 100%);
+    /* Esta línea mágica crea el polígono del bolsillo perfecto sin dejar huecos */
+    clip-path: polygon(0 0, 140px 105px, 100% 0, 100% 100%, 0 100%);
+    border-radius: 0 0 8px 8px;
+    z-index: 3;
+}
+
+
+/* Fondo interior del sobre */
+.sobre-dorso {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0d0f1b;
+    border-radius: 0 0 8px 8px;
+    z-index: 1;
+}
+
+/* 3. La Carta Interna (Oculta al inicio) */
+.sobre-carta {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 250px;
+    height: 150px;
+    background-color: #f3eacf; /* Mismo color pergamino */
+    border-radius: 4px;
+    padding: 15px;
+    text-align: center;
+    color: #2a1b10;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    transition: transform 0.4s ease;
+    z-index: 2; /* Guardada entre el dorso y el frente */
+}
+
+.sobre-carta-emoji {
+    font-size: 30px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.sobre-carta-titulo {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 15px;
+    margin-bottom: 5px;
+}
+
+.sobre-carta-click {
+    font-family: 'Almendra', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #8a704a;
+}
+
+/* 4. El Sello de Cera mágico */
+.sobre-sello {
+    position: absolute;
+    top: 85px;
+    left: 125px;
+    width: 32px;
+    height: 32px;
+    background-color: #dfb76c;
+    color: #a55c07;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    z-index: 5;
+    transition: transform 0.3s ease, opacity 0.2s ease 0.1s;
+}
+
+/* 🔄 REDISEÑO: La etiqueta ahora flota ABSOLUTAMENTE sobre el sobre */
+.sobre-contenedor {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    perspective: 1000px;
+    position: relative; /* Clave para posicionar la etiqueta adentro */
+}
+
+.sobre-etiqueta {
+    position: absolute;
+    bottom: 12px; /* Lo ubica justo en el tercio inferior del sobre */
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 6; /* Por encima de las solapas delanteras */
+    pointer-events: none; /* Evita que interfiera con el click/hover del sobre */
+    margin-top: 0;
+    padding: 0 10px;
+}
+
+/* Forzamos a que las letras sobre el azul marino sean claras y legibles */
+.sobre-etiqueta h3 {
+    font-family: 'Cinzel Decorative', serif;
+    color: #f4ebd0; /* Dorado claro */
+    font-size: 15px; /* Achicado un pelito para que entre cómodo en el sobre */
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.sobre-etiqueta .temporada {
+    font-family: 'Almendra', serif;
+    font-style: italic;
+    color: #dfb76c; /* Oro viejo */
+    font-size: 12px;
+    line-height: 1.2;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+
+/* ── ANIMACIONES AL PASAR EL MOUSE (HOVER) ── */
+
+/* 1. Levantar la solapa hacia arriba invirtiendo el eje Y en 3D */
+.sobre-contenedor:hover .sobre-solapa {
+    transform: rotateX(180deg);
+    z-index: 1; /* Pasa atrás para que la carta pueda salir libremente */
+    border-top-color: #171a2f;
+}
+
+/* 2. Subir la carta hacia arriba saliendo del sobre */
+.sobre-contenedor:hover .sobre-carta {
+    transform: translateY(-70px);
+}
+
+/* 3. El sello se mueve un poquito y se desvanece al romperse */
+.sobre-contenedor:hover .sobre-sello {
+    transform: scale(0.5);
+    opacity: 0;
+}
+
+/* Pequeño brinco del sobre completo para avisar que es interactivo */
+.sobre-contenedor:hover .sobre {
+    transform: translateY(-3px);
+}
+
+
+
+/* Ajustes finos para celulares 📱 */
+@media (max-width: 600px) {
+    .contenido-modal-pergamino {
+        padding: 35px 20px;
+    }
+    .titulo-carta-abierta {
+        font-size: 20px;
+    }
+    .cuerpo-carta-texto {
+        font-size: 16px;
+    }
+}
+
+
+
+/* ==========================================================================
+    MODO RESPONSIVO PARA PANTALLAS MEDIANAS Y GRANDES 🖥️ (Reemplazar desde acá)
+   ========================================================================== */
+
+/* --- CAMBIO DE FONDO PARA COMPUTADORAS 🖥️ --- */
+@media (min-width: 1024px) {
+    .contenedor-cartas {
+        /* ACÁ VA TU IMAGEN HORIZONTAL DE COMPU (16:9) */
+        background: url('../imagenes/seccion-cartas/fondo-compu.png') no-repeat center top; 
+        background-size: cover;
+        background-attachment: fixed; /* Efecto mágico tridimensional en compu */
+        padding: 100px 40px; /* 💡 Aquí están los 40px de espacio por lado */
+    }
+}
+
+@media (min-width: 600px) {
+    .grupo-fila-doble {
+        flex-direction: row;
+    }
+    .grupo-fila-doble .grupo-input {
+        flex: 1;
+        min-width: 0;
+    }
+    
+    .grupo-fila-tres-cuartos {
+        flex-direction: row;
+    }
+    .grupo-input.calle { flex: 3; min-width: 0; }
+    .grupo-input.numero { flex: 1; min-width: 0; }
+
+    .grupo-fila-tres {
+        flex-direction: row;
+    }
+    .grupo-fila-tres .grupo-input {
+        flex: 1;
+        min-width: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .pergamino-mail-club {
+        max-width: 800px; /* Se expande de forma elegante en pantallas grandes */
+    }
+    
+    /* ── 🌟 EL PARCHE CLAVE PARA CARTAS EN COMPUTADORA ── */
+    /* Rompe los 40px de margen del contenedor absorbiendo 80px en total (40px de cada lado) */
+    .subtitulo-cartas {
+        width: calc(100% + 80px); 
+        margin-left: -40px;       
+        margin-right: -40px;      
+        max-width: none;          
+    }
+}
+
+/* MODO RESPONSIVO COMPUTADORA 🖥️ */
+@media (min-width: 768px) {
+    .titulo-cartas {
+        font-family: 'Cinzel Decorative', serif; /* Por si querías asegurar la coherencia tipográfica */
+        font-size: 55px;
+        margin-top: 40px;
+    }
+}
