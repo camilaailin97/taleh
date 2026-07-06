@@ -261,6 +261,19 @@
             font-size: 0.95em;
             font-weight: bold;
         }
+
+.modal-oculto {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center; align-items: center; z-index: 1000;
+}
+.contenido-modal {
+    background: white; padding: 25px; border-radius: 12px;
+    max-width: 400px; width: 90%; text-align: center;
+}
+
     </style>
 </head>
 <body>
@@ -402,7 +415,18 @@
         </aside>
 
     </div>
-
+<div id="modal-pago" class="modal-oculto">
+    <div class="contenido-modal">
+        <h2 id="titulo-modal">¡Casi listo!</h2>
+        <p id="mensaje-modal"></p>
+        <div id="datos-bancarios" style="background: #f4f4f4; padding: 15px; border-radius: 8px; margin: 15px 0;">
+            <p><strong>Alias:</strong> TALEH.TIENDA</p>
+            <p><strong>Titular:</strong> Camila Ailin</p>
+            <p><strong>Banco:</strong> Mercado Pago</p>
+        </div>
+        <button onclick="cerrarModal()" class="boton-finalizar">Entendido</button>
+    </div>
+</div>
     <script src="js/carrito.js"></script>
     <script src="js/checkoutUI.js"></script>
 </body>
