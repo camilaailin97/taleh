@@ -1,68 +1,51 @@
 <?php
-
+// 1. Configuración de seguridad para evitar bloqueos del navegador
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit;
 }
 
-header("Content-Type: application/json");
+// 2. Cargar la librería de Mercado Pago (asegúrate de tenerla instalada vía composer)
+require 'vendor/autoload.php';
 
-$access_token = "APP_USR-7999825053986712-070600-e87c755b0a3f934c8b18448ecdca50ac-250750027";
+use MercadoPago\Client\Preference\PreferenceClient;
+use MercadoPago\MercadoPagoConfig;
 
-// Leer JSON enviado desde fetch
-$data = json_decode(file_get_contents("php://input"), true);
+// 3. Configura tu Access Token (REEMPLAZA CON TU TOKEN REAL)
+MercadoPagoConfig::setAccessToken("APP_USR-7999825053986712-070600-e87c755b0a3f934c8b18448ecdca50ac-250750027");
 
-if (!isset($data["total"])) {
-    echo json_encode([
-        "error" => "No llegó el total"
-    ]);
+// 4. Recibir y decodificar los datos del frontend
+$json = file_get_contents('php://input');
+$data = json_decode($json, true);
+
+if (!$data || !isset($data['total'])) {
+    http_response_code(400);
+    echo json_encode(["error" => "Datos inválidos"]);
     exit;
 }
 
-$total = filter_var($data["total"], FILTER_VALIDATE_FLOAT);
-
-if ($total === false || $total <= 0) {
-    echo json_encode([
-        "error" => "Total inválido",
-        "recibido" => $data["total"]
-    ]);
-    exit;
-}
-
-$payload = [
-    "items" => [[
-        "title" => "Compra en Taleh",
-        "quantity" => 1,
-        "currency_id" => "ARS",
-        "unit_price" => $total
-    ]],
+// 5. Crear la preferencia de pago
+$client = new PreferenceClient();
+$preference = $client->create([
+    "items" => [
+        [
+            "title" => "Pedido en Taleh",
+            "quantity" => 1,
+            "unit_price" => (float)$data['total'],
+            "currency_id" => "ARS"
+        ]
+    ],
+    "back_urls" => [
+        "success" => "https://camilaailin97.github.io/taleh/",
+        "failure" => "https://camilaailin97.github.io/taleh/",
+        "pending" => "https://camilaailin97.github.io/taleh/"
+    ],
     "auto_return" => "approved"
-];
-
-$ch = curl_init("https://api.mercadopago.com/checkout/preferences");
-
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    "Authorization: Bearer $access_token",
-    "Content-Type: application/json"
 ]);
 
-$response = curl_exec($ch);
-
-if ($response === false) {
-    echo json_encode([
-        "error" => curl_error($ch)
-    ]);
-    curl_close($ch);
-    exit;
-}
-
-curl_close($ch);
-
-echo $response;
+// 6. Devolver el link de pago al frontend
+echo json_encode(["init_point" => $preference->init_point]);
+?>

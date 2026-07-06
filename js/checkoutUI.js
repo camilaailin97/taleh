@@ -120,36 +120,26 @@ console.log("TIPO:", typeof totalFinal);
     boton.disabled = true;
     boton.textContent = "Conectando...";
 
-    try {
+// ... dentro de tu evento submit ...
+try {
     const respuesta = await fetch("https://taleh-api.onrender.com/", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json" // IMPORTANTE: Indicar que envías JSON
-        },
-        body: JSON.stringify({ // IMPORTANTE: Convertir a string el objeto
-            total: totalFinal,
-            nombre: nombreCliente
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ total: totalFinal })
     });
 
     const data = await respuesta.json();
 
-console.log(data);
-
-if (data.init_point) {
-    window.location.href = data.init_point;
-} else {
-    console.error(data);
-    alert("Error al crear la preferencia.");
-    boton.disabled = false;
-    boton.textContent = "CONFIRMAR PEDIDO";
-}
-    } catch (err) {
-        console.error("Error:", err);
-        alert("No se pudo conectar con el servidor.");
-        boton.disabled = false;
-        boton.textContent = "CONFIRMAR PEDIDO";
+    if (data.init_point) {
+        window.location.href = data.init_point; // Esto abre Mercado Pago
+    } else {
+        console.error(data);
+        alert("Error al conectar con Mercado Pago.");
     }
+} catch (err) {
+    console.error("Error:", err);
+    alert("Error de red.");
+}
 });
 
     cargarResumenCheckout();
