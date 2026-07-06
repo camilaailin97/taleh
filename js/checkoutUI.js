@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contenedorItems = document.getElementById('items-resumen-checkout');
     const bloqueDireccion = document.getElementById('checkout-bloque-direccion');
     const formPedido = document.getElementById('formulario-checkout-real');
+    const inputCP = document.getElementById('checkout-cp'); // Asegúrate que este ID exista en tu HTML
 
     const txtSubtotal = document.getElementById('resumen-subtotal');
     const txtDescuento = document.getElementById('resumen-descuento');
@@ -73,9 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return ((n >= 1000 && n <= 1999) || (n >= 6000 && n <= 8999)) ? PRECIO_ENVIO_LOCAL : PRECIO_ENVIO_NACIONAL;
     }
 
+    // Evento para el Código Postal (tiempo real)
+    if (inputCP) {
+        inputCP.addEventListener('input', () => {
+            const radioEnvio = document.querySelector('input[name="forma-entrega"][value="envio"]');
+            if (radioEnvio && radioEnvio.checked) {
+                costoEnvioActual = (inputCP.value.trim().length >= 4) ? calcularCostoPorCP(inputCP.value) : 0;
+                txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual}` : "Ingresá tu CP";
+                actualizarTotalFinal();
+            }
+        });
+    }
+
     document.querySelectorAll('input[name="forma-entrega"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
-            const inputCP = document.getElementById('checkout-cp');
             if (e.target.value === 'envio') {
                 bloqueDireccion.style.display = 'block';
                 inputCP.required = true;
@@ -95,55 +107,47 @@ document.addEventListener('DOMContentLoaded', () => {
         cargarResumenCheckout();
         const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
         if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
-            let subtotalConDescuento = parseFloat(txtTotal.textContent.replace('$', '')) || 0;
+            let subtotalConDescuento = parseFloat(txtTotal.textContent.replace('$', '').replace('.', '')) || 0;
             txtTotal.textContent = `$${subtotalConDescuento + costoEnvioActual}`;
         }
     }
-formPedido.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    // 1. Identificar qué método eligió el usuario
-    const metodoElegido = document.querySelector('input[name="forma-pago"]:checked')?.value;
 
-    // 2. Si NO eligió Mercado Pago, no hacemos el fetch, solo avisamos
-    if (metodoElegido !== 'mercadopago') {
-        alert("¡Pedido registrado! Nos pondremos en contacto por WhatsApp para coordinar el pago.");
-        // Aquí podrías agregar un emailjs.send(...) si decides usarlo
-        return; 
-    }
+    formPedido.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const metodoElegido = document.querySelector('input[name="forma-pago"]:checked')?.value;
 
-    // 3. SI eligió Mercado Pago, hacemos la lógica de siempre
-    const boton = formPedido.querySelector('button[type="submit"]');
-    const textoTotal = document.getElementById('resumen-total-general').textContent;
-    const totalFinal = Number(textoTotal.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
+        if (metodoElegido !== 'mercadopago') {
+            alert("¡Pedido registrado! Nos pondremos en contacto por WhatsApp para coordinar el pago.");
+            return; 
+        }
 
-    boton.disabled = true;
-    boton.textContent = "Conectando...";
+        const boton = formPedido.querySelector('button[type="submit"]');
+        const textoTotal = txtTotal.textContent;
+        const totalFinal = Number(textoTotal.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
 
-    try {
-        const respuesta = await fetch("https://taleh-api.onrender.com/", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ total: totalFinal })
-        });
+        boton.disabled = true;
+        boton.textContent = "Conectando...";
 
-        const data = await respuesta.json();
-
-        if (data.init_point) {
-            window.location.href = data.init_point;
-        } else {
-            console.error(data);
-            alert("Error al conectar con Mercado Pago.");
+        try {
+            const respuesta = await fetch("https://taleh-api.onrender.com/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ total: totalFinal })
+            });
+            const data = await respuesta.json();
+            if (data.init_point) {
+                window.location.href = data.init_point;
+            } else {
+                alert("Error al conectar con Mercado Pago.");
+                boton.disabled = false;
+                boton.textContent = "CONFIRMAR PEDIDO";
+            }
+        } catch (err) {
+            alert("Error de red.");
             boton.disabled = false;
             boton.textContent = "CONFIRMAR PEDIDO";
         }
-    } catch (err) {
-        console.error("Error:", err);
-        alert("Error de red.");
-        boton.disabled = false;
-        boton.textContent = "CONFIRMAR PEDIDO";
-    }
-});
+    });
 
     cargarResumenCheckout();
 });
