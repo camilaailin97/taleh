@@ -77,12 +77,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Evento para el Código Postal (tiempo real)
     if (inputCP) {
         inputCP.addEventListener('input', () => {
+            // Recalculamos el costo según el número ingresado
+            const nuevoCosto = calcularCostoPorCP(inputCP.value);
+            
+            // Si el radio de "Envío" está seleccionado, actualizamos el precio
             const radioEnvio = document.querySelector('input[name="forma-entrega"][value="envio"]');
             if (radioEnvio && radioEnvio.checked) {
-                costoEnvioActual = (inputCP.value.trim().length >= 4) ? calcularCostoPorCP(inputCP.value) : 0;
+                costoEnvioActual = (inputCP.value.trim().length >= 4) ? nuevoCosto : 0;
                 txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual}` : "Ingresá tu CP";
-                actualizarTotalFinal();
             }
+            
+            // Esto es lo que fuerza a que el total general cambie siempre
+            actualizarTotalFinal();
         });
     }
 
