@@ -102,44 +102,47 @@ document.addEventListener('DOMContentLoaded', () => {
 formPedido.addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    // 1. Identificar qué método eligió el usuario
+    const metodoElegido = document.querySelector('input[name="forma-pago"]:checked')?.value;
+
+    // 2. Si NO eligió Mercado Pago, no hacemos el fetch, solo avisamos
+    if (metodoElegido !== 'mercadopago') {
+        alert("¡Pedido registrado! Nos pondremos en contacto por WhatsApp para coordinar el pago.");
+        // Aquí podrías agregar un emailjs.send(...) si decides usarlo
+        return; 
+    }
+
+    // 3. SI eligió Mercado Pago, hacemos la lógica de siempre
     const boton = formPedido.querySelector('button[type="submit"]');
-const textoTotal = document.getElementById('resumen-total-general').textContent;
+    const textoTotal = document.getElementById('resumen-total-general').textContent;
+    const totalFinal = Number(textoTotal.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
 
-const totalFinal = Number(
-    textoTotal
-        .replace("$", "")
-        .replace(/\./g, "")
-        .replace(",", ".")
-        .trim()
-);
-
-console.log("TOTAL:", totalFinal);
-console.log("TIPO:", typeof totalFinal);
-    const nombreCliente = document.getElementById('checkout-nombre').value;
-    
     boton.disabled = true;
     boton.textContent = "Conectando...";
 
-// ... dentro de tu evento submit ...
-try {
-    const respuesta = await fetch("https://taleh-api.onrender.com/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ total: totalFinal })
-    });
+    try {
+        const respuesta = await fetch("https://taleh-api.onrender.com/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ total: totalFinal })
+        });
 
-    const data = await respuesta.json();
+        const data = await respuesta.json();
 
-    if (data.init_point) {
-        window.location.href = data.init_point; // Esto abre Mercado Pago
-    } else {
-        console.error(data);
-        alert("Error al conectar con Mercado Pago.");
+        if (data.init_point) {
+            window.location.href = data.init_point;
+        } else {
+            console.error(data);
+            alert("Error al conectar con Mercado Pago.");
+            boton.disabled = false;
+            boton.textContent = "CONFIRMAR PEDIDO";
+        }
+    } catch (err) {
+        console.error("Error:", err);
+        alert("Error de red.");
+        boton.disabled = false;
+        boton.textContent = "CONFIRMAR PEDIDO";
     }
-} catch (err) {
-    console.error("Error:", err);
-    alert("Error de red.");
-}
 });
 
     cargarResumenCheckout();
