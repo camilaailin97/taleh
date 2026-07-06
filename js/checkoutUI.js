@@ -23,6 +23,8 @@ function abrirModal(titulo, mensaje, mostrarDatos, esTransferencia = false) {
     document.getElementById('modal-pago').style.display = 'flex';
 }
 
+emailjs.init("mNybPhj1LBKcTnrN8"); // La encontrás en tu panel EmailJS -> Account -> API Keys
+
 // --- LÓGICA PRINCIPAL ---
 document.addEventListener('DOMContentLoaded', () => {
     let datosCheckout = JSON.parse(localStorage.getItem('taleh_carrito')) || [];
@@ -158,6 +160,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         boton.disabled = true;
         boton.textContent = "Conectando...";
+
+// Ejemplo de cómo disparar el envío
+emailjs.send('service_izruv7a', '__ejs-test-mail-service__', {
+    nombre: document.getElementById('checkout-nombre').value,
+    email: document.getElementById('checkout-email').value,
+    lista_productos: datosCheckout.map(p => `${p.titulo} x${p.cantidad}`).join(', '),
+    total: txtTotal.textContent,
+    metodo_pago: document.querySelector('input[name="forma-pago"]:checked').value,
+    forma_entrega: document.querySelector('input[name="forma-entrega"]:checked').value,
+    datos_envio: document.getElementById('checkout-direccion')?.value || "Retiro en local"
+})
+.then(() => console.log("¡Email enviado con éxito!"))
+.catch(err => console.error("Error al enviar email:", err));
 
         try {
             const respuesta = await fetch("https://taleh-api.onrender.com/", {
