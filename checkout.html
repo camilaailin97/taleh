@@ -416,23 +416,17 @@
 
     </div>
 <div id="modal-pago" class="modal-oculto">
-    <div class="contenido-modal">
-        <h2 id="titulo-modal">¡Casi listo!</h2>
-        <p id="mensaje-modal"></p>
-        <div id="datos-bancarios" style="background: #f4f4f4; padding: 15px; border-radius: 8px; margin: 15px 0;">
-            <p><strong>Alias:</strong> TALEH.TIENDA</p>
-            <p><strong>Titular:</strong> Camila Ailin</p>
-            <p><strong>Banco:</strong> Mercado Pago</p>
+        <div class="contenido-modal">
+            <h2 id="titulo-modal">¡Casi listo!</h2>
+            <p id="mensaje-modal"></p>
+            <div id="datos-bancarios" style="background: #f4f4f4; padding: 15px; border-radius: 8px; margin: 15px 0; display:none;">
+                <p><strong>Alias:</strong> TALEH.TIENDA</p>
+                <p><strong>Titular:</strong> Camila Ailin</p>
+            </div>
+            <button onclick="cerrarModal()" class="boton-finalizar" style="margin-top: 0;">Entendido</button>
+            <a id="btn-wpp-modal" href="#" target="_blank" class="boton-wpp">Contactar</a>
         </div>
-        <button onclick="cerrarModal()" class="boton-finalizar">Entendido</button>
-        <a href="https://wa.me/5491166289178?text=Hola!%20Realicé%20la%20transferencia%20del%20pedido." 
-   target="_blank" 
-   class="boton-wpp" 
-   style="display: block; margin-top: 10px; background: #25d366; color: white; padding: 10px; text-decoration: none; border-radius: 5px;">
-   Enviar comprobante por WhatsApp
-</a>
     </div>
-</div>
     <script src="js/carrito.js"></script>
     <script src="js/checkoutUI.js"></script>
 </body>
