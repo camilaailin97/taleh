@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra - Taleh</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel+Decorative:wght@400;700&display=swap">
+    <link rel="stylesheet" href="css/carrito.css">
+    
+    <style>
+        /* Estética clara estilo pergamino inspirada en image_b265e4.png */
+        body {
+            background-color: #f1ebd9; /* Fondo crema/pergamino claro */
+            color: #2b1d0f; /* Texto marrón oscuro */
+            font-family: 'Almendra', serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .checkout-contenedor {
+            display: flex;
+            flex-direction: column;
+            max-width: 1100px;
+            margin: 0 auto;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .checkout-contenedor {
+                flex-direction: row;
+                align-items: flex-start;
+            }
+        }
+
+        /* Bloque Izquierdo: Formulario */
+        .checkout-formulario {
+            flex: 1;
+            background: #fdfaf2; /* Fondo blanco cálido */
+            border: 1px solid #c5a880;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(43, 29, 15, 0.1);
+        }
+
+        h2, h3 {
+            font-family: 'Cinzel Decorative', serif;
+            color: #2b1d0f;
+            margin-top: 0;
+            text-align: center;
+            border-bottom: 1px solid rgba(197, 168, 128, 0.4);
+            padding-bottom: 10px;
+        }
+
+        fieldset {
+            border: 1px solid rgba(197, 168, 128, 0.4);
+            border-radius: 6px;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: #fcf8ee;
+        }
+
+        legend {
+            color: #8c6d3f;
+            padding: 0 10px;
+            font-weight: bold;
+        }
+
+        /* 📐 NUEVA ESTRUCTURA DE FILAS Y COLUMNAS RESPONSIVAS */
+        .campo-fila {
+            display: grid;
+            grid-template-columns: 1fr; /* Por defecto en celu: una sola columna */
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* Cuando la pantalla es más grande (tablets y compus), aplicamos las columnas */
+        @media (min-width: 580px) {
+            /* Fila de Correo y Celular (50% y 50%) */
+            fieldset:nth-of-type(1) .campo-fila {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            /* Fila de Dirección: Calle (flexible), Número (fijo corto), Depto (fijo corto) */
+            fieldset:nth-of-type(2) .campo-fila:nth-of-type(1) {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+
+            /* Fila de Localidad, Provincia y CP (3 columnas iguales) */
+            fieldset:nth-of-type(2) .campo-fila:nth-of-type(2) {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .campo-grupo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .campo-grupo label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.95em;
+            font-weight: bold;
+            color: #2b1d0f;
+            white-space: nowrap; /* Evita que las etiquetas se corten en renglones raros */
+        }
+
+        input[type="text"], input[type="tel"], input[type="email"], select {
+            width: 100%;
+            padding: 12px;
+            background-color: #fffdf9;
+            border: 1px solid #c5a880;
+            border-radius: 4px;
+            color: #2b1d0f;
+            font-family: 'Almendra', serif;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        /* ✨ El brillo dorado que te gustaba cuando hacés foco */
+        input:focus, select:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+            background-color: #ffffff;
+        }
+
+        .opcion-seleccion {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid rgba(197, 168, 128, 0.3);
+            border-radius: 4px;
+            background: #fffdf9;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .opcion-seleccion:hover {
+            background: #f7f1e1;
+            border-color: #d4af37;
+        }
+
+        input[type="radio"] {
+            accent-color: #2b1d0f;
+            transform: scale(1.2);
+        }
+
+        /* Bloque Derecho: Resumen del Pedido */
+        .checkout-resumen {
+            width: 100%;
+            background: #fdfaf2;
+            border: 1px solid #c5a880;
+            border-radius: 8px;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(43, 29, 15, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .checkout-resumen {
+                width: 380px;
+                position: sticky;
+                top: 20px;
+            }
+        }
+
+        .lista-items-checkout {
+            max-height: 240px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(197, 168, 128, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .item-checkout {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+        }
+
+        .item-checkout img {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #c5a880;
+        }
+
+        .item-detalles {
+            flex: 1;
+        }
+
+        .item-titulo {
+            font-size: 0.95em;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .item-cantidad {
+            font-size: 0.85em;
+            color: rgba(43, 29, 15, 0.7);
+            margin: 2px 0 0 0;
+        }
+
+        .item-precio {
+            font-weight: bold;
+            color: #8c6d3f;
+        }
+
+        .valores-finales p {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 0.95em;
+        }
+
+        .total-destacado {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.3em;
+            color: #2b1d0f;
+            border-top: 2px dashed #c5a880;
+            margin-top: 12px;
+            padding-top: 10px;
+            font-weight: bold;
+        }
+
+        /* Botón de Confirmación igual de imponente al de Unirme a Hayom */
+        .boton-finalizar {
+            display: block;
+            width: 100%;
+            background: #2b1d0f;
+            color: #f1ebd9;
+            border: none;
+            padding: 14px;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.05em;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .boton-finalizar:hover {
+            background: #422d19;
+            transform: translateY(-1px);
+        }
+
+        .boton-volver {
+            display: inline-block;
+            color: #2b1d0f;
+            text-decoration: underline;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="boton-volver">← Volver a la tienda</a>
+
+    <div class="checkout-contenedor">
+        
+        <!-- 📝 FORMULARIO IZQUIERDO -->
+        <main class="checkout-formulario">
+            <h2>Datos de tu pedido</h2>
+            
+            <form id="formulario-checkout-real">
+                
+                <!-- 👤 DATOS PERSONALES -->
+                <fieldset>
+                    <legend>1. Datos de Contacto</legend>
+                    <div class="campo-grupo">
+                        <label for="checkout-nombre">Nombre Completo *</label>
+                        <input type="text" id="checkout-nombre" required placeholder="Ej: Abigail Pérez">
+                    </div>
+                    <div class="campo-fila">
+                        <div class="campo-grupo" style="flex: 1;">
+                            <label for="checkout-email">Correo Electrónico *</label>
+                            <input type="email" id="checkout-email" required placeholder="tu@email.com">
+                        </div>
+                        <div class="campo-grupo" style="flex: 1;">
+                            <label for="checkout-telefono">Celular *</label>
+                            <input type="tel" id="checkout-telefono" required placeholder="Ej: 11 1234-5678">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <!-- 🚚 FORMA DE ENTREGA (CAMPOS DINÁMICOS IGUALES A IMAGE_B265E4) -->
+                <fieldset>
+                    <legend>2. Forma de Entrega</legend>
+                    
+                    <label class="opcion-seleccion">
+                        <input type="radio" name="forma-entrega" value="retiro" checked>
+                        <div>
+                            <strong>Retiro en punto de entrega (Gratis)</strong>
+                            <br><small style="color: rgba(43,29,15,0.7)">Coordinamos día y horario por privado</small>
+                        </div>
+                    </label>
+
+                    <label class="opcion-seleccion">
+                        <input type="radio" name="forma-entrega" value="envio">
+                        <div>
+                            <strong>Envío a domicilio / sucursal</strong>
+                            <br><small style="color: rgba(43,29,15,0.7)">Costo adicional según zona</small>
+                        </div>
+                    </label>
+
+                    <!-- Bloque de Dirección separado tal cual lo pediste -->
+                    <div id="checkout-bloque-direccion" style="display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(197, 168, 128, 0.3);">
+                        
+                        <div class="campo-fila">
+                            <div class="campo-grupo" style="flex: 3;">
+                                <label for="checkout-calle">Calle *</label>
+                                <input type="text" id="checkout-calle" placeholder="Nombre de la calle">
+                            </div>
+                            <div class="campo-grupo" style="flex: 1;">
+                                <label for="checkout-numero">Número *</label>
+                                <input type="text" id="checkout-numero" placeholder="Ej: 1482">
+                            </div>
+                            <div class="campo-grupo" style="flex: 1;">
+                                <label for="checkout-depto">Piso/Depto</label>
+                                <input type="text" id="checkout-depto" placeholder="Ej: 4B (Opcional)">
+                            </div>
+                        </div>
+
+                        <div class="campo-fila">
+                            <div class="campo-grupo" style="flex: 1;">
+                                <label for="checkout-localidad">Ciudad / Localidad *</label>
+                                <input type="text" id="checkout-localidad" placeholder="Ej: San Miguel">
+                            </div>
+                            <div class="campo-grupo" style="flex: 1;">
+                                <label for="checkout-provincia">Provincia *</label>
+                                <input type="text" id="checkout-provincia" placeholder="Ej: Buenos Aires">
+                            </div>
+                            <div class="campo-grupo" style="flex: 1;">
+                                <label for="checkout-cp">Código Postal *</label>
+                                <input type="text" id="checkout-cp" placeholder="Ej: 1663">
+                            </div>
+                        </div>
+
+                    </div>
+                </fieldset>
+
+                <!-- 💳 MÉTODO DE PAGO -->
+                <fieldset>
+                    <legend>3. Método de Pago</legend>
+                    
+                    <label class="opcion-seleccion">
+                        <input type="radio" name="forma-pago" value="transferencia" checked>
+                        <div>
+                            <strong>Transferencia Bancaria</strong>
+                            <br><small style="color: rgba(43,29,15,0.7)">Te mostramos los datos de cuenta al finalizar</small>
+                        </div>
+                    </label>
+
+                    <label class="opcion-seleccion">
+                        <input type="radio" name="forma-pago" value="efectivo">
+                        <div>
+                            <strong>Efectivo</strong>
+                            <br><small style="color: rgba(43,29,15,0.7)">Válido únicamente retirando presencialmente</small>
+                        </div>
+                    </label>
+
+                    <label class="opcion-seleccion">
+                        <input type="radio" name="forma-pago" value="mercadopago">
+                        <div>
+                            <strong>Mercado Pago / Tarjetas</strong>
+                            <br><small style="color: rgba(43,29,15,0.7)">Débito, crédito o dinero en cuenta</small>
+                        </div>
+                    </label>
+                </fieldset>
+                <button type="submit" class="boton-finalizar">Confirmar Pedido</button>
+            </form>
+        </main>
+
+        <!-- 📦 RESUMEN DERECHO -->
+        <aside class="checkout-resumen">
+            <h3>Tu Carrito</h3>
+            <div id="items-resumen-checkout" class="lista-items-checkout"></div>
+
+            <div class="valores-finales">
+                <p><span>Subtotal:</span> <span id="resumen-subtotal">$0</span></p>
+                <p><span>Descuentos:</span> <span id="resumen-descuento" style="color: #278027; font-weight: bold;">$0</span></p>
+                <p><span>Envío:</span> <span id="resumen-envio">Gratis</span></p>
+                
+                <div class="total-destacado">
+                    <span>Total:</span>
+                    <span id="resumen-total-general">$0</span>
+                </div>
+            </div>
+
+            
+        </aside>
+
+    </div>
+
+    <script src="js/carrito.js"></script>
+    <script src="js/checkoutUI.js"></script>
+</body>
+</html>

@@ -413,6 +413,20 @@
     cursor: not-allowed;
 }
 
+/* Ajustes para que no se encimen los elementos en el celular */
+@media (max-width: 768px) {
+    .selector-variante {
+        display: block;
+        width: 100%;
+        margin-bottom: 15px !important; /* Fuerza un espacio abajo del desplegable */
+    }
+    
+    .categoria-caja a, .categoria-caja button,
+    .tarjeta-producto .boton-comprar, .boton-volver-blog {
+        margin-top: 5px !important;
+    }
+}
+
 /* ==========================================================================
    🌟 AJUSTE CON MÁS IMPACTO PARA EL TÍTULO EN CELULARES 📱
    ========================================================================== */

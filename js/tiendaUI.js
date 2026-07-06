@@ -51,9 +51,15 @@ function inyectarEstructuraCarrito() {
     `;
     document.body.appendChild(panelLateral);
 
-    // 3. EVENTOS: Hacemos que el botón flotante abra el carrito y el de la cruz lo cierre
+// 3. EVENTOS: Hacemos que el botón flotante abra el carrito y el de la cruz lo cierre
     botonFlotante.addEventListener('click', () => panelLateral.classList.remove('carrito-oculto'));
     document.getElementById('carrito-cerrar').addEventListener('click', () => panelLateral.classList.add('carrito-oculto'));
+
+    // 🚀 REDIRECCIÓN AL CHECKOUT (PASO 3)
+    document.getElementById('carrito-boton-checkout').addEventListener('click', () => {
+        // Redirige directamente a la nueva página que creaste
+        window.location.href = 'checkout.html';
+    });
 }
 
 
