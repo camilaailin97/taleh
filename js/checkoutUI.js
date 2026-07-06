@@ -121,15 +121,18 @@ console.log("TIPO:", typeof totalFinal);
     boton.textContent = "Conectando...";
 
     try {
-const respuesta = await fetch("https://taleh-api.infinityfreeapp.com/crear_preferencia.php", {
-    method: "POST",
-    body: new URLSearchParams({
-    total: totalFinal,
-    nombre: nombreCliente
-})
-});
+    const respuesta = await fetch("https://taleh-api.onrender.com/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json" // IMPORTANTE: Indicar que envías JSON
+        },
+        body: JSON.stringify({ // IMPORTANTE: Convertir a string el objeto
+            total: totalFinal,
+            nombre: nombreCliente
+        })
+    });
 
-const data = await respuesta.json();
+    const data = await respuesta.json();
 
 console.log(data);
 
