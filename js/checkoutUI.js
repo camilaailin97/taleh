@@ -23,7 +23,7 @@ function abrirModal(titulo, mensaje, mostrarDatos, esTransferencia = false) {
     document.getElementById('modal-pago').style.display = 'flex';
 }
 
-emailjs.init("mNybPhj1LBKcTnrN8"); // La encontrás en tu panel EmailJS -> Account -> API Keys
+emailjs.init("mNybPhj1LBKcTnrN8"); 
 
 // --- LÓGICA PRINCIPAL ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         txtTotal.textContent = `$${subtotalConDescuento}`;
     }
 
+    // --- LÓGICA DE ENVÍO Y CÁLCULOS (MANTENIDA) ---
     const PRECIO_ENVIO_LOCAL = 4500;
     const PRECIO_ENVIO_NACIONAL = 6800;
     let costoEnvioActual = 0;
@@ -140,8 +141,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- EVENTO SUBMIT (MODIFICADO) ---
     formPedido.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        // 1. Preparar datos de dirección para el mail
+        const esEnvio = document.querySelector('input[name="forma-entrega"][value="envio"]').checked;
+        const dir = esEnvio ? 
+            `${document.getElementById('checkout-calle').value} ${document.getElementById('checkout-numero').value}, ${document.getElementById('checkout-depto').value || ''} - ${document.getElementById('checkout-localidad').value}, ${document.getElementById('checkout-provincia').value} (CP: ${document.getElementById('checkout-cp').value})` 
+            : "Retiro en local";
+
+        // 2. DISPARAR ENVÍO DE EMAIL (Antes de abrir modales o redirigir)
+        emailjs.send('service_izruv7a', '__ejs-test-mail-service__', {
+            nombre: document.getElementById('checkout-nombre').value,
+            email: document.getElementById('checkout-email').value,
+            lista_productos: datosCheckout.map(p => `${p.titulo} x${p.cantidad}`).join(', '),
+            total: txtTotal.textContent,
+            metodo_pago: document.querySelector('input[name="forma-pago"]:checked').value,
+            forma_entrega: document.querySelector('input[name="forma-entrega"]:checked').value,
+            datos_envio: dir
+        }).then(() => console.log("Email enviado")).catch(err => console.error("Error email:", err));
+
+        // 3. Lógica de Modales (Transferencia/Efectivo)
         const metodoElegido = document.querySelector('input[name="forma-pago"]:checked')?.value;
 
         if (metodoElegido === 'transferencia') {
@@ -154,25 +175,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // 4. Lógica Mercado Pago
         const boton = formPedido.querySelector('button[type="submit"]');
-        const textoTotal = txtTotal.textContent;
-        const totalFinal = Number(textoTotal.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
+        const totalFinal = Number(txtTotal.textContent.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
 
         boton.disabled = true;
         boton.textContent = "Conectando...";
-
-// Ejemplo de cómo disparar el envío
-emailjs.send('service_izruv7a', '__ejs-test-mail-service__', {
-    nombre: document.getElementById('checkout-nombre').value,
-    email: document.getElementById('checkout-email').value,
-    lista_productos: datosCheckout.map(p => `${p.titulo} x${p.cantidad}`).join(', '),
-    total: txtTotal.textContent,
-    metodo_pago: document.querySelector('input[name="forma-pago"]:checked').value,
-    forma_entrega: document.querySelector('input[name="forma-entrega"]:checked').value,
-    datos_envio: document.getElementById('checkout-direccion')?.value || "Retiro en local"
-})
-.then(() => console.log("¡Email enviado con éxito!"))
-.catch(err => console.error("Error al enviar email:", err));
 
         try {
             const respuesta = await fetch("https://taleh-api.onrender.com/", {
