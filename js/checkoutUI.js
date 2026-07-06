@@ -129,7 +129,7 @@ formPedido.addEventListener('submit', async (e) => {
     }
 
     if (metodoElegido === 'efectivo') {
-        abrirModal("¡Pedido Registrado!", "Recordá que el pago es únicamente retirando presencialmente en nuestro punto: Calle Falsa 123, San Miguel.", false);
+        abrirModal("¡Pedido Registrado!", "Recordá que el pago es únicamente retirando presencialmente en nuestro punto: Calle Pola 682, Ciudad Autónoma de Buenos Aires.", false);
         return;
     }
     // --------------------------------------------------
