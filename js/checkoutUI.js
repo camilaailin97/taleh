@@ -103,32 +103,44 @@ formPedido.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     const boton = formPedido.querySelector('button[type="submit"]');
-    const totalFinal = document.getElementById('resumen-total-general').textContent;
+const textoTotal = document.getElementById('resumen-total-general').textContent;
+
+const totalFinal = Number(
+    textoTotal
+        .replace("$", "")
+        .replace(/\./g, "")
+        .replace(",", ".")
+        .trim()
+);
+
+console.log("TOTAL:", totalFinal);
+console.log("TIPO:", typeof totalFinal);
     const nombreCliente = document.getElementById('checkout-nombre').value;
     
     boton.disabled = true;
     boton.textContent = "Conectando...";
 
     try {
-        const respuesta = await fetch('https://taleh-api.infinityfreeapp.com/crear_preferencia.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                total: parseFloat(totalFinal.replace('$', '')), 
-                nombre: nombreCliente 
-            })
-        });
+const respuesta = await fetch("https://taleh-api.infinityfreeapp.com/crear_preferencia.php", {
+    method: "POST",
+    body: new URLSearchParams({
+    total: totalFinal,
+    nombre: nombreCliente
+})
+});
 
-        const data = await respuesta.json();
+const data = await respuesta.json();
 
-        if (data.init_point) {
-            window.location.href = data.init_point;
-        } else {
-            console.error("Error en respuesta:", data);
-            alert("Hubo un error al conectar con Mercado Pago.");
-            boton.disabled = false;
-            boton.textContent = "CONFIRMAR PEDIDO";
-        }
+console.log(data);
+
+if (data.init_point) {
+    window.location.href = data.init_point;
+} else {
+    console.error(data);
+    alert("Error al crear la preferencia.");
+    boton.disabled = false;
+    boton.textContent = "CONFIRMAR PEDIDO";
+}
     } catch (err) {
         console.error("Error:", err);
         alert("No se pudo conectar con el servidor.");
