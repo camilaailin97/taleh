@@ -118,42 +118,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    formPedido.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const metodoElegido = document.querySelector('input[name="forma-pago"]:checked')?.value;
+formPedido.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const metodoElegido = document.querySelector('input[name="forma-pago"]:checked')?.value;
 
-        if (metodoElegido !== 'mercadopago') {
-            alert("¡Pedido registrado! Nos pondremos en contacto por WhatsApp para coordinar el pago.");
-            return; 
-        }
+    // --- NUEVA LÓGICA PARA TRANSFERENCIA Y EFECTIVO ---
+    if (metodoElegido === 'transferencia') {
+        abrirModal("¡Pedido Registrado!", "Realizá la transferencia con los datos a continuación y envianos el comprobante por WhatsApp.", true);
+        return; 
+    }
 
-        const boton = formPedido.querySelector('button[type="submit"]');
-        const textoTotal = txtTotal.textContent;
-        const totalFinal = Number(textoTotal.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
+    if (metodoElegido === 'efectivo') {
+        abrirModal("¡Pedido Registrado!", "Recordá que el pago es únicamente retirando presencialmente en nuestro punto: Calle Falsa 123, San Miguel.", false);
+        return;
+    }
+    // --------------------------------------------------
 
-        boton.disabled = true;
-        boton.textContent = "Conectando...";
+    const boton = formPedido.querySelector('button[type="submit"]');
+    const textoTotal = txtTotal.textContent;
+    const totalFinal = Number(textoTotal.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
 
-        try {
-            const respuesta = await fetch("https://taleh-api.onrender.com/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ total: totalFinal })
-            });
-            const data = await respuesta.json();
-            if (data.init_point) {
-                window.location.href = data.init_point;
-            } else {
-                alert("Error al conectar con Mercado Pago.");
-                boton.disabled = false;
-                boton.textContent = "CONFIRMAR PEDIDO";
-            }
-        } catch (err) {
-            alert("Error de red.");
+    boton.disabled = true;
+    boton.textContent = "Conectando...";
+
+    try {
+        const respuesta = await fetch("https://taleh-api.onrender.com/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ total: totalFinal })
+        });
+        const data = await respuesta.json();
+        if (data.init_point) {
+            window.location.href = data.init_point;
+        } else {
+            alert("Error al conectar con Mercado Pago.");
             boton.disabled = false;
             boton.textContent = "CONFIRMAR PEDIDO";
         }
-    });
+    } catch (err) {
+        alert("Error de red.");
+        boton.disabled = false;
+        boton.textContent = "CONFIRMAR PEDIDO";
+    }
+});
+
+// Agrega estas funciones al final del archivo, fuera del addEventListener
+function abrirModal(titulo, mensaje, mostrarDatos) {
+    document.getElementById('titulo-modal').textContent = titulo;
+    document.getElementById('mensaje-modal').textContent = mensaje;
+    document.getElementById('datos-bancarios').style.display = mostrarDatos ? 'block' : 'none';
+    document.getElementById('modal-pago').style.display = 'flex';
+}
+
+function cerrarModal() {
+    document.getElementById('modal-pago').style.display = 'none';
+}
 
     cargarResumenCheckout();
 });
