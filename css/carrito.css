@@ -256,12 +256,11 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
 }
 
-/* 🔘 Selectores de variantes */
 .selector-variante {
     display: block;
-    width: 80%;
-    max-width: 200px;
-    margin: 0 auto 10px auto;
+    width: 100%;
+    max-width: 240px;
+    margin: 15px auto 5px auto; /* 💡 Da espacio arriba y abajo del desplegable */
     background-color: rgba(26, 18, 12, 0.8);
     color: #f4ebd0;
     border: 1px solid rgba(191, 161, 122, 0.5);
@@ -276,6 +275,36 @@
 .selector-variante:focus {
     outline: none;
     border-color: #bfa17a;
+}
+
+/* 🖼️ Estilos para las miniaturas en el carrito */
+.item-foto-contenedor {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0; /* Evita que la foto se aplaste si el título es largo */
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(244, 235, 208, 0.2);
+    background-color: #140e09;
+}
+
+.carrito-item-mini {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Recorta la foto perfectamente en un cuadrado sin deformarla */
+    display: block;
+}
+
+/* Un pequeño ajuste a la fila para que se alinee todo en el centro horizontal */
+.carrito-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.item-info {
+    flex: 1; /* Hace que el título ocupe el espacio sobrante de forma limpia */
 }
 
 /* 📱 Optimización para Celulares */

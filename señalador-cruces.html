@@ -6,6 +6,7 @@
     <!-- 1. ACÁ DESVINCULAMOS BIBLIOTECA Y VINCULAMOS EL NUEVO CSS -->
      <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/señalador-cruces.css">
+        <link rel="stylesheet" href="css/carrito.css">
     <title>Agenda Maranata - Taleh</title>
 </head>
 <!-- 2. CAMBIAMOS LA CLASE DEL BODY PARA QUE NADA DEL CATÁLOGO AFECTE ESTA PÁGINA -->
@@ -39,9 +40,23 @@ Son livianos, resistentes y plastificados, ideales para el uso diario sin que se
 
         <div class="caja-final-blog">
             <p class="cita-texto"><em>Un detalle simple que acompaña y embellece cada momento de lectura.</em></p>
-            <a href="https://wa.me/TUNUMERO" class="boton-comprar-blog">Comprar por WhatsApp</a>
+        <!-- Desplegable para elegir un solo color -->
+        <select class="selector-variante">
+            <option value="Lila">Lila</option>
+            <option value="Rojo">Rojo</option>
+            <option value="Azul-Cruz-Naranja">Azul/Cruz Naranja</option>
+            <option value="Azul">Azul</option>
+        </select>
+
+        <div style="margin-top: 10px;">
+            <!-- 💡 Marcamos data-categoria="cruce-rosa" para que el JS sepa que aplican juntos a la promo -->
+            <a href="#" class="boton-comprar" data-id="señalador-cruz" data-titulo="Señalador Cruz" data-precio="900" data-categoria="cruce-rosa" data-imagen="imagenes/seccion-biblioteca/productos/señaladores/cruces.jpeg">
+                Agregar al carrito
+            </a>
+        </div>
         </div>
     </div>
-
+<script src="js/carrito.js"></script>
+    <script src="js/tiendaUI.js"></script>
 </body>
 </html>

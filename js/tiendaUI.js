@@ -56,54 +56,7 @@ function inyectarEstructuraCarrito() {
     document.getElementById('carrito-cerrar').addEventListener('click', () => panelLateral.classList.add('carrito-oculto'));
 }
 
-/**
- * Recorre el carrito actual (del cerebro) y dibuja los elementos en el panel lateral.
- */
-function renderizarCarrito() {
-    const listaContenedor = document.getElementById('carrito-items-lista');
-    const contadorBoton = document.getElementById('carrito-contador');
-    const subtotalPantalla = document.getElementById('carrito-subtotal-valor');
-    
-    if (!listaContenedor) return;
 
-    // Limpiamos el HTML viejo antes de redibujar
-    listaContenedor.innerHTML = '';
-
-    // Si el carrito está vacío, mostramos un mensaje poético adaptado a Taleh
-    if (carrito.length === 0) {
-        listaContenedor.innerHTML = '<p class="carrito-vacio-msg">El carrito está esperando tus lecturas.</p>';
-        contadorBoton.innerText = '0';
-        subtotalPantalla.innerText = '$0';
-        return;
-    }
-
-    // Si tiene productos, los recorremos uno por uno
-    let totalItems = 0;
-    
-    carrito.forEach(producto => {
-        totalItems += producto.cantidad;
-        
-        const itemElemento = document.createElement('div');
-        itemElemento.className = 'carrito-item-row';
-        itemElemento.innerHTML = `
-            <div class="item-info">
-                <h4>${producto.titulo}</h4>
-                <p>$${producto.precio} c/u</p>
-            </div>
-            <div class="item-controles">
-                <button onclick="cambiarCantidadDesdeUI('${producto.id}', ${producto.cantidad - 1})">-</button>
-                <span>${producto.cantidad}</span>
-                <button onclick="cambiarCantidadDesdeUI('${producto.id}', ${producto.cantidad + 1})">+</button>
-                <button class="btn-eliminar" onclick="eliminarDesdeUI('${producto.id}')">🗑️</button>
-            </div>
-        `;
-        listaContenedor.appendChild(itemElemento);
-    });
-
-    // Actualizamos los números finales en la interfaz
-    contadorBoton.innerText = totalItems;
-    subtotalPantalla.innerText = `$${obtenerSubtotalCarrito()}`;
-}
 
 /**
  * Puentes intermedios que conectan los clics de la interfaz con las funciones del cerebro (carrito.js)
@@ -125,45 +78,107 @@ function vincularBotonesAgregar() {
     const botones = document.querySelectorAll('.boton-comprar');
     
     botones.forEach(boton => {
-        // 🔍 Buscamos si esta tarjeta específica tiene un selector de variantes
-        let contenedorCard = boton.parentElement;
+        let contenedorCard = boton.closest('.categoria-caja') || boton.parentElement;
         let selectorVariante = contenedorCard.querySelector('.selector-variante');
         
         if (!selectorVariante && contenedorCard.parentElement) {
             selectorVariante = contenedorCard.parentElement.querySelector('.selector-variante');
         }
 
-        // 📸 Si existe el selector (como en la Selah), programamos el cambio de foto
+        // 📸 1. CAMBIO DE FOTO EN VIVO (Para todos los productos)
         if (selectorVariante) {
             selectorVariante.addEventListener('change', (evento) => {
-                const varianteElegida = evento.target.value.toLowerCase(); // Ejemplo: "azul" o "rosa"
+                const varianteElegida = evento.target.value.toLowerCase();
+                let tarjetaCompleta = selectorVariante.closest('.categoria-caja') || selectorVariante.closest('.tarjeta-producto') || contenedorCard.parentElement;
                 
-                // Buscamos la imagen de la agenda dentro de la misma tarjeta
-                // (Asumiendo que tus tarjetas tienen una etiqueta <img> arriba)
-                let tarjetaCompleta = selectorVariante.closest('.tarjeta-producto') || contenedorCard.parentElement;
-                let imagenAgenda = tarjetaCompleta.querySelector('img');
-                
-                if (imagenAgenda) {
-                    // ⚠️ IMPORTANTE: Ajustá los nombres de tus archivos según cómo se llamen tus fotos reales
+                const botonDeEstaTarjeta = tarjetaCompleta.querySelector('.boton-comprar');
+                const idProducto = botonDeEstaTarjeta ? botonDeEstaTarjeta.getAttribute('data-id') : '';
+                let imagenProducto = tarjetaCompleta.querySelector('img');
+
+                if (!imagenProducto) return;
+
+                // 📔 CASO A: Agenda Selah
+                if (idProducto === 'agenda-selah') {
                     if (varianteElegida.includes('azul')) {
-                        imagenAgenda.src = 'imagenes/seccion-biblioteca/productos/agenda-selah/1.jpeg'; 
+                        imagenProducto.src = 'imagenes/seccion-biblioteca/productos/agenda-selah/1.jpeg'; 
                     } else if (varianteElegida.includes('violeta')) {
-                        imagenAgenda.src = 'imagenes/seccion-biblioteca/productos/agenda-selah/portada.jpeg'; // O el color/nombre base que tengas
+                        imagenProducto.src = 'imagenes/seccion-biblioteca/productos/agenda-selah/portada.jpeg'; 
+                    }
+                }
+                
+                // 📜 CASO B: Láminas Palabras en Hebreo
+                else if (idProducto === 'lamina-hebreo') {
+                    const rutaHebreo = 'imagenes/seccion-biblioteca/productos/laminas/hebreo-foil/';
+                    if (varianteElegida.includes('shalom')) {
+                        imagenProducto.src = rutaHebreo + 'shalom.jpeg';
+                    } else if (varianteElegida.includes('jesed')) {
+                        imagenProducto.src = rutaHebreo + 'jesed.jpeg';
+                    } else if (varianteElegida.includes('ahava')) {
+                        imagenProducto.src = rutaHebreo + 'ahava.jpeg';
+                    } else if (varianteElegida.includes('emuna')) {
+                        imagenProducto.src = rutaHebreo + 'emuna.jpeg';
+                    }
+                }
+
+                // 🏙️ CASO C: Láminas Metalizadas Plateadas (Arte Cristiano Urbano)
+                else if (idProducto === 'lamina-urbana') {
+                    const rutaUrbana = 'imagenes/seccion-biblioteca/productos/laminas/metalizados/';
+                    if (varianteElegida.includes('ojo')) {
+                        imagenProducto.src = rutaUrbana + 'ojo.jpeg';
+                    } else if (varianteElegida.includes('yeshua')) {
+                        imagenProducto.src = rutaUrbana + 'yeshua.jpeg';
+                    } else if (varianteElegida.includes('rey')) {
+                        imagenProducto.src = rutaUrbana + 'rey.jpeg';
+                    }
+                }
+                
+                // 🎨 CASO D: Láminas Diseños Metalizados Varios
+                else if (idProducto === 'lamina-foil-varios') {
+                    const rutaFoil = 'imagenes/seccion-biblioteca/productos/laminas/foil/';
+                    
+                    if (varianteElegida.includes('cruz corazón')) {
+                        imagenProducto.src = rutaFoil + 'cruz-corazon.jpeg';
+                    } else if (varianteElegida.includes('cuadro azul')) {
+                        imagenProducto.src = rutaFoil + 'cuadro-azul.jpeg';
+                    } else if (varianteElegida.includes('cuadro negro')) {
+                        imagenProducto.src = rutaFoil + 'cuadro-negro.jpeg';
+                    } else if (varianteElegida.includes('cuadro plateado')) {
+                        imagenProducto.src = rutaFoil + 'cuadro-plateado.jpeg';
+                    } else if (varianteElegida.includes('lámpara')) {
+                        imagenProducto.src = rutaFoil + 'lampara.jpeg';
+                    } else if (varianteElegida.includes('ojo foil') || varianteElegida.includes('llama de fuego')) {
+                        imagenProducto.src = rutaFoil + 'ojo-foil.jpeg';
+                    } else if (varianteElegida.includes('proverbios') && varianteElegida.includes('manchas')) {
+                        imagenProducto.src = rutaFoil + 'proverbios-manchas.jpeg';
+                    } else if (varianteElegida.includes('proverbios')) {
+                        imagenProducto.src = rutaFoil + 'proverbios.jpeg';
+                    } else if (varianteElegida.includes('rey de reyes') && varianteElegida.includes('dorado')) {
+                        imagenProducto.src = rutaFoil + 'rey-de-reyes-dorado.jpeg';
+                    } else if (varianteElegida.includes('rey de reyes') && varianteElegida.includes('plateado')) {
+                        imagenProducto.src = rutaFoil + 'rey-de-reyes-plateado.jpeg';
+                    } else if (varianteElegida.includes('rey de reyes') && varianteElegida.includes('rojo')) {
+                        imagenProducto.src = rutaFoil + 'rey-de-reyes-rojo.jpeg';
+                    } else if (varianteElegida.includes('yeshua') && varianteElegida.includes('azul')) {
+                        imagenProducto.src = rutaFoil + 'yeshua-es-rey-azul.jpeg';
+                    } else if (varianteElegida.includes('yeshua') && varianteElegida.includes('dorado')) {
+                        imagenProducto.src = rutaFoil + 'yeshua-es-rey-dorado.jpeg';
                     }
                 }
             });
         }
         
-        // 🛒 Evento del clic para agregar al carrito (se mantiene igual a como lo tenías)
+        // 🛒 2. EVENTO CLIC PARA AGREGAR AL CARRITO
         boton.addEventListener('click', (evento) => {
             evento.preventDefault();
             
             const idBase = boton.getAttribute('data-id');
             let titulo = boton.getAttribute('data-titulo');
             const precio = parseInt(boton.getAttribute('data-precio')) || 0;
+            let imagenUrl = boton.getAttribute('data-imagen') || 'imagenes/default.jpg';
+            const categoria = boton.getAttribute('data-categoria') || 'general';
             
             if (!idBase || !titulo) {
-                console.error("Faltan atributos data-id o data-titulo en este botón.");
+                console.error("Faltan atributos en este botón.");
                 return;
             }
             
@@ -173,11 +188,108 @@ function vincularBotonesAgregar() {
                 const varianteElegida = selectorVariante.value;
                 titulo = `${titulo} (${varianteElegida})`;
                 idFinal = `${idBase}-${varianteElegida.toLowerCase().replace(/\s+/g, '-')}`;
+                
+                const varianteMinuscula = varianteElegida.toLowerCase();
+                
+                if (idBase === 'agenda-selah') {
+                    if (varianteMinuscula.includes('azul')) {
+                        imagenUrl = 'imagenes/seccion-biblioteca/productos/agenda-selah/1.jpeg'; 
+                    } else if (varianteMinuscula.includes('violeta')) {
+                        imagenUrl = 'imagenes/seccion-biblioteca/productos/agenda-selah/portada.jpeg'; 
+                    }
+                } else if (idBase === 'lamina-hebreo') {
+                    if (varianteMinuscula.includes('shalom')) imagenUrl = 'imagenes/seccion-biblioteca/productos/laminas/hebreo-foil/shalom.jpeg';
+                    else if (varianteMinuscula.includes('jesed')) imagenUrl = 'imagenes/seccion-biblioteca/productos/laminas/hebreo-foil/jesed.jpeg';
+                    else if (varianteMinuscula.includes('ahava')) imagenUrl = 'imagenes/seccion-biblioteca/productos/laminas/hebreo-foil/ahava.jpeg';
+                    else if (varianteMinuscula.includes('emuna')) imagenUrl = 'imagenes/seccion-biblioteca/productos/laminas/hebreo-foil/emuna.jpeg';
+                } else if (idBase === 'lamina-urbana') {
+                    if (varianteMinuscula.includes('ojo')) imagenUrl = 'imagenes/seccion-biblioteca/productos/laminas/metalizados/ojo.jpeg';
+                    else if (varianteMinuscula.includes('yeshua')) imagenUrl = 'imagenes/seccion-biblioteca/productos/laminas/metalizados/yeshua.jpeg';
+                    else if (varianteMinuscula.includes('rey')) imagenUrl = 'imagenes/seccion-biblioteca/productos/laminas/metalizados/rey.jpeg';
+                } else if (idBase === 'lamina-foil-varios') {
+                    const rutaFoil = 'imagenes/seccion-biblioteca/productos/laminas/foil/';
+                    
+                    if (varianteMinuscula.includes('cruz corazón')) {
+                        imagenUrl = rutaFoil + 'cruz-corazon.jpeg';
+                    } else if (varianteMinuscula.includes('cuadro azul')) {
+                        imagenUrl = rutaFoil + 'cuadro-azul.jpeg';
+                    } else if (varianteMinuscula.includes('cuadro negro')) {
+                        imagenUrl = rutaFoil + 'cuadro-negro.jpeg';
+                    } else if (varianteMinuscula.includes('cuadro plateado')) {
+                        imagenUrl = rutaFoil + 'cuadro-plateado.jpeg';
+                    } else if (varianteMinuscula.includes('lámpara')) {
+                        imagenUrl = rutaFoil + 'lampara.jpeg';
+                    } else if (varianteMinuscula.includes('ojo foil') || varianteMinuscula.includes('llama de fuego')) {
+                        imagenUrl = rutaFoil + 'ojo-foil.jpeg';
+                    } else if (varianteMinuscula.includes('proverbios') && varianteMinuscula.includes('manchas')) {
+                        imagenUrl = rutaFoil + 'proverbios-manchas.jpeg';
+                    } else if (varianteMinuscula.includes('proverbios')) {
+                        imagenUrl = rutaFoil + 'proverbios.jpeg';
+                    } else if (varianteMinuscula.includes('rey de reyes') && varianteMinuscula.includes('dorado')) {
+                        imagenUrl = rutaFoil + 'rey-de-reyes-dorado.jpeg';
+                    } else if (varianteMinuscula.includes('rey de reyes') && varianteMinuscula.includes('plateado')) {
+                        imagenUrl = rutaFoil + 'rey-de-reyes-plateado.jpeg';
+                    } else if (varianteMinuscula.includes('rey de reyes') && varianteMinuscula.includes('rojo')) {
+                        imagenUrl = rutaFoil + 'rey-de-reyes-rojo.jpeg';
+                    } else if (varianteMinuscula.includes('yeshua') && varianteMinuscula.includes('azul')) {
+                        imagenUrl = rutaFoil + 'yeshua-es-rey-azul.jpeg';
+                    } else if (varianteMinuscula.includes('yeshua') && varianteMinuscula.includes('dorado')) {
+                        imagenUrl = rutaFoil + 'yeshua-es-rey-dorado.jpeg';
+                    }
+                }
             }
             
-            agregarProductoAlCarrito(idFinal, titulo, precio);
+            agregarProductoAlCarrito(idFinal, titulo, precio, imagenUrl, categoria);
             renderizarCarrito();
             document.getElementById('carrito-lateral').classList.remove('carrito-oculto');
         });
     });
+}
+
+function renderizarCarrito() {
+    const listaContenedor = document.getElementById('carrito-items-lista');
+    const contadorBoton = document.getElementById('carrito-contador');
+    const subtotalPantalla = document.getElementById('carrito-subtotal-valor');
+    
+    if (!listaContenedor) return;
+
+    listaContenedor.innerHTML = '';
+
+    if (carrito.length === 0) {
+        listaContenedor.innerHTML = '<p class="carrito-vacio-msg">El carrito está esperando tus lecturas.</p>';
+        contadorBoton.innerText = '0';
+        subtotalPantalla.innerText = '$0';
+        return;
+    }
+
+    let totalItems = 0;
+    
+    carrito.forEach(producto => {
+        totalItems += producto.cantidad;
+        
+        // Buscamos la imagen guardada en el producto (o usamos una de respaldo)
+        const fotoProducto = producto.imagen || 'img/default.jpg';
+        
+        const itemElemento = document.createElement('div');
+        itemElemento.className = 'carrito-item-row';
+        itemElemento.innerHTML = `
+            <div class="item-foto-contenedor">
+                <img src="${fotoProducto}" alt="${producto.titulo}" class="carrito-item-mini">
+            </div>
+            <div class="item-info">
+                <h4>${producto.titulo}</h4>
+                <p>$${producto.precio} c/u</p>
+            </div>
+            <div class="item-controles">
+                <button onclick="cambiarCantidadDesdeUI('${producto.id}', ${producto.cantidad - 1})">-</button>
+                <span>${producto.cantidad}</span>
+                <button onclick="cambiarCantidadDesdeUI('${producto.id}', ${producto.cantidad + 1})">+</button>
+                <button class="btn-eliminar" onclick="eliminarDesdeUI('${producto.id}')">🗑️</button>
+            </div>
+        `;
+        listaContenedor.appendChild(itemElemento);
+    });
+
+    contadorBoton.innerText = totalItems;
+    subtotalPantalla.innerText = `$${obtenerSubtotalCarrito()}`;
 }

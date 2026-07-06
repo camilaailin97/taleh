@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/biblioteca.css">
+        <link rel="stylesheet" href="css/carrito.css">
     <title>Señaladores - Taleh</title>
 </head>
 <body class="contenedor-biblioteca">
@@ -13,38 +14,76 @@
     <p class="subtitulo-biblioteca">Acompaña cada lectura con un señalador que te permite mantener el hilo de la Palabra sin ocultar su belleza. Su acabado semitransparente aporta un diseño delicado y funcional para tus momentos de estudio y devoción.</p>
 
 <!-- AQUÍ EMPIEZAN TUS PRODUCTOS -->
-    <div class="seccion-productos">
+<div class="seccion-productos">
 
-        <!-- PRODUCTO 1: señaladores cruces -->
-        <div class="categoria-caja">
-            <img src="imagenes/seccion-biblioteca/productos/señaladores/cruces.jpeg" alt="Cruces" class="foto-producto" style="width: 100%; height: 200px; object-fit: contain; background: transparent; border: none; margin-bottom: 15px;">
-            <h3>Cruces</h3>
-            <p class="precio">Pack de 2 señaladores a elección · $1.500</p>
-            <p class="descripcion">Señaladores transparentes diseñados para acompañar tus momentos de lectura, estudio y devocional 🤍</p> 
-            <a href="señalador-cruces.html" class="boton-ver-detalles">Ver detalles</a>
+    <!-- PRODUCTO 1: Señalador Cruz (Individual) -->
+    <div class="categoria-caja">
+        <img src="imagenes/seccion-biblioteca/productos/señaladores/cruces.jpeg" alt="Cruces" class="foto-producto" style="width: 100%; height: 200px; object-fit: contain; background: transparent; border: none; margin-bottom: 15px;">
+        <h3>Señalador Cruz</h3>
+        <p class="precio">$900 c/u • Promo: 2 x $1.500 (Cruces y Rosas combinables)</p>
+        <p class="descripcion">Señaladores transparentes diseñados para acompañar tus momentos de lectura, estudio y devocional 🤍</p> 
+        <a href="señalador-cruces.html" class="boton-ver-detalles">Ver detalles</a>
+        
+        <!-- Desplegable para elegir un solo color -->
+        <select class="selector-variante">
+            <option value="Lila">Lila</option>
+            <option value="Rojo">Rojo</option>
+            <option value="Azul-Cruz-Naranja">Azul/Cruz Naranja</option>
+            <option value="Azul">Azul</option>
+        </select>
+
+        <div style="margin-top: 10px;">
+            <!-- 💡 Marcamos data-categoria="cruce-rosa" para que el JS sepa que aplican juntos a la promo -->
+            <a href="#" class="boton-comprar" data-id="señalador-cruz" data-titulo="Señalador Cruz" data-precio="900" data-categoria="cruce-rosa" data-imagen="imagenes/seccion-biblioteca/productos/señaladores/cruces.jpeg">
+                Agregar al carrito
+            </a>
         </div>
-
-        <!-- PRODUCTO 2: señaladores roras -->
-        <div class="categoria-caja">
-            <!-- Poné la ruta de la imagen de tu segunda agenda -->
-            <img src="imagenes/seccion-biblioteca/productos/señaladores/flores.jpeg" alt="Flores" class="foto-producto" style="width: 100%; height: 200px; object-fit: contain; background: transparent; border: none; margin-bottom: 15px;">
-            <h3>Rosas</h3>
-            <p class="precio">Pack de 2 señaladores · $1.500</p>
-            <p class="descripcion">Cada pieza combina un diseño delicado y significativo con un acabado translúcido que deja ver el texto sin perder claridad, creando una experiencia visual única sobre cada página.</p> 
-            <a href="señalador-rosas.html" class="boton-ver-detalles">Ver detalles</a>
-        </div>
-
-        <!-- PRODUCTO 3: señaladores espadas -->
-        <div class="categoria-caja">
-            <!-- Poné la ruta de la imagen de tu tercera agenda -->
-            <img src="imagenes/seccion-biblioteca/productos/señaladores/espadas.jpeg" alt="Espadas" class="foto-producto" style="width: 100%; height: 200px; object-fit: contain; background: transparent; border: none; margin-bottom: 15px;">
-            <h3>Espadas Apocalipsis 19</h3>
-            <p class="precio">Pack de 3 señaladores · $2000</p>
-            <p class="descripcion">Son livianos, resistentes y plastificados, ideales para el uso diario sin que se doblen ni se deterioren fácilmente. Perfectos para tu Biblia, libros o cuadernos, y también como un regalo especial con propósito.</p> 
-            <a href="señaladores-espadas.html" class="boton-ver-detalles">Ver detalles</a>
-        </div>
-
     </div>
 
+    <!-- PRODUCTO 2: Señalador Rosa (Individual) -->
+    <div class="categoria-caja">
+        <img src="imagenes/seccion-biblioteca/productos/señaladores/flores.jpeg" alt="Flores" class="foto-producto" style="width: 100%; height: 200px; object-fit: contain; background: transparent; border: none; margin-bottom: 15px;">
+        <h3>Señalador Rosa</h3>
+        <p class="precio">$900 c/u • Promo: 2 x $1.500 (Cruces y Rosas combinables)</p>
+        <p class="descripcion">Cada pieza combina un diseño delicado y significativo con un acabado translúcido que deja ver el texto sin perder claridad.</p> 
+        <a href="señalador-rosas.html" class="boton-ver-detalles">Ver detalles</a>
+        
+        <select class="selector-variante">
+            <option value="Naranja">Naranja</option>
+            <option value="Lila">Lila</option>
+        </select>
+
+        <div style="margin-top: 10px;">
+            <a href="#" class="boton-comprar" data-id="señalador-rosa" data-titulo="Señalador Rosa" data-precio="900" data-categoria="cruce-rosa" data-imagen="imagenes/seccion-biblioteca/productos/señaladores/flores.jpeg">
+                Agregar al carrito
+            </a>
+        </div>
+    </div>
+
+    <!-- PRODUCTO 3: Señalador Espada (Individual) -->
+    <div class="categoria-caja">
+        <img src="imagenes/seccion-biblioteca/productos/señaladores/espadas.jpeg" alt="Espadas" class="foto-producto" style="width: 100%; height: 200px; object-fit: contain; background: transparent; border: none; margin-bottom: 15px;">
+        <h3>Espada Apocalipsis 19</h3>
+        <p class="precio">$1.000 c/u • Promo: 2 x $1.800</p>
+        <p class="descripcion">Son livianos, resistentes y plastificados, ideales para el uso diario sin que se doblen ni se deterioren fácilmente.</p> 
+        <a href="señaladores-espadas.html" class="boton-ver-detalles">Ver detalles</a>
+        
+        <select class="selector-variante">
+            <option value="Marrón">Marrón</option>
+            <option value="Rojo">Rojo</option>
+            <option value="Azul">Azul</option>
+        </select>
+
+        <div style="margin-top: 10px;">
+            <!-- 💡 Categoría "espada" para su promo individual -->
+            <a href="#" class="boton-comprar" data-id="señalador-espada" data-titulo="Espada Apocalipsis" data-precio="1000" data-categoria="espada" data-imagen="imagenes/seccion-biblioteca/productos/señaladores/espadas.jpeg">
+                Agregar al carrito
+            </a>
+        </div>
+    </div>
+
+</div>
+<script src="js/carrito.js"></script>
+    <script src="js/tiendaUI.js"></script>
 </body>
 </html>

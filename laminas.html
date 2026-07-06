@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/biblioteca.css">
+        <link rel="stylesheet" href="css/carrito.css">
     <title>Láminas - Taleh</title>
 </head>
 <body class="contenedor-biblioteca">
@@ -14,37 +15,81 @@
 
 
     <!-- AQUÍ EMPIEZAN TUS PRODUCTOS -->
-    <div class="seccion-productos">
+<div class="seccion-productos">
 
-        <!-- PRODUCTO 1: -->
         <div class="categoria-caja">
             <img src="imagenes/seccion-biblioteca/productos/laminas/hebreo-foil/laminas.jpeg" alt="Hebreo" class="foto-producto" style="width: 100%; height: 200px; object-fit: contain; background: transparent; border: none; margin-bottom: 15px;">
-            <h3>Palabras en Hebreo y detalle plateado | Decoración Espiritual</h3>
-            <p class="precio">Set de 4 láminas · $4.000</p>
+            <h3>Láminas Palabras en Hebreo | Decoración Espiritual</h3>
+            <p class="precio">$1.500 c/u • Promo: Set de 4 por $4.000</p>
             <p class="descripcion">Láminas A4 diseñadas para llenar tus espacios de significado, belleza y profundidad espiritual 🤍</p> 
             <a href="laminas-hebreo-foil.html" class="boton-ver-detalles">Ver detalles</a>
+            
+            <select class="selector-variante">
+                <option value="Shalom">Shalom</option>
+                <option value="Jesed">Jesed</option>
+                <option value="Ahava">Ahava</option>
+                <option value="Emuna">Emuna</option>
+            </select>
+
+            <div style="margin-top: 10px;">
+                <a href="#" class="boton-comprar" data-id="lamina-hebreo" data-titulo="Lámina Hebreo" data-precio="1500" data-categoria="set-hebreo" data-imagen="imagenes/seccion-biblioteca/productos/laminas/hebreo-foil/laminas.jpeg">
+                    Agregar al carrito
+                </a>
+            </div>
         </div>
 
-        <!-- PRODUCTO 2 -->
         <div class="categoria-caja">
-            <!-- Poné la ruta de la imagen de tu segunda agenda -->
             <img src="imagenes/seccion-biblioteca/productos/laminas/metalizados/laminas.jpeg" alt="Metalizados" class="foto-producto" style="width: 100%; height: 200px; object-fit: contain; background: transparent; border: none; margin-bottom: 15px;">
-            <h3>Láminas A4 Metalizadas Plateadas | Arte Cristiano Urbano</h3>
-            <p class="precio">Set de 3 láminas · $4.000</p>
-            <p class="descripcion">Un diseño impactante que une fe, arte y expresión moderna 🔥</p> 
+            <h3>Láminas Metalizadas Plateadas | Arte Cristiano Urbano</h3>
+            <p class="precio">$1.500 c/u • Promo: Set de 3 por $4.000</p>
+            <p class="descripcion">Un diseño impactante que une fe, arte y expresión moderna con acabados en plata reluciente 🔥</p> 
             <a href="laminas-metalizadas.html" class="boton-ver-detalles">Ver detalles</a>
+            
+            <select class="selector-variante">
+                <option value="Ojo como llama de fuego">Ojo como llama de fuego</option>
+                <option value="Yeshua es Rey">Yeshua es Rey</option>
+                <option value="Rey de Reyes">Rey de Reyes</option>
+            </select>
+
+            <div style="margin-top: 10px;">
+                <a href="#" class="boton-comprar" data-id="lamina-urbana" data-titulo="Lámina Arte Urbano" data-precio="1500" data-categoria="set-urbano" data-imagen="imagenes/seccion-biblioteca/productos/laminas/metalizados/laminas.jpeg">
+                    Agregar al carrito
+                </a>
+            </div>
         </div>
 
-        <!-- PRODUCTO 3 -->
         <div class="categoria-caja">
-            <!-- Poné la ruta de la imagen de tu tercera agenda -->
             <img src="imagenes/seccion-biblioteca/productos/laminas/foil/laminas.jpeg" alt="Foil" class="foto-producto" style="width: 100%; height: 200px; object-fit: contain; background: transparent; border: none; margin-bottom: 15px;">
-            <h3>Láminas A4 | Diseños Metalizados</h3>
-            <p class="precio">Set de 3 láminas a elección  · $3.500</p>
-            <p class="descripcion">Cada lámina fue creada para reflejar la belleza del Reino a través del arte. Su acabado metalizado realza cada detalle, convirtiéndola en una pieza única para inspirar y transformar cualquier espacio.</p> 
+            <h3>Láminas A4 | Diseños Metalizados Varios</h3>
+            <p class="precio">$1.500 c/u • Promo: Set de 3 por $3.500</p>
+            <p class="descripcion">Cada lámina fue creada para reflejar la belleza del Reino a través del arte. Su acabado metalizado realza cada detalle.</p> 
             <a href="laminas-foil.html" class="boton-ver-detalles">Ver detalles</a>
+            
+            <select class="selector-variante">
+                <option value="Cruz Corazón">Cruz Corazón</option>
+                <option value="Cuadro Azul">Cuadro Azul</option>
+                <option value="Cuadro Negro">Cuadro Negro</option>
+                <option value="Cuadro Plateado">Cuadro Plateado</option>
+                <option value="Lámpara">Lámpara</option>
+                <option value="Proverbios Dorados">Proverbios (Dorado)</option>
+                <option value="Proverbios Manchas">Proverbios (Manchas)</option>
+                <option value="Rey de Reyes Dorado">Rey de Reyes (Dorado)</option>
+                <option value="Rey de Reyes Plateado">Rey de Reyes (Plateado)</option>
+                <option value="Rey de Reyes Rojo">Rey de Reyes (Rojo)</option>
+                <option value="Yeshua es Rey Azul">Yeshua es Rey (Azul)</option>
+                <option value="Yeshua es Rey Dorado">Yeshua es Rey (Dorado)</option>
+                <option value="Ojo como Llama de Fuego">Ojo como Llama de Fuego</option>
+            </select>
+
+            <div style="margin-top: 10px;">
+                <a href="#" class="boton-comprar" data-id="lamina-foil-varios" data-titulo="Lámina Foil Varios" data-precio="1500" data-categoria="set-foil-varios" data-imagen="imagenes/seccion-biblioteca/productos/laminas/foil/laminas.jpeg">
+                    Agregar al carrito
+                </a>
+            </div>
         </div>
 
     </div>
+    <script src="js/carrito.js"></script>
+    <script src="js/tiendaUI.js"></script>
 </body>
 </html>

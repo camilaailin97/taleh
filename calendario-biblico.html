@@ -6,6 +6,7 @@
     <!-- 1. ACÁ DESVINCULAMOS BIBLIOTECA Y VINCULAMOS EL NUEVO CSS -->
      <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/señalador-cruces.css">
+        <link rel="stylesheet" href="css/carrito.css">
     <title>Calendario Bíblico - Taleh</title>
 </head>
 <!-- 2. CAMBIAMOS LA CLASE DEL BODY PARA QUE NADA DEL CATÁLOGO AFECTE ESTA PÁGINA -->
@@ -41,11 +42,16 @@
 
         <div class="caja-final-blog">
             <p class="cita-texto"><em>Una herramienta pensada para vivir cada día con propósito, orden y conexión con la Palabra.</em></p>
-            <a href="https://wa.me/TUNUMERO" class="boton-comprar-blog">Comprar por WhatsApp</a>
+            <div style="margin-top: 10px;">
+            <a href="#" class="boton-comprar" data-id="calendario-biblico" data-titulo="Calendario Bíblico" data-precio="10000" data-imagen="imagenes/seccion-biblioteca/productos/calendarios/calendario1.jpeg">
+             Agregar al carrito
+             </a>
+            </div>
         </div>
     </div>
 
     
-
+<script src="js/carrito.js"></script>
+    <script src="js/tiendaUI.js"></script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- 1. ACÁ DESVINCULAMOS BIBLIOTECA Y VINCULAMOS EL NUEVO CSS -->
     <link rel="stylesheet" href="css/agenda-selah.css">
+        <link rel="stylesheet" href="css/carrito.css">
     <title>Agenda Selah - Taleh</title>
 </head>
 <!-- 2. CAMBIAMOS LA CLASE DEL BODY PARA QUE NADA DEL CATÁLOGO AFECTE ESTA PÁGINA -->
@@ -37,9 +38,18 @@
 
         <div class="caja-final-blog">
             <p class="cita-texto"><em>Inspirada en el videojuego Stardew Valley, la Agenda Selah no es solo una herramienta de organización; es un refugio para tu día a día. Diseñada bajo la premisa de “detente y escucha”, esta agenda es el espacio ideal para pausar la rutina, resetear el enfoque y custodiar la identidad que el Padre nos dio.</em></p>
-            <a href="https://wa.me/TUNUMERO" class="boton-comprar-blog">Comprar por WhatsApp</a>
+            <div style="margin-top: 10px;">
+            <select class="selector-variante">
+            <option value="Violeta">Color: Violeta</option>
+             <option value="Azul">Color: Azul</option>
+            </select>
+            <a href="#" class="boton-comprar" data-id="agenda-selah" data-titulo="Agenda Selah" data-precio="18000" data-imagen="imagenes/seccion-biblioteca/productos/agenda-selah/portada.jpeg">
+            Agregar al carrito
+            </a>
+            </div>
         </div>
     </div>
-
+<script src="js/carrito.js"></script>
+    <script src="js/tiendaUI.js"></script>
 </body>
 </html>

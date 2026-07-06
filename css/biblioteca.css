@@ -373,6 +373,46 @@
     transform: translateY(0);
 }
 
+.contenedor-colores-pack {
+    background-color: rgba(26, 18, 12, 0.6);
+    border: 1px solid rgba(191, 161, 122, 0.3);
+    padding: 10px;
+    border-radius: 6px;
+    margin: 12px 0;
+    text-align: left;
+}
+
+.instruccion-pack {
+    font-size: 12px;
+    color: #bfa17a;
+    margin: 0 0 8px 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.opcion-color {
+    display: block;
+    font-size: 14px;
+    color: #f4ebd0;
+    margin: 4px 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.opcion-color input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: #bfa17a; /* Cambia el color del tilde interno al tono dorado */
+    cursor: pointer;
+}
+
+/* Estilo cuando el checkbox queda deshabilitado */
+.opcion-color input[type="checkbox"]:disabled + span, 
+.opcion-color input[type="checkbox"]:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 /* ==========================================================================
    🌟 AJUSTE CON MÁS IMPACTO PARA EL TÍTULO EN CELULARES 📱
    ========================================================================== */

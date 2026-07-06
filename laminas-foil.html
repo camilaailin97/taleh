@@ -6,6 +6,7 @@
     <!-- 1. ACÁ DESVINCULAMOS BIBLIOTECA Y VINCULAMOS EL NUEVO CSS -->
      <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400;1,700&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/señalador-cruces.css">
+        <link rel="stylesheet" href="css/carrito.css">
     <title>Láminas Metalizadas - Taleh</title>
 </head>
 <!-- 2. CAMBIAMOS LA CLASE DEL BODY PARA QUE NADA DEL CATÁLOGO AFECTE ESTA PÁGINA -->
@@ -104,9 +105,30 @@
 
         <div class="caja-final-blog">
             <p class="cita-texto"><em>✨ Ideales para decorar, regalar o inspirar tu tiempo con Dios.</em></p>
-            <a href="https://wa.me/TUNUMERO" class="boton-comprar-blog">Comprar por WhatsApp</a>
+            <select class="selector-variante">
+                <option value="Cruz Corazón">Cruz Corazón</option>
+                <option value="Cuadro Azul">Cuadro Azul</option>
+                <option value="Cuadro Negro">Cuadro Negro</option>
+                <option value="Cuadro Plateado">Cuadro Plateado</option>
+                <option value="Lámpara">Lámpara</option>
+                <option value="Proverbios Dorados">Proverbios (Dorado)</option>
+                <option value="Proverbios Manchas">Proverbios (Manchas)</option>
+                <option value="Rey de Reyes Dorado">Rey de Reyes (Dorado)</option>
+                <option value="Rey de Reyes Plateado">Rey de Reyes (Plateado)</option>
+                <option value="Rey de Reyes Rojo">Rey de Reyes (Rojo)</option>
+                <option value="Yeshua es Rey Azul">Yeshua es Rey (Azul)</option>
+                <option value="Yeshua es Rey Dorado">Yeshua es Rey (Dorado)</option>
+                <option value="Ojo como Llama de Fuego">Ojo como Llama de Fuego</option>
+            </select>
+
+            <div style="margin-top: 10px;">
+                <a href="#" class="boton-comprar" data-id="lamina-foil-varios" data-titulo="Lámina Foil Varios" data-precio="1500" data-categoria="set-foil-varios" data-imagen="imagenes/seccion-biblioteca/productos/laminas/foil/laminas.jpeg">
+                    Agregar al carrito
+                </a>
+            </div>
         </div>
     </div>
-
+<script src="js/carrito.js"></script>
+    <script src="js/tiendaUI.js"></script>
 </body>
 </html>

@@ -21,27 +21,27 @@ function guardarCarritoEnStorage() {
  * @param {string} titulo - Nombre visible del producto
  * @param {number} precio - Precio unitario del producto
  */
-function agregarProductoAlCarrito(id, titulo, precio) {
-    // Buscamos si el producto ya está en el carrito usando su ID
+
+// 1. Modificamos para recibir y guardar la categoría del producto
+function agregarProductoAlCarrito(id, titulo, precio, imagenUrl, categoria) {
     const productoExistente = carrito.find(item => item.id === id);
 
     if (productoExistente) {
-        // Si ya existe, simplemente le sumamos 1 a su cantidad
         productoExistente.cantidad += 1;
     } else {
-        // Si es un producto nuevo, lo creamos con cantidad 1 y lo empujamos (push) al array
         const nuevoProducto = {
             id: id,
             titulo: titulo,
             precio: precio,
-            cantidad: 1
+            cantidad: 1,
+            imagen: imagenUrl,
+            categoria: categoria || 'general' // 💡 Guardamos la categoría del producto
         };
         carrito.push(nuevoProducto);
     }
 
-    // Guardamos los cambios en la memoria del navegador
     guardarCarritoEnStorage();
-    console.log(`🛒 Producto agregado: ${titulo}. Carrito actual:`, carrito);
+    console.log(`🛒 Agregado: ${titulo} (Cat: ${categoria}).`, carrito);
 }
 
 /**
@@ -83,9 +83,63 @@ function eliminarProductoDelCarrito(id) {
  * Calcula la suma de los precios multiplicados por sus cantidades correspondientes.
  * @returns {number} El subtotal acumulado de la compra
  */
+// 2. Modificamos el cálculo del Subtotal para que aplique los descuentos automáticamente
 function obtenerSubtotalCarrito() {
-    // El método 'reduce' recorre el array y va acumulando el total matemático
-    return carrito.reduce((acumulado, item) => acumulado + (item.precio * item.cantidad), 0);
+    let subtotalTotal = 0;
+    
+    // Contadores para Señaladores
+    let contadorCrucesRosas = 0;
+    let contadorEspadas = 0;
+    
+    // Contadores para las nuevas promos de Láminas
+    let contadorHebreo = 0;
+    let contadorUrbano = 0;
+    let contadorFoilVarios = 0;
+
+    // Clasificamos y contamos cantidades por categoría
+    carrito.forEach(producto => {
+        if (producto.categoria === 'cruce-rosa') {
+            contadorCrucesRosas += producto.cantidad;
+        } else if (producto.categoria === 'espada') {
+            contadorEspadas += producto.cantidad;
+        } else if (producto.categoria === 'set-hebreo') {
+            contadorHebreo += producto.cantidad;
+        } else if (producto.categoria === 'set-urbano') {
+            contadorUrbano += producto.cantidad;
+        } else if (producto.categoria === 'set-foil-varios') {
+            contadorFoilVarios += producto.cantidad;
+        } else {
+            // Agendas y otros productos calculan directo sin promo
+            subtotalTotal += producto.precio * producto.cantidad;
+        }
+    });
+
+    // 🌟 PROMO SEÑALADORES: Cruces y Rosas (2 x $1500, sueltos $900)
+    const paresCrucesRosas = Math.floor(contadorCrucesRosas / 2);
+    const sueltosCrucesRosas = contadorCrucesRosas % 2;
+    subtotalTotal += (paresCrucesRosas * 1500) + (sueltosCrucesRosas * 900);
+
+    // 🌟 PROMO SEÑALADORES: Espadas (2 x $1800, sueltas $1000)
+    const paresEspadas = Math.floor(contadorEspadas / 2);
+    const sueltasEspadas = contadorEspadas % 2;
+    subtotalTotal += (paresEspadas * 1800) + (sueltasEspadas * 1000);
+
+    // 🌟 PROMO LÁMINAS 1: Set Hebreo (Cada grupo de 4 vale $4000, sueltas $1500)
+    const setsHebreo = Math.floor(contadorHebreo / 4);
+    const sueltasHebreo = contadorHebreo % 4;
+    subtotalTotal += (setsHebreo * 4000) + (sueltasHebreo * 1500);
+
+    // 🌟 PROMO LÁMINAS 2: Set Cristiano Urbano (Cada grupo de 3 vale $4000, sueltas $1500)
+    const setsUrbano = Math.floor(contadorUrbano / 3);
+    const sueltasUrbano = contadorUrbano % 3;
+    subtotalTotal += (setsUrbano * 4000) + (sueltasUrbano * 1500);
+
+    // 🌟 PROMO LÁMINAS 3: Set Foil Varios (Cada grupo de 3 vale $3500, sueltas $1500)
+    const setsFoilVarios = Math.floor(contadorFoilVarios / 3);
+    const sueltasFoilVarios = contadorFoilVarios % 3;
+    subtotalTotal += (setsFoilVarios * 3500) + (sueltasFoilVarios * 1500);
+
+    return subtotalTotal;
 }
 
 /**
