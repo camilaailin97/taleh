@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
             : "Retiro en local";
 
         // 2. DISPARAR ENVÍO DE EMAIL (Antes de abrir modales o redirigir)
-        emailjs.send('service_izruv7a', '__ejs-test-mail-service__', {
+        emailjs.send('service_izruv7a', 'template_3wgwcyl', {
             nombre: document.getElementById('checkout-nombre').value,
             email: document.getElementById('checkout-email').value,
             lista_productos: datosCheckout.map(p => `${p.titulo} x${p.cantidad}`).join(', '),
