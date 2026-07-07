@@ -1,4 +1,4 @@
-// --- FUNCIONES GLOBALES (FUERA DEL EVENTO) ---
+// --- FUNCIONES GLOBALES ---
 function cerrarModal() {
     document.getElementById('modal-pago').style.display = 'none';
 }
@@ -8,7 +8,6 @@ function abrirModal(titulo, mensaje, mostrarDatos, esTransferencia = false) {
     document.getElementById('mensaje-modal').textContent = mensaje;
     document.getElementById('datos-bancarios').style.display = mostrarDatos ? 'block' : 'none';
     
-    // Configuración del botón de WhatsApp
     const btnWpp = document.getElementById('btn-wpp-modal');
     btnWpp.style.display = 'block';
     
@@ -19,8 +18,28 @@ function abrirModal(titulo, mensaje, mostrarDatos, esTransferencia = false) {
         btnWpp.href = "https://wa.me/5491166289178?text=Hola!%20Tengo%20una%20consulta%20sobre%20mi%20pedido.";
         btnWpp.textContent = "Consultar por WhatsApp";
     }
-    
     document.getElementById('modal-pago').style.display = 'flex';
+}
+
+// --- NUEVA FUNCIÓN PARA ENVIAR MAIL AL HACER CLIC EN "ENTENDIDO" ---
+function finalizarPedido() {
+    const esEnvio = document.querySelector('input[name="forma-entrega"][value="envio"]').checked;
+    const dir = esEnvio ? 
+        `${document.getElementById('checkout-calle').value} ${document.getElementById('checkout-numero').value}, ${document.getElementById('checkout-depto').value || ''} - ${document.getElementById('checkout-localidad').value}, ${document.getElementById('checkout-provincia').value} (CP: ${document.getElementById('checkout-cp').value})` 
+        : "Retiro en local";
+
+    emailjs.send('service_izruv7a', 'template_3wgwcyl', {
+        nombre: document.getElementById('checkout-nombre').value,
+        email: document.getElementById('checkout-email').value,
+        lista_productos: JSON.parse(localStorage.getItem('taleh_carrito')).map(p => `${p.titulo} x${p.cantidad}`).join(', '),
+        total: document.getElementById('resumen-total-general').textContent,
+        metodo_pago: document.querySelector('input[name="forma-pago"]:checked').value,
+        forma_entrega: document.querySelector('input[name="forma-entrega"]:checked').value,
+        datos_envio: dir
+    }).then(() => {
+        console.log("Email enviado tras confirmación");
+        cerrarModal(); // Cierra el modal solo después de enviar
+    }).catch(err => console.error("Error al enviar:", err));
 }
 
 emailjs.init("mNybPhj1LBKcTnrN8"); 
@@ -33,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const bloqueDireccion = document.getElementById('checkout-bloque-direccion');
     const formPedido = document.getElementById('formulario-checkout-real');
     const inputCP = document.getElementById('checkout-cp');
-
     const txtSubtotal = document.getElementById('resumen-subtotal');
     const txtDescuento = document.getElementById('resumen-descuento');
     const txtEnvio = document.getElementById('resumen-envio');
@@ -42,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function cargarResumenCheckout() {
         if (!contenedorItems) return;
         contenedorItems.innerHTML = '';
-
         if (datosCheckout.length === 0) {
             contenedorItems.innerHTML = '<p style="text-align:center; color:rgba(43,29,15,0.5);">Tu carrito está vacío.</p>';
             return;
@@ -63,14 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (producto.categoria === 'set-urbano') cUrbano += producto.cantidad;
             else if (producto.categoria === 'set-foil-varios') cFoil += producto.cantidad;
 
-            itemDiv.innerHTML = `
-                <img src="${producto.imagen || 'imagenes/default.jpg'}" alt="${producto.titulo}">
-                <div class="item-detalles">
-                    <p class="item-titulo">${producto.titulo}</p>
-                    <p class="item-cantidad">Cant: ${producto.cantidad}</p>
-                </div>
-                <span class="item-precio">$${costoItemBruto}</span>
-            `;
+            itemDiv.innerHTML = `<img src="${producto.imagen || 'imagenes/default.jpg'}"><div class="item-detalles"><p class="item-titulo">${producto.titulo}</p><p class="item-cantidad">Cant: ${producto.cantidad}</p></div><span class="item-precio">$${costoItemBruto}</span>`;
             contenedorItems.appendChild(itemDiv);
         });
 
@@ -93,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         txtTotal.textContent = `$${subtotalConDescuento}`;
     }
 
-    // --- LÓGICA DE ENVÍO Y CÁLCULOS (MANTENIDA) ---
+    // --- LÓGICA DE ENVÍO Y CÁLCULOS ---
     const PRECIO_ENVIO_LOCAL = 4500;
     const PRECIO_ENVIO_NACIONAL = 6800;
     let costoEnvioActual = 0;
@@ -141,46 +151,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- EVENTO SUBMIT (MODIFICADO) ---
+    // --- EVENTO SUBMIT (SOLO MODAL O MERCADO PAGO) ---
     formPedido.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        // 1. Preparar datos de dirección para el mail
-        const esEnvio = document.querySelector('input[name="forma-entrega"][value="envio"]').checked;
-        const dir = esEnvio ? 
-            `${document.getElementById('checkout-calle').value} ${document.getElementById('checkout-numero').value}, ${document.getElementById('checkout-depto').value || ''} - ${document.getElementById('checkout-localidad').value}, ${document.getElementById('checkout-provincia').value} (CP: ${document.getElementById('checkout-cp').value})` 
-            : "Retiro en local";
-
-        // 2. DISPARAR ENVÍO DE EMAIL (Antes de abrir modales o redirigir)
-        emailjs.send('service_izruv7a', 'template_3wgwcyl', {
-            nombre: document.getElementById('checkout-nombre').value,
-            email: document.getElementById('checkout-email').value,
-            lista_productos: datosCheckout.map(p => `${p.titulo} x${p.cantidad}`).join(', '),
-            total: txtTotal.textContent,
-            metodo_pago: document.querySelector('input[name="forma-pago"]:checked').value,
-            forma_entrega: document.querySelector('input[name="forma-entrega"]:checked').value,
-            datos_envio: dir
-        }).then(() => console.log("Email enviado")).catch(err => console.error("Error email:", err));
-
-        // 3. Lógica de Modales (Transferencia/Efectivo)
         const metodoElegido = document.querySelector('input[name="forma-pago"]:checked')?.value;
 
-        if (metodoElegido === 'transferencia') {
-            abrirModal("¡Pedido Registrado!", "Realizá la transferencia con los datos y envianos el comprobante.", true, true);
+        if (metodoElegido === 'transferencia' || metodoElegido === 'efectivo') {
+            abrirModal("¡Pedido Registrado!", metodoElegido === 'transferencia' ? "Realizá la transferencia y envianos el comprobante." : "Recordá que el pago es presencial en: Calle Pola 682, CABA.", metodoElegido === 'transferencia', metodoElegido === 'transferencia');
             return;
         }
 
-        if (metodoElegido === 'efectivo') {
-            abrirModal("¡Pedido Registrado!", "Recordá que el pago es presencial en: Calle Pola 682, CABA.", false, false);
-            return;
-        }
-
-        // 4. Lógica Mercado Pago
+        // Lógica Mercado Pago (envía mail aquí porque no usa el botón Entendido)
         const boton = formPedido.querySelector('button[type="submit"]');
         const totalFinal = Number(txtTotal.textContent.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
-
         boton.disabled = true;
         boton.textContent = "Conectando...";
+        
+        // Disparo el mail aquí porque Mercado Pago redirige
+        finalizarPedido(); 
 
         try {
             const respuesta = await fetch("https://taleh-api.onrender.com/", {
@@ -189,18 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: JSON.stringify({ total: totalFinal })
             });
             const data = await respuesta.json();
-            if (data.init_point) {
-                window.location.href = data.init_point;
-            } else {
-                alert("Error al conectar con Mercado Pago.");
-                boton.disabled = false;
-                boton.textContent = "CONFIRMAR PEDIDO";
-            }
-        } catch (err) {
-            alert("Error de red.");
-            boton.disabled = false;
-            boton.textContent = "CONFIRMAR PEDIDO";
-        }
+            if (data.init_point) { window.location.href = data.init_point; }
+            else { alert("Error al conectar con Mercado Pago."); boton.disabled = false; boton.textContent = "CONFIRMAR PEDIDO"; }
+        } catch (err) { alert("Error de red."); boton.disabled = false; boton.textContent = "CONFIRMAR PEDIDO"; }
     });
 
     cargarResumenCheckout();
