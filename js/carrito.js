@@ -129,15 +129,15 @@ function obtenerSubtotalCarrito() {
     const sueltasHebreo = contadorHebreo % 4;
     subtotalTotal += (setsHebreo * 4000) + (sueltasHebreo * 1500);
 
-    // 🌟 PROMO LÁMINAS 2: Set Cristiano Urbano (Cada grupo de 3 vale $4000, sueltas $1500)
+    // 🌟 PROMO LÁMINAS 2: Set Cristiano Urbano (Cada grupo de 3 vale $4000, sueltas $1900)
     const setsUrbano = Math.floor(contadorUrbano / 3);
     const sueltasUrbano = contadorUrbano % 3;
-    subtotalTotal += (setsUrbano * 4000) + (sueltasUrbano * 1500);
+    subtotalTotal += (setsUrbano * 4000) + (sueltasUrbano * 1900);
 
-    // 🌟 PROMO LÁMINAS 3: Set Foil Varios (Cada grupo de 3 vale $3500, sueltas $1500)
+    // 🌟 PROMO LÁMINAS 3: Set Foil Varios (Cada grupo de 3 vale $3500, sueltas $1700)
     const setsFoilVarios = Math.floor(contadorFoilVarios / 3);
     const sueltasFoilVarios = contadorFoilVarios % 3;
-    subtotalTotal += (setsFoilVarios * 3500) + (sueltasFoilVarios * 1500);
+    subtotalTotal += (setsFoilVarios * 3500) + (sueltasFoilVarios * 1700);
 
     return subtotalTotal;
 }

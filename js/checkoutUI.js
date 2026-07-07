@@ -89,8 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
         subtotalConDescuento += (Math.floor(cRosas / 2) * 1500) + ((cRosas % 2) * 900);
         subtotalConDescuento += (Math.floor(cEspadas / 2) * 1800) + ((cEspadas % 2) * 1000);
         subtotalConDescuento += (Math.floor(cHebreo / 4) * 4000) + ((cHebreo % 4) * 1500);
-        subtotalConDescuento += (Math.floor(cUrbano / 3) * 4000) + ((cUrbano % 3) * 1500);
-        subtotalConDescuento += (Math.floor(cFoil / 3) * 3500) + ((cFoil % 3) * 1500);
+        subtotalConDescuento += (Math.floor(cUrbano / 3) * 4000) + ((cUrbano % 3) * 1900);
+        subtotalConDescuento += (Math.floor(cFoil / 3) * 3500) + ((cFoil % 3) * 1700);
 
         datosCheckout.forEach(p => {
             if (!['cruce-rosa', 'espada', 'set-hebreo', 'set-urbano', 'set-foil-varios'].includes(p.categoria)) {
