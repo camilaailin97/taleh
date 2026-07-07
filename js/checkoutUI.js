@@ -31,6 +31,7 @@ function finalizarPedido() {
     emailjs.send('service_izruv7a', 'template_3wgwcyl', {
         nombre: document.getElementById('checkout-nombre').value,
         email: document.getElementById('checkout-email').value,
+        celular: document.getElementById('checkout-celular').value, // Agregado
         lista_productos: JSON.parse(localStorage.getItem('taleh_carrito')).map(p => `${p.titulo} x${p.cantidad}`).join(', '),
         total: document.getElementById('resumen-total-general').textContent,
         metodo_pago: document.querySelector('input[name="forma-pago"]:checked').value,
@@ -38,11 +39,11 @@ function finalizarPedido() {
         datos_envio: dir
     }).then(() => {
         console.log("Email enviado tras confirmación");
-        cerrarModal(); // Cierra el modal solo después de enviar
+        cerrarModal(); 
     }).catch(err => console.error("Error al enviar:", err));
 }
 
-emailjs.init("mNybPhj1LBKcTnrN8"); 
+emailjs.init("mNybPhj1LBKcTnrN8");
 
 // --- LÓGICA PRINCIPAL ---
 document.addEventListener('DOMContentLoaded', () => {
