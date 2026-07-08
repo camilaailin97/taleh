@@ -64,33 +64,55 @@ function eliminarProductoDelCarrito(id) {
 /**
  * Calcula la suma de los precios multiplicados por sus cantidades con descuentos.
  */
+/**
+ * Calcula la suma total aplicando las promociones exactas.
+ */
 function obtenerSubtotalCarrito() {
-    let subtotalTotal = 0;
+    let subtotalFinal = 0;
     
-    let grupos = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
-    let precioBase = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
+    // Contadores para productos con promo
+    let grupos = { 
+        'señalador': 0, // Cruces y Rosas combinables
+        'espada': 0, 
+        'set-hebreo': 0, 
+        'set-urbano': 0, 
+        'set-foil-varios': 0 
+    };
 
+    // 1. Recorremos el carrito para sumar cantidades y sumar productos sin promo
     carrito.forEach(p => {
-        // Aseguramos que el precio sea siempre un número
         let precio = Number(p.precio) || 0;
         
-        if (grupos.hasOwnProperty(p.categoria)) {
+        // Si es señalador (cruz o rosa), ambos usan la misma categoría 'señalador'
+        if (p.categoria === 'cruce-rosa' || p.categoria === 'señalador') {
+            grupos['señalador'] += p.cantidad;
+        } else if (grupos.hasOwnProperty(p.categoria)) {
             grupos[p.categoria] += p.cantidad;
-            precioBase[p.categoria] = precio;
         } else {
-            subtotalTotal += precio * p.cantidad;
+            subtotalFinal += precio * p.cantidad;
         }
     });
 
-    // Cálculos protegidos: usamos (precioBase[...] || 0) para evitar undefined
-    subtotalTotal += (Math.floor(grupos['cruce-rosa'] / 2) * (precioBase['cruce-rosa'] * 1.5)) + ((grupos['cruce-rosa'] % 2) * precioBase['cruce-rosa']);
-    subtotalTotal += (Math.floor(grupos['espada'] / 2) * (precioBase['espada'] * 1.8)) + ((grupos['espada'] % 2) * precioBase['espada']);
-    subtotalTotal += (Math.floor(grupos['set-hebreo'] / 4) * (precioBase['set-hebreo'] * 2.6)) + ((grupos['set-hebreo'] % 4) * precioBase['set-hebreo']);
-    subtotalTotal += (Math.floor(grupos['set-urbano'] / 3) * (precioBase['set-urbano'] * 2.1)) + ((grupos['set-urbano'] % 3) * precioBase['set-urbano']);
-    subtotalTotal += (Math.floor(grupos['set-foil-varios'] / 3) * (precioBase['set-foil-varios'] * 2)) + ((grupos['set-foil-varios'] % 3) * precioBase['set-foil-varios']);
+    // 2. Aplicamos las PROMOS exactas:
+    
+    // Promo Señaladores: 2 x $1.500 ($900 c/u)
+    subtotalFinal += (Math.floor(grupos['señalador'] / 2) * 1500) + ((grupos['señalador'] % 2) * 900);
+    
+    // Promo Espada: 2 x $1.800 ($1.000 c/u)
+    subtotalFinal += (Math.floor(grupos['espada'] / 2) * 1800) + ((grupos['espada'] % 2) * 1000);
+    
+    // Promo Set Hebreo: 4 x $4.000 ($1.500 c/u)
+    subtotalFinal += (Math.floor(grupos['set-hebreo'] / 4) * 4000) + ((grupos['set-hebreo'] % 4) * 1500);
+    
+    // Promo Set Urbano: 3 x $4.000 ($1.900 c/u)
+    subtotalFinal += (Math.floor(grupos['set-urbano'] / 3) * 4000) + ((grupos['set-urbano'] % 3) * 1900);
+    
+    // Promo Set Foil Varios: 3 x $3.500 ($1.700 c/u)
+    subtotalFinal += (Math.floor(grupos['set-foil-varios'] / 3) * 3500) + ((grupos['set-foil-varios'] % 3) * 1700);
 
-    return Math.round(subtotalTotal);
+    return Math.round(subtotalFinal);
 }
+
 function vaciarCarrito() {
     carrito = [];
     guardarCarritoEnStorage();
