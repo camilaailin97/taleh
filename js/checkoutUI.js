@@ -3,40 +3,35 @@ function cerrarModal() {
     document.getElementById('modal-pago').style.display = 'none';
 }
 
-function abrirModal(titulo, mensaje, mostrarDatos, esTransferencia = false) {
+function abrirModal(titulo, mensaje, mostrarDatos, esTransferencia = false, esEfectivo = false) {
     document.getElementById('titulo-modal').textContent = titulo;
     
-    // Agregamos la advertencia dentro del mensaje
-    const advertencia = " Por favor, copien los datos o saquen captura de pantalla antes de continuar. Es necesario presionar 'Entendido' para confirmar el pedido.";
+    // Si es efectivo, no mostramos la advertencia
+    const advertencia = esEfectivo ? "" : " Por favor, copien los datos o saquen captura de pantalla antes de continuar. Es necesario presionar 'Entendido' para confirmar el pedido.";
     document.getElementById('mensaje-modal').textContent = mensaje + advertencia;
     
     document.getElementById('datos-bancarios').style.display = mostrarDatos ? 'block' : 'none';
     
     const btnWpp = document.getElementById('btn-wpp-modal');
-    btnWpp.style.display = 'block';
+    const btnEntendido = document.getElementById('btn-entendido-modal');
     
-    // Configuración inicial del botón
-    btnWpp.textContent = "Entendido";
-    btnWpp.href = "#";
-    btnWpp.onclick = function(e) {
-        e.preventDefault();
-        finalizarPedido(esTransferencia); // Le pasamos si es transferencia para configurar el botón después
+    btnWpp.style.display = 'none';
+    btnEntendido.style.display = 'inline-block';
+    btnEntendido.textContent = "Entendido";
+    btnEntendido.disabled = false;
+    btnEntendido.onclick = function() {
+        finalizarPedido(esTransferencia);
     };
     
     document.getElementById('modal-pago').style.display = 'flex';
 }
 
-// --- NUEVA FUNCIÓN PARA ENVIAR MAIL AL HACER CLIC EN "ENTENDIDO" ---
 function finalizarPedido(esTransferencia) {
-    const esEnvio = document.querySelector('input[name="forma-entrega"][value="envio"]').checked;
-    const dir = esEnvio ? 
-        `${document.getElementById('checkout-calle').value} ${document.getElementById('checkout-numero').value}, ${document.getElementById('checkout-depto').value || ''} - ${document.getElementById('checkout-localidad').value}, ${document.getElementById('checkout-provincia').value} (CP: ${document.getElementById('checkout-cp').value})` 
-        : "Retiro en local";
-
-    // Mostramos estado de carga
+    const btnEntendido = document.getElementById('btn-entendido-modal');
     const btnWpp = document.getElementById('btn-wpp-modal');
-    btnWpp.textContent = "Enviando pedido...";
-    btnWpp.onclick = null;
+
+    btnEntendido.textContent = "Enviando...";
+    btnEntendido.disabled = true;
 
     emailjs.send('service_izruv7a', 'template_3wgwcyl', {
         nombre: document.getElementById('checkout-nombre').value,
@@ -45,28 +40,23 @@ function finalizarPedido(esTransferencia) {
         lista_productos: JSON.parse(localStorage.getItem('taleh_carrito')).map(p => `${p.titulo} x${p.cantidad}`).join(', '),
         total: document.getElementById('resumen-total-general').textContent,
         metodo_pago: document.querySelector('input[name="forma-pago"]:checked').value,
-        forma_entrega: document.querySelector('input[name="forma-entrega"]:checked').value,
-        datos_envio: dir
+        forma_entrega: document.querySelector('input[name="forma-entrega"]:checked').value
     }).then(() => {
-        console.log("Email enviado tras confirmación");
+        btnEntendido.style.display = 'none';
+        document.getElementById('titulo-modal').textContent = "¡Pedido Registrado!";
+        document.getElementById('mensaje-modal').textContent = esTransferencia 
+            ? "Tu pedido fue registrado. Realizá la transferencia y hacé clic abajo para enviarnos el comprobante."
+            : "Tu pedido fue registrado. Si tenés alguna duda sobre el retiro, consultanos por WhatsApp.";
         
-        // Cambiamos el mensaje para avisar que se envió correctamente
-        document.getElementById('titulo-modal').textContent = "¡Pedido Enviado!";
-        document.getElementById('mensaje-modal').textContent = "Tu pedido fue registrado. Si realizaste transferencia, hacé clic abajo para enviarnos el comprobante.";
-        
-        // Cambiamos el botón a WhatsApp
-        btnWpp.textContent = esTransferencia ? "Enviar comprobante por WhatsApp" : "Contactar por WhatsApp";
-        btnWpp.href = "https://wa.me/5491166289178?text=Hola!%20Realicé%20el%20pedido%20y%20aquí%20adjunto%20el%20comprobante.";
-        btnWpp.onclick = null; // Ya no hace falta disparar el mail otra vez
-        
+        btnWpp.style.display = 'block';
+        btnWpp.textContent = esTransferencia ? "Enviar comprobante" : "Consultar por WhatsApp";
+        btnWpp.href = "https://wa.me/5491166289178?text=Hola!%20Realicé%20el%20pedido.";
     }).catch(err => {
-        console.error("Error al enviar:", err);
-        alert("Hubo un error al enviar el pedido, intentá nuevamente.");
-        btnWpp.textContent = "Entendido";
-        btnWpp.onclick = () => finalizarPedido(esTransferencia);
+        alert("Error al enviar. Intentá nuevamente.");
+        btnEntendido.textContent = "Entendido";
+        btnEntendido.disabled = false;
     });
 }
-
 emailjs.init("mNybPhj1LBKcTnrN8");
 
 
@@ -84,51 +74,62 @@ document.addEventListener('DOMContentLoaded', () => {
     const txtTotal = document.getElementById('resumen-total-general');
 
     // --- AQUÍ EMPIEZA LA FUNCIÓN NUEVA ---
-    function cargarResumenCheckout() {
-        if (!contenedorItems) return;
-        contenedorItems.innerHTML = '';
-        if (datosCheckout.length === 0) {
-            contenedorItems.innerHTML = '<p style="text-align:center; color:rgba(43,29,15,0.5);">Tu carrito está vacío.</p>';
-            return;
+function cargarResumenCheckout() {
+    if (!contenedorItems) return;
+    contenedorItems.innerHTML = '';
+    if (datosCheckout.length === 0) {
+        contenedorItems.innerHTML = '<p style="text-align:center; color:rgba(43,29,15,0.5);">Tu carrito está vacío.</p>';
+        return;
+    }
+
+    let subtotalSinDescuento = 0;
+    
+    // Almacenamos el precio unitario encontrado para usarlo en la promo
+    let preciosBase = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
+    let contadores = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
+
+    datosCheckout.forEach(producto => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item-checkout';
+        
+        subtotalSinDescuento += producto.precio * producto.cantidad;
+
+        // Si es producto con promo, guardamos el contador y su precio real
+        if (preciosBase.hasOwnProperty(producto.categoria)) {
+            contadores[producto.categoria] += producto.cantidad;
+            preciosBase[producto.categoria] = producto.precio;
         }
 
-        let subtotalSinDescuento = 0;
-        let cRosas = 0, cEspadas = 0, cHebreo = 0, cUrbano = 0, cFoil = 0;
+        itemDiv.innerHTML = `<img src="${producto.imagen || 'imagenes/default.jpg'}"><div class="item-detalles"><p class="item-titulo">${producto.titulo}</p><p class="item-cantidad">Cant: ${producto.cantidad}</p></div><span class="item-precio">$${producto.precio * producto.cantidad}</span>`;
+        contenedorItems.appendChild(itemDiv);
+    });
 
-        datosCheckout.forEach(producto => {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'item-checkout';
-            
-            subtotalSinDescuento += producto.precio * producto.cantidad;
+    // CÁLCULO DINÁMICO (Usa los precios reales almacenados en preciosBase)
+    let subtotalConDescuento = 0;
+    
+    // Promo: 2 unidades (Ej: Cruces/Rosas)
+    subtotalConDescuento += (Math.floor(contadores['cruce-rosa'] / 2) * (preciosBase['cruce-rosa'] * 1.66)) + ((contadores['cruce-rosa'] % 2) * preciosBase['cruce-rosa']);
+    // Promo: 2 unidades (Ej: Espadas)
+    subtotalConDescuento += (Math.floor(contadores['espada'] / 2) * (preciosBase['espada'] * 1.8)) + ((contadores['espada'] % 2) * preciosBase['espada']);
+    // Promo: 4 unidades (Ej: Hebreo)
+    subtotalConDescuento += (Math.floor(contadores['set-hebreo'] / 4) * (preciosBase['set-hebreo'] * 2.66)) + ((contadores['set-hebreo'] % 4) * preciosBase['set-hebreo']);
+    // Promo: 3 unidades (Ej: Urbano)
+    subtotalConDescuento += (Math.floor(contadores['set-urbano'] / 3) * (preciosBase['set-urbano'] * 2.1)) + ((contadores['set-urbano'] % 3) * preciosBase['set-urbano']);
+    // Promo: 3 unidades (Ej: Foil)
+    subtotalConDescuento += (Math.floor(contadores['set-foil-varios'] / 3) * (preciosBase['set-foil-varios'] * 2.05)) + ((contadores['set-foil-varios'] % 3) * preciosBase['set-foil-varios']);
 
-            if (producto.categoria === 'cruce-rosa') cRosas += producto.cantidad;
-            else if (producto.categoria === 'espada') cEspadas += producto.cantidad;
-            else if (producto.categoria === 'set-hebreo') cHebreo += producto.cantidad;
-            else if (producto.categoria === 'set-urbano') cUrbano += producto.cantidad;
-            else if (producto.categoria === 'set-foil-varios') cFoil += producto.cantidad;
+    // Sumar productos normales (que no entran en promos)
+    datosCheckout.forEach(p => {
+        if (!preciosBase.hasOwnProperty(p.categoria)) {
+            subtotalConDescuento += p.precio * p.cantidad;
+        }
+    });
 
-            itemDiv.innerHTML = `<img src="${producto.imagen || 'imagenes/default.jpg'}"><div class="item-detalles"><p class="item-titulo">${producto.titulo}</p><p class="item-cantidad">Cant: ${producto.cantidad}</p></div><span class="item-precio">$${producto.precio * producto.cantidad}</span>`;
-            contenedorItems.appendChild(itemDiv);
-        });
-
-        let subtotalConDescuento = 0;
-        subtotalConDescuento += (Math.floor(cRosas / 2) * 1500) + ((cRosas % 2) * 900);
-        subtotalConDescuento += (Math.floor(cEspadas / 2) * 1800) + ((cEspadas % 2) * 1000);
-        subtotalConDescuento += (Math.floor(cHebreo / 4) * 4000) + ((cHebreo % 4) * 1500);
-        subtotalConDescuento += (Math.floor(cUrbano / 3) * 4000) + ((cUrbano % 3) * 1900);
-        subtotalConDescuento += (Math.floor(cFoil / 3) * 3500) + ((cFoil % 3) * 1700);
-
-        datosCheckout.forEach(p => {
-            if (!['cruce-rosa', 'espada', 'set-hebreo', 'set-urbano', 'set-foil-varios'].includes(p.categoria)) {
-                subtotalConDescuento += p.precio * p.cantidad;
-            }
-        });
-
-        const ahorroTotal = subtotalSinDescuento - subtotalConDescuento;
-        txtSubtotal.textContent = `$${subtotalSinDescuento}`;
-        txtDescuento.textContent = `-$${ahorroTotal}`;
-        txtTotal.textContent = `$${subtotalConDescuento}`;
-    }
+    const ahorroTotal = subtotalSinDescuento - subtotalConDescuento;
+    txtSubtotal.textContent = `$${subtotalSinDescuento}`;
+    txtDescuento.textContent = ahorroTotal > 0 ? `-$${Math.round(ahorroTotal)}` : `-$0`;
+    txtTotal.textContent = `$${Math.round(subtotalConDescuento)}`;
+}
 
 
     // --- LÓGICA DE ENVÍO Y CÁLCULOS ---

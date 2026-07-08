@@ -18,7 +18,8 @@
     align-items: center;
     position: relative;
     overflow: hidden;
-    padding: 20px 0 40px 0; 
+    padding: 20px 0 0 0; 
+    justify-content: center;
 }
 
 /* Título de bienvenida en el cielo (Grande para Celu y Compu) */
@@ -90,6 +91,37 @@
 /* Efecto al pasar el mouse sobre el personaje */
 .personaje-cordero:hover {
     transform: scale(1.05);
+}
+
+/* --- FOOTER SUTIL (UNA SOLA LÍNEA) --- */
+.footer-taleh {
+    padding: 10px 0; /* Un poco de aire arriba y abajo */
+    text-align: center;
+    color: #2b1d0f;
+    font-family: 'Almendra', serif;
+    font-size: 0.95em; /* Un poquito más grande para que se lea mejor */
+    margin-top: auto; /* Esto ayuda a que el footer se mantenga al pie */
+    opacity: 0.9;
+    height: auto; /* Que se adapte al contenido */
+    background: transparent; /* Quitamos cualquier color de fondo que pudiera generar ese blanco */
+}
+
+.footer-contenido a {
+    color: #8c6d3f;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.footer-contenido a:hover {
+    text-decoration: underline;
+    color: #2b1d0f;
+}
+
+/* Aseguramos que el footer no fuerce scroll en pantallas pequeñas */
+@media (max-height: 600px) {
+    .footer-taleh {
+        padding: 5px 20px;
+    }
 }
 
 /* --- MODO COMPUTADORA 🖥️ --- */

@@ -446,13 +446,14 @@
                 <p><strong>Titular:</strong> Camila Ailin</p>
             </div>
             <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
-    <button onclick="cerrarModal()" style="background: #ccc; border:none; padding:10px; border-radius:4px; cursor:pointer;">Cancelar</button>
-    <button onclick="confirmarYFinalizar()" class="boton-finalizar" style="margin-top: 0; width: auto;">Entendido</button>
-</div>
+             <button onclick="cerrarModal()" style="background: #ccc; border:none; padding:10px; border-radius:4px; cursor:pointer;">Cancelar</button>
+             <!-- ESTE BOTÓN AHORA SE LLAMA DESDE EL JS, PERO POR SEGURIDAD LE PONEMOS UN ID -->
+             <button id="btn-entendido-modal" class="boton-finalizar" style="margin-top: 0; width: auto;">Entendido</button>
+            </div>
             <a id="btn-wpp-modal" href="#" target="_blank" class="boton-wpp">Contactar</a>
         </div>
 
-    </div>
+</div>
     <script src="js/carrito.js"></script>
     <script src="js/checkoutUI.js"></script>
 </body>

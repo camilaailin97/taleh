@@ -67,56 +67,33 @@ function eliminarProductoDelCarrito(id) {
 function obtenerSubtotalCarrito() {
     let subtotalTotal = 0;
     
-    let contadorCrucesRosas = 0;
-    let contadorEspadas = 0;
-    
-    let contadorHebreo = 0;
-    let contadorUrbano = 0;
-    let contadorFoilVarios = 0;
+    // Agrupamos cantidades
+    let grupos = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
+    let precioBase = {}; // Guardamos el precio unitario de referencia
 
-    carrito.forEach(producto => {
-        if (producto.categoria === 'cruce-rosa') {
-            contadorCrucesRosas += producto.cantidad;
-        } else if (producto.categoria === 'espada') {
-            contadorEspadas += producto.cantidad;
-        } else if (producto.categoria === 'set-hebreo') {
-            contadorHebreo += producto.cantidad;
-        } else if (producto.categoria === 'set-urbano') {
-            contadorUrbano += producto.cantidad;
-        } else if (producto.categoria === 'set-foil-varios') {
-            contadorFoilVarios += producto.cantidad;
+    carrito.forEach(p => {
+        if (grupos.hasOwnProperty(p.categoria)) {
+            grupos[p.categoria] += p.cantidad;
+            precioBase[p.categoria] = p.precio; // Capturamos el precio real
         } else {
-            subtotalTotal += producto.precio * producto.cantidad;
+            subtotalTotal += p.precio * p.cantidad;
         }
     });
 
-    // 🌟 PROMO SEÑALADORES: Cruces y Rosas (2 x $1500)
-    const paresCrucesRosas = Math.floor(contadorCrucesRosas / 2);
-    const sueltasCrucesRosas = contadorCrucesRosas % 2;
-    subtotalTotal += (paresCrucesRosas * 1500) + (sueltasCrucesRosas * 900);
+    // 🌟 Aplicamos lógica con precios dinámicos
+    // Ej: Cruces/Rosas (2 unidades = precio de 1 combo, o lo que definas)
+    // Nota: Como tus promos son complejas, aquí el cálculo toma el precio del producto
+    subtotalTotal += (Math.floor(grupos['cruce-rosa'] / 2) * (precioBase['cruce-rosa'] * 1.5)) + ((grupos['cruce-rosa'] % 2) * (precioBase['cruce-rosa'] || 900));
+    
+    subtotalTotal += (Math.floor(grupos['espada'] / 2) * (precioBase['espada'] * 1.8)) + ((grupos['espada'] % 2) * (precioBase['espada'] || 1000));
+    
+    subtotalTotal += (Math.floor(grupos['set-hebreo'] / 4) * (precioBase['set-hebreo'] * 2.6)) + ((grupos['set-hebreo'] % 4) * (precioBase['set-hebreo'] || 1500));
 
-    // 🌟 PROMO SEÑALADORES: Espadas (2 x $1800)
-    const paresEspadas = Math.floor(contadorEspadas / 2);
-    const sueltasEspadas = contadorEspadas % 2;
-    subtotalTotal += (paresEspadas * 1800) + (sueltasEspadas * 1000);
+    subtotalTotal += (Math.floor(grupos['set-urbano'] / 3) * (precioBase['set-urbano'] * 2.1)) + ((grupos['set-urbano'] % 3) * (precioBase['set-urbano'] || 1900));
 
-    // 🌟 NUEVOS PRECIOS LÁMINAS
-    // Hebreo: Set 4 x $4000, sueltas $1500
-    const setsHebreo = Math.floor(contadorHebreo / 4);
-    const sueltasHebreo = contadorHebreo % 4;
-    subtotalTotal += (setsHebreo * 4000) + (sueltasHebreo * 1500);
+    subtotalTotal += (Math.floor(grupos['set-foil-varios'] / 3) * (precioBase['set-foil-varios'] * 2)) + ((grupos['set-foil-varios'] % 3) * (precioBase['set-foil-varios'] || 1700));
 
-    // Urbano: Set 3 x $4000, sueltas $1900
-    const setsUrbano = Math.floor(contadorUrbano / 3);
-    const sueltasUrbano = contadorUrbano % 3;
-    subtotalTotal += (setsUrbano * 4000) + (sueltasUrbano * 1900);
-
-    // Foil Varios: Set 3 x $3500, sueltas $1700
-    const setsFoilVarios = Math.floor(contadorFoilVarios / 3);
-    const sueltasFoilVarios = contadorFoilVarios % 3;
-    subtotalTotal += (setsFoilVarios * 3500) + (sueltasFoilVarios * 1700);
-
-    return subtotalTotal;
+    return Math.round(subtotalTotal);
 }
 
 function vaciarCarrito() {
