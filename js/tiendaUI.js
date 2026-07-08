@@ -45,7 +45,7 @@ function inyectarEstructuraCarrito() {
             </div>
             <!-- 💡 Limpiamos la clase vieja y el style inline para que herede el CSS limpio -->
             <button id="carrito-boton-checkout">
-                Continuar Compra
+                Finalizar Compra
             </button>
         </div>
     `;

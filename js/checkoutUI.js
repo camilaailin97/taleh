@@ -45,6 +45,7 @@ function finalizarPedido() {
 
 emailjs.init("mNybPhj1LBKcTnrN8");
 
+
 // --- LÓGICA PRINCIPAL ---
 document.addEventListener('DOMContentLoaded', () => {
     let datosCheckout = JSON.parse(localStorage.getItem('taleh_carrito')) || [];
@@ -58,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const txtEnvio = document.getElementById('resumen-envio');
     const txtTotal = document.getElementById('resumen-total-general');
 
+    // --- AQUÍ EMPIEZA LA FUNCIÓN NUEVA ---
     function cargarResumenCheckout() {
         if (!contenedorItems) return;
         contenedorItems.innerHTML = '';
@@ -72,8 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
         datosCheckout.forEach(producto => {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'item-checkout';
-            const costoItemBruto = producto.precio * producto.cantidad;
-            subtotalSinDescuento += costoItemBruto;
+            
+            subtotalSinDescuento += producto.precio * producto.cantidad;
 
             if (producto.categoria === 'cruce-rosa') cRosas += producto.cantidad;
             else if (producto.categoria === 'espada') cEspadas += producto.cantidad;
@@ -81,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (producto.categoria === 'set-urbano') cUrbano += producto.cantidad;
             else if (producto.categoria === 'set-foil-varios') cFoil += producto.cantidad;
 
-            itemDiv.innerHTML = `<img src="${producto.imagen || 'imagenes/default.jpg'}"><div class="item-detalles"><p class="item-titulo">${producto.titulo}</p><p class="item-cantidad">Cant: ${producto.cantidad}</p></div><span class="item-precio">$${costoItemBruto}</span>`;
+            itemDiv.innerHTML = `<img src="${producto.imagen || 'imagenes/default.jpg'}"><div class="item-detalles"><p class="item-titulo">${producto.titulo}</p><p class="item-cantidad">Cant: ${producto.cantidad}</p></div><span class="item-precio">$${producto.precio * producto.cantidad}</span>`;
             contenedorItems.appendChild(itemDiv);
         });
 
@@ -103,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         txtDescuento.textContent = `-$${ahorroTotal}`;
         txtTotal.textContent = `$${subtotalConDescuento}`;
     }
+
 
     // --- LÓGICA DE ENVÍO Y CÁLCULOS ---
     const PRECIO_ENVIO_LOCAL = 4500;
