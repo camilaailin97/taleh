@@ -7,6 +7,22 @@ document.addEventListener('DOMContentLoaded', () => {
     inyectarEstructuraCarrito();
     vincularBotonesAgregar();
     renderizarCarrito();
+
+// Lógica para ocultar efectivo si es envío
+document.querySelectorAll('input[name="forma-entrega"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+        const radioEfectivo = document.querySelector('input[name="forma-pago"][value="efectivo"]');
+        if (e.target.value === 'envio') {
+            if (radioEfectivo.checked) {
+                document.querySelector('input[name="forma-pago"][value="transferencia"]').checked = true;
+            }
+            radioEfectivo.parentElement.style.display = 'none';
+        } else {
+            radioEfectivo.parentElement.style.display = 'block';
+        }
+    });
+});
+
 });
 
 /**
