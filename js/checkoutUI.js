@@ -68,6 +68,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const txtEnvio = document.getElementById('resumen-envio');
     const txtTotal = document.getElementById('resumen-total-general');
 
+    // --- LÓGICA DE ENVÍO Y PRECIOS ---
+    const PRECIO_CABA = 5500;
+    const PRECIO_GBA = 7500;
+    const PRECIO_NACIONAL = 11500;
+    let costoEnvioActual = 0;
+
+    function calcularCostoPorCP(cp) {
+        const n = parseInt(cp);
+        if (isNaN(n)) return PRECIO_NACIONAL;
+        if (n >= 1000 && n <= 1499) return PRECIO_CABA;
+        else if (n >= 1600 && n <= 1899) return PRECIO_GBA;
+        else return PRECIO_NACIONAL;
+    }
+
+    function actualizarTotalFinal() {
+        const subtotalConDescuento = obtenerSubtotalCarrito();
+        const envio = Number(costoEnvioActual) || 0;
+        const totalFinal = subtotalConDescuento + envio;
+        txtTotal.textContent = `$${totalFinal.toLocaleString('es-AR')}`;
+    }
+
     function cargarResumenCheckout() {
         if (!contenedorItems) return;
         contenedorItems.innerHTML = '';
@@ -97,22 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const ahorroTotal = subtotalSinDescuento - subtotalConDescuento;
         txtSubtotal.textContent = `$${subtotalSinDescuento.toLocaleString()}`;
         txtDescuento.textContent = ahorroTotal > 0 ? `-$${Math.round(ahorroTotal).toLocaleString()}` : `-$0`;
-        txtTotal.textContent = `$${Math.round(subtotalConDescuento).toLocaleString()}`;
-    }
-
-
-// --- LÓGICA DE ENVÍO Y PRECIOS ---
-    const PRECIO_CABA = 5500;
-    const PRECIO_GBA = 7500;
-    const PRECIO_NACIONAL = 11500;
-    let costoEnvioActual = 0;
-
-    function calcularCostoPorCP(cp) {
-        const n = parseInt(cp);
-        if (isNaN(n)) return PRECIO_NACIONAL;
-        if (n >= 1000 && n <= 1499) return PRECIO_CABA;
-        else if (n >= 1600 && n <= 1899) return PRECIO_GBA;
-        else return PRECIO_NACIONAL;
+        actualizarTotalFinal();
     }
 
     // 1. EVENTO: Cambio de radio button (Entrega vs Retiro)
@@ -127,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (document.querySelector('input[value="efectivo"]').checked) {
                     document.querySelector('input[value="transferencia"]').checked = true;
                 }
-                // Aquí calculamos cuando activas la opción
                 costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
                 txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
             } else {
@@ -141,29 +146,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2. EVENTO: Escribir en el campo CP (Actualización en tiempo real)
+    // 2. EVENTO: Escribir en el campo CP
     if (inputCP) {
         inputCP.addEventListener('input', () => {
-            // Recalculamos el costo
             costoEnvioActual = (inputCP.value.trim().length >= 4) ? calcularCostoPorCP(inputCP.value) : 0;
-            
-            // Actualizamos el texto del envío
             txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
-            
-            // OBLIGATORIO: Llamar a actualizarTotalFinal para que el precio total cambie
-            function actualizarTotalFinal() {
-    const subtotalConDescuento = obtenerSubtotalCarrito();
-    let totalFinal = subtotalConDescuento;
-
-    // Solo sumar si la opción elegida es 'envio'
-    const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
-    if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
-        totalFinal += costoEnvioActual;
-    }
-
-    // Actualizamos el DOM
-    txtTotal.textContent = `$${Math.round(totalFinal).toLocaleString('es-AR')}`;
-}
+            actualizarTotalFinal();
         });
     }
 
@@ -187,11 +175,12 @@ document.addEventListener('DOMContentLoaded', () => {
         boton.parentNode.appendChild(aviso);
         finalizarPedido(); 
         try {
-            const totalFinal = Number(txtTotal.textContent.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
+            // Limpieza robusta del total para Mercado Pago
+            const totalLimpio = parseInt(txtTotal.textContent.replace(/[^0-9]/g, ''));
             const respuesta = await fetch("https://taleh-api.onrender.com/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ total: totalFinal })
+                body: JSON.stringify({ total: totalLimpio })
             });
             const data = await respuesta.json();
             if (data.init_point) { window.location.href = data.init_point; }
