@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-// --- LÓGICA DE ENVÍO  ---
+// --- LÓGICA DE ENVÍO Y PRECIOS ---
     const PRECIO_CABA = 5500;
     const PRECIO_GBA = 7500;
     const PRECIO_NACIONAL = 11500;
@@ -110,28 +110,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function calcularCostoPorCP(cp) {
         const n = parseInt(cp);
         if (isNaN(n)) return PRECIO_NACIONAL;
-
-        // CABA: 1000 - 1499
         if (n >= 1000 && n <= 1499) return PRECIO_CABA;
-        // GBA: 1600 - 1899
         else if (n >= 1600 && n <= 1899) return PRECIO_GBA;
-        // Interior: Resto
         else return PRECIO_NACIONAL;
     }
 
-    function actualizarTotalFinal() {
-        const subtotalConDescuento = obtenerSubtotalCarrito();
-        let totalFinal = subtotalConDescuento;
-        const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
-        if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
-            totalFinal += costoEnvioActual;
-        }
-        txtTotal.textContent = `$${Math.round(totalFinal).toLocaleString()}`;
-    }
-
+    // 1. EVENTO: Cambio de radio button (Entrega vs Retiro)
     document.querySelectorAll('input[name="forma-entrega"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             const radioEfectivo = document.querySelector('input[value="efectivo"]').closest('label');
+            
             if (e.target.value === 'envio') {
                 bloqueDireccion.style.display = 'block';
                 inputCP.required = true;
@@ -139,6 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (document.querySelector('input[value="efectivo"]').checked) {
                     document.querySelector('input[value="transferencia"]').checked = true;
                 }
+                // Aquí calculamos cuando activas la opción
                 costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
                 txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
             } else {
@@ -152,10 +141,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    if(inputCP) {
+    // 2. EVENTO: Escribir en el campo CP (Actualización en tiempo real)
+    if (inputCP) {
         inputCP.addEventListener('input', () => {
-            costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
+            // Recalculamos el costo
+            costoEnvioActual = (inputCP.value.trim().length >= 4) ? calcularCostoPorCP(inputCP.value) : 0;
+            
+            // Actualizamos el texto del envío
             txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
+            
+            // OBLIGATORIO: Llamar a actualizarTotalFinal para que el precio total cambie
             actualizarTotalFinal();
         });
     }
