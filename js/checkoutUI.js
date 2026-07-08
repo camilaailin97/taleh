@@ -111,13 +111,28 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
     // LÓGICA DE ENVÍO Y OCULTAR EFECTIVO
-    const PRECIO_ENVIO_LOCAL = 4500;
-    const PRECIO_ENVIO_NACIONAL = 6800;
+// Ajusta estos valores según tus costos reales actuales
+    const PRECIO_CABA = 5500;
+    const PRECIO_GBA = 7500;
+    const PRECIO_NACIONAL = 11500;
     let costoEnvioActual = 0;
 
     function calcularCostoPorCP(cp) {
         const n = parseInt(cp);
-        return ((n >= 1000 && n <= 1999) || (n >= 6000 && n <= 8999)) ? PRECIO_ENVIO_LOCAL : PRECIO_ENVIO_NACIONAL;
+        if (isNaN(n)) return PRECIO_NACIONAL;
+
+        // CABA (1000 a 1499)
+        if (n >= 1000 && n <= 1499) {
+            return PRECIO_CABA;
+        } 
+        // GBA (1600 a 1899 aprox, depende tu zona de cobertura)
+        else if (n >= 1600 && n <= 1899) {
+            return PRECIO_GBA;
+        } 
+        // Resto del país
+        else {
+            return PRECIO_NACIONAL;
+        }
     }
 
     document.querySelectorAll('input[name="forma-entrega"]').forEach(radio => {
@@ -143,13 +158,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    function actualizarTotalFinal() {
-        cargarResumenCheckout();
+function actualizarTotalFinal() {
+        // 1. Recalculamos el subtotal base desde la función del carrito
+        const subtotalConDescuento = obtenerSubtotalCarrito(); 
+        
+        // 2. Definimos el valor a mostrar
+        let totalFinal = subtotalConDescuento;
+
         const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
         if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
-            let subtotalConDescuento = parseFloat(txtTotal.textContent.replace('$', '').replace('.', '')) || 0;
-            txtTotal.textContent = `$${(subtotalConDescuento + costoEnvioActual).toLocaleString()}`;
+            totalFinal += costoEnvioActual;
         }
+
+        // 3. Actualizamos el texto final una sola vez
+        txtTotal.textContent = `$${totalFinal.toLocaleString()}`;
     }
 
     // EVENTO SUBMIT
