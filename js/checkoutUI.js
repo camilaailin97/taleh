@@ -5,11 +5,8 @@ function cerrarModal() {
 
 function abrirModal(titulo, mensaje, mostrarDatos, esTransferencia = false, esEfectivo = false) {
     document.getElementById('titulo-modal').textContent = titulo;
-    
-    // Si es efectivo, no mostramos la advertencia
     const advertencia = esEfectivo ? "" : " Por favor, copien los datos o saquen captura de pantalla antes de continuar. Es necesario presionar 'Entendido' para confirmar el pedido.";
     document.getElementById('mensaje-modal').textContent = mensaje + advertencia;
-    
     document.getElementById('datos-bancarios').style.display = mostrarDatos ? 'block' : 'none';
     
     const btnWpp = document.getElementById('btn-wpp-modal');
@@ -22,7 +19,6 @@ function abrirModal(titulo, mensaje, mostrarDatos, esTransferencia = false, esEf
     btnEntendido.onclick = function() {
         finalizarPedido(esTransferencia);
     };
-    
     document.getElementById('modal-pago').style.display = 'flex';
 }
 
@@ -47,18 +43,17 @@ function finalizarPedido(esTransferencia) {
         document.getElementById('mensaje-modal').textContent = esTransferencia 
             ? "Tu pedido fue registrado. Realizá la transferencia y hacé clic abajo para enviarnos el comprobante."
             : "Tu pedido fue registrado. Si tenés alguna duda sobre el retiro, consultanos por WhatsApp.";
-        
         btnWpp.style.display = 'block';
         btnWpp.textContent = esTransferencia ? "Enviar comprobante" : "Consultar por WhatsApp";
         btnWpp.href = "https://wa.me/5491166289178?text=Hola!%20Realicé%20el%20pedido.";
-    }).catch(err => {
+    }).catch(() => {
         alert("Error al enviar. Intentá nuevamente.");
         btnEntendido.textContent = "Entendido";
         btnEntendido.disabled = false;
     });
 }
-emailjs.init("mNybPhj1LBKcTnrN8");
 
+emailjs.init("mNybPhj1LBKcTnrN8");
 
 // --- LÓGICA PRINCIPAL ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -73,68 +68,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const txtEnvio = document.getElementById('resumen-envio');
     const txtTotal = document.getElementById('resumen-total-general');
 
-    // --- AQUÍ EMPIEZA LA FUNCIÓN NUEVA ---
-function cargarResumenCheckout() {
-    if (!contenedorItems) return;
-    contenedorItems.innerHTML = '';
-    if (datosCheckout.length === 0) {
-        contenedorItems.innerHTML = '<p style="text-align:center; color:rgba(43,29,15,0.5);">Tu carrito está vacío.</p>';
-        return;
+    function cargarResumenCheckout() {
+        if (!contenedorItems) return;
+        contenedorItems.innerHTML = '';
+        if (datosCheckout.length === 0) {
+            contenedorItems.innerHTML = '<p style="text-align:center; color:rgba(43,29,15,0.5);">Tu carrito está vacío.</p>';
+            return;
+        }
+
+        let subtotalSinDescuento = 0;
+        let preciosBase = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
+        let contadores = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
+
+        datosCheckout.forEach(producto => {
+            const precioLimpio = Number(producto.precio) || 0;
+            const totalItem = precioLimpio * producto.cantidad;
+            subtotalSinDescuento += totalItem;
+
+            if (preciosBase.hasOwnProperty(producto.categoria)) {
+                contadores[producto.categoria] += producto.cantidad;
+                preciosBase[producto.categoria] = precioLimpio;
+            }
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-checkout';
+            itemDiv.innerHTML = `
+                <img src="${producto.imagen || 'imagenes/default.jpg'}">
+                <div class="item-detalles">
+                    <p class="item-titulo">${producto.titulo}</p>
+                    <p class="item-cantidad">Cant: ${producto.cantidad}</p>
+                    <p class="item-precio-unitario">$${precioLimpio.toLocaleString()}</p>
+                </div>
+                <span class="item-precio-total">$${totalItem.toLocaleString()}</span>
+            `;
+            contenedorItems.appendChild(itemDiv);
+        });
+
+        let subtotalConDescuento = 0;
+        subtotalConDescuento += (Math.floor(contadores['cruce-rosa'] / 2) * (preciosBase['cruce-rosa'] * 1.66)) + ((contadores['cruce-rosa'] % 2) * preciosBase['cruce-rosa']);
+        subtotalConDescuento += (Math.floor(contadores['espada'] / 2) * (preciosBase['espada'] * 1.8)) + ((contadores['espada'] % 2) * preciosBase['espada']);
+        subtotalConDescuento += (Math.floor(contadores['set-hebreo'] / 4) * (preciosBase['set-hebreo'] * 2.66)) + ((contadores['set-hebreo'] % 4) * preciosBase['set-hebreo']);
+        subtotalConDescuento += (Math.floor(contadores['set-urbano'] / 3) * (preciosBase['set-urbano'] * 2.1)) + ((contadores['set-urbano'] % 3) * preciosBase['set-urbano']);
+        subtotalConDescuento += (Math.floor(contadores['set-foil-varios'] / 3) * (preciosBase['set-foil-varios'] * 2.05)) + ((contadores['set-foil-varios'] % 3) * preciosBase['set-foil-varios']);
+
+        datosCheckout.forEach(p => {
+            if (!preciosBase.hasOwnProperty(p.categoria)) subtotalConDescuento += (Number(p.precio) || 0) * p.cantidad;
+        });
+
+        const ahorroTotal = subtotalSinDescuento - subtotalConDescuento;
+        txtSubtotal.textContent = `$${subtotalSinDescuento.toLocaleString()}`;
+        txtDescuento.textContent = ahorroTotal > 0 ? `-$${Math.round(ahorroTotal).toLocaleString()}` : `-$0`;
+        txtTotal.textContent = `$${Math.round(subtotalConDescuento).toLocaleString()}`;
     }
 
-    let subtotalSinDescuento = 0;
-    let preciosBase = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
-    let contadores = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
-
-    datosCheckout.forEach(producto => {
-        // Aseguramos que el precio sea un número limpio
-        const precioLimpio = Number(producto.precio) || 0;
-        const totalItem = precioLimpio * producto.cantidad;
-        
-        subtotalSinDescuento += totalItem;
-
-        if (preciosBase.hasOwnProperty(producto.categoria)) {
-            contadores[producto.categoria] += producto.cantidad;
-            preciosBase[producto.categoria] = precioLimpio;
-        }
-
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'item-checkout';
-        // AQUÍ CORREGIMOS EL "1.500 c/u" POR EL VALOR REAL DEL PRODUCTO
-        itemDiv.innerHTML = `
-            <img src="${producto.imagen || 'imagenes/default.jpg'}">
-            <div class="item-detalles">
-                <p class="item-titulo">${producto.titulo}</p>
-                <p class="item-cantidad">Cant: ${producto.cantidad}</p>
-                <p class="item-precio-unitario">$${precioLimpio.toLocaleString()}</p>
-            </div>
-            <span class="item-precio-total">$${totalItem.toLocaleString()}</span>
-        `;
-        contenedorItems.appendChild(itemDiv);
-    });
-
-    // Cálculo de descuentos
-    let subtotalConDescuento = 0;
-    subtotalConDescuento += (Math.floor(contadores['cruce-rosa'] / 2) * (preciosBase['cruce-rosa'] * 1.66)) + ((contadores['cruce-rosa'] % 2) * preciosBase['cruce-rosa']);
-    subtotalConDescuento += (Math.floor(contadores['espada'] / 2) * (preciosBase['espada'] * 1.8)) + ((contadores['espada'] % 2) * preciosBase['espada']);
-    subtotalConDescuento += (Math.floor(contadores['set-hebreo'] / 4) * (preciosBase['set-hebreo'] * 2.66)) + ((contadores['set-hebreo'] % 4) * preciosBase['set-hebreo']);
-    subtotalConDescuento += (Math.floor(contadores['set-urbano'] / 3) * (preciosBase['set-urbano'] * 2.1)) + ((contadores['set-urbano'] % 3) * preciosBase['set-urbano']);
-    subtotalConDescuento += (Math.floor(contadores['set-foil-varios'] / 3) * (preciosBase['set-foil-varios'] * 2.05)) + ((contadores['set-foil-varios'] % 3) * preciosBase['set-foil-varios']);
-
-    datosCheckout.forEach(p => {
-        if (!preciosBase.hasOwnProperty(p.categoria)) {
-            subtotalConDescuento += (Number(p.precio) || 0) * p.cantidad;
-        }
-    });
-
-    const ahorroTotal = subtotalSinDescuento - subtotalConDescuento;
-    txtSubtotal.textContent = `$${subtotalSinDescuento.toLocaleString()}`;
-    txtDescuento.textContent = ahorroTotal > 0 ? `-$${Math.round(ahorroTotal).toLocaleString()}` : `-$0`;
-    txtTotal.textContent = `$${Math.round(subtotalConDescuento).toLocaleString()}`;
-}
-
-
-    // --- LÓGICA DE ENVÍO Y CÁLCULOS ---
+    // LÓGICA DE ENVÍO Y OCULTAR EFECTIVO
     const PRECIO_ENVIO_LOCAL = 4500;
     const PRECIO_ENVIO_NACIONAL = 6800;
     let costoEnvioActual = 0;
@@ -144,28 +131,22 @@ function cargarResumenCheckout() {
         return ((n >= 1000 && n <= 1999) || (n >= 6000 && n <= 8999)) ? PRECIO_ENVIO_LOCAL : PRECIO_ENVIO_NACIONAL;
     }
 
-    if (inputCP) {
-        inputCP.addEventListener('input', () => {
-            const nuevoCosto = calcularCostoPorCP(inputCP.value);
-            const radioEnvio = document.querySelector('input[name="forma-entrega"][value="envio"]');
-            if (radioEnvio && radioEnvio.checked) {
-                costoEnvioActual = (inputCP.value.trim().length >= 4) ? nuevoCosto : 0;
-                txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual}` : "Ingresá tu CP";
-            }
-            actualizarTotalFinal();
-        });
-    }
-
     document.querySelectorAll('input[name="forma-entrega"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
+            const radioEfectivo = document.querySelector('input[value="efectivo"]').closest('label');
             if (e.target.value === 'envio') {
                 bloqueDireccion.style.display = 'block';
                 inputCP.required = true;
+                radioEfectivo.style.display = 'none';
+                if (document.querySelector('input[value="efectivo"]').checked) {
+                    document.querySelector('input[value="transferencia"]').checked = true;
+                }
                 costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
                 txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual}` : "Ingresá tu CP";
             } else {
                 bloqueDireccion.style.display = 'none';
                 inputCP.required = false;
+                radioEfectivo.style.display = 'block';
                 costoEnvioActual = 0;
                 txtEnvio.textContent = "Gratis";
             }
@@ -178,30 +159,36 @@ function cargarResumenCheckout() {
         const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
         if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
             let subtotalConDescuento = parseFloat(txtTotal.textContent.replace('$', '').replace('.', '')) || 0;
-            txtTotal.textContent = `$${subtotalConDescuento + costoEnvioActual}`;
+            txtTotal.textContent = `$${(subtotalConDescuento + costoEnvioActual).toLocaleString()}`;
         }
     }
 
-    // --- EVENTO SUBMIT (SOLO MODAL O MERCADO PAGO) ---
+    // EVENTO SUBMIT
     formPedido.addEventListener('submit', async (e) => {
         e.preventDefault();
         const metodoElegido = document.querySelector('input[name="forma-pago"]:checked')?.value;
+        const boton = formPedido.querySelector('button[type="submit"]');
 
         if (metodoElegido === 'transferencia' || metodoElegido === 'efectivo') {
             abrirModal("¡Pedido Registrado!", metodoElegido === 'transferencia' ? "Realizá la transferencia y envianos el comprobante." : "Recordá que el pago es presencial en: Calle Pola 682, CABA.", metodoElegido === 'transferencia', metodoElegido === 'transferencia');
             return;
         }
 
-        // Lógica Mercado Pago (envía mail aquí porque no usa el botón Entendido)
-        const boton = formPedido.querySelector('button[type="submit"]');
-        const totalFinal = Number(txtTotal.textContent.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
         boton.disabled = true;
         boton.textContent = "Conectando...";
         
-        // Disparo el mail aquí porque Mercado Pago redirige
+        let aviso = document.createElement('p');
+        aviso.id = "aviso-espera";
+        aviso.style.color = "#a5865e";
+        aviso.style.fontSize = "0.9em";
+        aviso.style.marginTop = "10px";
+        aviso.textContent = "⌛ Estamos conectando con Mercado Pago. Por favor, no recargues la página ni cierres la ventana, esto puede demorar unos segundos.";
+        boton.parentNode.appendChild(aviso);
+
         finalizarPedido(); 
 
         try {
+            const totalFinal = Number(txtTotal.textContent.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
             const respuesta = await fetch("https://taleh-api.onrender.com/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -209,9 +196,15 @@ function cargarResumenCheckout() {
             });
             const data = await respuesta.json();
             if (data.init_point) { window.location.href = data.init_point; }
-            else { alert("Error al conectar con Mercado Pago."); boton.disabled = false; boton.textContent = "CONFIRMAR PEDIDO"; }
-        } catch (err) { alert("Error de red."); boton.disabled = false; boton.textContent = "CONFIRMAR PEDIDO"; }
+            else { throw new Error("Sin init_point"); }
+        } catch (err) {
+            aviso.remove();
+            alert("Error al conectar con Mercado Pago."); 
+            boton.disabled = false; 
+            boton.textContent = "CONFIRMAR PEDIDO"; 
+        }
     });
 
+    if(inputCP) inputCP.addEventListener('input', actualizarTotalFinal);
     cargarResumenCheckout();
 });

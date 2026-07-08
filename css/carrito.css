@@ -307,6 +307,15 @@
     flex: 1; /* Hace que el título ocupe el espacio sobrante de forma limpia */
 }
 
+/* Esto asegura que los radio buttons tengan un espacio constante */
+.opcion-seleccion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
 /* 📱 Optimización para Celulares */
 @media (max-width: 480px) {
     #carrito-lateral {
