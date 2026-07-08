@@ -70,49 +70,42 @@ function eliminarProductoDelCarrito(id) {
 function obtenerSubtotalCarrito() {
     let subtotalFinal = 0;
     
-    // Contadores para productos con promo
     let grupos = { 
-        'señalador': 0, // Cruces y Rosas combinables
+        'cruce-rosa': 0, 
         'espada': 0, 
         'set-hebreo': 0, 
         'set-urbano': 0, 
         'set-foil-varios': 0 
     };
 
-    // 1. Recorremos el carrito para sumar cantidades y sumar productos sin promo
     carrito.forEach(p => {
         let precio = Number(p.precio) || 0;
         
-        // Si es señalador (cruz o rosa), ambos usan la misma categoría 'señalador'
-        if (p.categoria === 'cruce-rosa' || p.categoria === 'señalador') {
-            grupos['señalador'] += p.cantidad;
-        } else if (grupos.hasOwnProperty(p.categoria)) {
+        if (grupos.hasOwnProperty(p.categoria)) {
             grupos[p.categoria] += p.cantidad;
         } else {
             subtotalFinal += precio * p.cantidad;
         }
     });
 
-    // 2. Aplicamos las PROMOS exactas:
+    // PROMOS (Precios fijos reales)
+    // 1. Cruces y Rosas (cruce-rosa): 2 x $1.500 ($900 c/u)
+    subtotalFinal += (Math.floor(grupos['cruce-rosa'] / 2) * 1500) + ((grupos['cruce-rosa'] % 2) * 900);
     
-    // Promo Señaladores: 2 x $1.500 ($900 c/u)
-    subtotalFinal += (Math.floor(grupos['señalador'] / 2) * 1500) + ((grupos['señalador'] % 2) * 900);
-    
-    // Promo Espada: 2 x $1.800 ($1.000 c/u)
+    // 2. Espadas: 2 x $1.800 ($1.000 c/u)
     subtotalFinal += (Math.floor(grupos['espada'] / 2) * 1800) + ((grupos['espada'] % 2) * 1000);
     
-    // Promo Set Hebreo: 4 x $4.000 ($1.500 c/u)
+    // 3. Set Hebreo: 4 x $4.000 ($1.500 c/u)
     subtotalFinal += (Math.floor(grupos['set-hebreo'] / 4) * 4000) + ((grupos['set-hebreo'] % 4) * 1500);
     
-    // Promo Set Urbano: 3 x $4.000 ($1.900 c/u)
+    // 4. Set Urbano: 3 x $4.000 ($1.900 c/u)
     subtotalFinal += (Math.floor(grupos['set-urbano'] / 3) * 4000) + ((grupos['set-urbano'] % 3) * 1900);
     
-    // Promo Set Foil Varios: 3 x $3.500 ($1.700 c/u)
+    // 5. Set Foil Varios: 3 x $3.500 ($1.700 c/u)
     subtotalFinal += (Math.floor(grupos['set-foil-varios'] / 3) * 3500) + ((grupos['set-foil-varios'] % 3) * 1700);
 
     return Math.round(subtotalFinal);
 }
-
 function vaciarCarrito() {
     carrito = [];
     guardarCarritoEnStorage();
