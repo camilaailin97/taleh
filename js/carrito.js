@@ -91,7 +91,7 @@ function obtenerSubtotalCarrito() {
     // PROMOS (Precios fijos reales)
  
     // 1. Cruces y Rosas (cruce-rosa): 2 x $1.500 ($900 c/u)
-    subtotalFinal += (Math.floor(grupos['cruce-rosa'] / 2) * 1500) + ((grupos['cruce-rosa'] % 2) * 900);
+subtotalFinal += (Math.floor(grupos['cruce-rosa'] / 2) * 1500) + ((grupos['cruce-rosa'] % 2) * 900);
     
     // 2. Espadas: 2 x $1.800 ($1.000 c/u)
     subtotalFinal += (Math.floor(grupos['espada'] / 2) * 1800) + ((grupos['espada'] % 2) * 1000);
