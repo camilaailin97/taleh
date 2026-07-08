@@ -29,6 +29,8 @@ function finalizarPedido(esTransferencia) {
     btnEntendido.textContent = "Enviando...";
     btnEntendido.disabled = true;
 
+const direccion = `${document.getElementById('checkout-calle')?.value || ''} ${document.getElementById('checkout-numero')?.value || ''}, ${document.getElementById('checkout-depto')?.value || ''}, ${document.getElementById('checkout-localidad')?.value || ''}, ${document.getElementById('checkout-provincia')?.value || ''}, CP: ${document.getElementById('checkout-cp')?.value || ''}`;
+
     emailjs.send('service_izruv7a', 'template_3wgwcyl', {
         nombre: document.getElementById('checkout-nombre').value,
         email: document.getElementById('checkout-email').value,
@@ -36,7 +38,8 @@ function finalizarPedido(esTransferencia) {
         lista_productos: JSON.parse(localStorage.getItem('taleh_carrito')).map(p => `${p.titulo} x${p.cantidad}`).join(', '),
         total: document.getElementById('resumen-total-general').textContent,
         metodo_pago: document.querySelector('input[name="forma-pago"]:checked').value,
-        forma_entrega: document.querySelector('input[name="forma-entrega"]:checked').value
+        forma_entrega: document.querySelector('input[name="forma-entrega"]:checked').value,
+        datos_envio: direccion
     }).then(() => {
         btnEntendido.style.display = 'none';
         document.getElementById('titulo-modal').textContent = "¡Pedido Registrado!";
