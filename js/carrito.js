@@ -89,7 +89,8 @@ function obtenerSubtotalCarrito() {
     });
 
     // PROMOS (Precios fijos reales)
-// 1. Cruces y Rosas (cruce-rosa): 2 x $1.500 ($900 c/u)
+ 
+    // 1. Cruces y Rosas (cruce-rosa): 2 x $1.500 ($900 c/u)
     subtotalFinal += (Math.floor(grupos['cruce-rosa'] / 2) * 1500) + ((grupos['cruce-rosa'] % 2) * 900);
     
     // 2. Espadas: 2 x $1.800 ($1.000 c/u)
@@ -105,7 +106,7 @@ function obtenerSubtotalCarrito() {
     subtotalFinal += (Math.floor(grupos['set-foil-varios'] / 3) * 3500) + ((grupos['set-foil-varios'] % 3) * 1700);
 
     return Math.round(subtotalFinal);
-    
+}
 function vaciarCarrito() {
     carrito = [];
     guardarCarritoEnStorage();

@@ -69,57 +69,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const txtTotal = document.getElementById('resumen-total-general');
 
     function cargarResumenCheckout() {
-        if (!contenedorItems) return;
-        contenedorItems.innerHTML = '';
-        if (datosCheckout.length === 0) {
-            contenedorItems.innerHTML = '<p style="text-align:center; color:rgba(43,29,15,0.5);">Tu carrito está vacío.</p>';
-            return;
-        }
-
-        let subtotalSinDescuento = 0;
-        let preciosBase = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
-        let contadores = { 'cruce-rosa': 0, 'espada': 0, 'set-hebreo': 0, 'set-urbano': 0, 'set-foil-varios': 0 };
-
-        datosCheckout.forEach(producto => {
-            const precioLimpio = Number(producto.precio) || 0;
-            const totalItem = precioLimpio * producto.cantidad;
-            subtotalSinDescuento += totalItem;
-
-            if (preciosBase.hasOwnProperty(producto.categoria)) {
-                contadores[producto.categoria] += producto.cantidad;
-                preciosBase[producto.categoria] = precioLimpio;
-            }
-
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'item-checkout';
-            itemDiv.innerHTML = `
-                <img src="${producto.imagen || 'imagenes/default.jpg'}">
-                <div class="item-detalles">
-                    <p class="item-titulo">${producto.titulo}</p>
-                    <p class="item-cantidad">Cant: ${producto.cantidad}</p>
-                    <p class="item-precio-unitario">$${precioLimpio.toLocaleString()}</p>
-                </div>
-                <span class="item-precio-total">$${totalItem.toLocaleString()}</span>
-            `;
-            contenedorItems.appendChild(itemDiv);
-        });
-
-        let subtotalConDescuento = 0;
-        subtotalConDescuento += (Math.floor(contadores['cruce-rosa'] / 2) * (preciosBase['cruce-rosa'] * 1.66)) + ((contadores['cruce-rosa'] % 2) * preciosBase['cruce-rosa']);
-        subtotalConDescuento += (Math.floor(contadores['espada'] / 2) * (preciosBase['espada'] * 1.8)) + ((contadores['espada'] % 2) * preciosBase['espada']);
-        subtotalConDescuento += (Math.floor(contadores['set-hebreo'] / 4) * (preciosBase['set-hebreo'] * 2.66)) + ((contadores['set-hebreo'] % 4) * preciosBase['set-hebreo']);
-        subtotalConDescuento += (Math.floor(contadores['set-urbano'] / 3) * (preciosBase['set-urbano'] * 2.1)) + ((contadores['set-urbano'] % 3) * preciosBase['set-urbano']);
-        subtotalConDescuento += (Math.floor(contadores['set-foil-varios'] / 3) * (preciosBase['set-foil-varios'] * 2.05)) + ((contadores['set-foil-varios'] % 3) * preciosBase['set-foil-varios']);
-
-        datosCheckout.forEach(p => {
-            if (!preciosBase.hasOwnProperty(p.categoria)) subtotalConDescuento += (Number(p.precio) || 0) * p.cantidad;
-        });
-
-        const ahorroTotal = subtotalSinDescuento - subtotalConDescuento;
-        txtSubtotal.textContent = `$${subtotalSinDescuento.toLocaleString()}`;
-        txtDescuento.textContent = ahorroTotal > 0 ? `-$${Math.round(ahorroTotal).toLocaleString()}` : `-$0`;
-        txtTotal.textContent = `$${Math.round(subtotalConDescuento).toLocaleString()}`;
+    if (!contenedorItems) return;
+    contenedorItems.innerHTML = '';
+    
+    if (datosCheckout.length === 0) {
+        contenedorItems.innerHTML = '<p style="text-align:center; color:rgba(43,29,15,0.5);">Tu carrito está vacío.</p>';
+        return;
     }
+
+    let subtotalSinDescuento = 0;
+
+    datosCheckout.forEach(producto => {
+        const precioLimpio = Number(producto.precio) || 0;
+        const totalItem = precioLimpio * producto.cantidad;
+        subtotalSinDescuento += totalItem;
+
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'item-checkout';
+        itemDiv.innerHTML = `
+            <img src="${producto.imagen || 'imagenes/default.jpg'}">
+            <div class="item-detalles">
+                <p class="item-titulo">${producto.titulo}</p>
+                <p class="item-cantidad">Cant: ${producto.cantidad}</p>
+                <p class="item-precio-unitario">$${precioLimpio.toLocaleString()}</p>
+            </div>
+            <span class="item-precio-total">$${totalItem.toLocaleString()}</span>
+        `;
+        contenedorItems.appendChild(itemDiv);
+    });
+
+    // LLAMADA A LA FUNCIÓN UNIFICADA DE CARRITO.JS
+    const subtotalConDescuento = obtenerSubtotalCarrito(); 
+
+    // Calculamos el ahorro real
+    const ahorroTotal = subtotalSinDescuento - subtotalConDescuento;
+
+    // Actualizamos la interfaz con los valores calculados
+    txtSubtotal.textContent = `$${subtotalSinDescuento.toLocaleString()}`;
+    txtDescuento.textContent = ahorroTotal > 0 ? `-$${Math.round(ahorroTotal).toLocaleString()}` : `-$0`;
+    txtTotal.textContent = `$${Math.round(subtotalConDescuento).toLocaleString()}`;
+}
 
     // LÓGICA DE ENVÍO Y OCULTAR EFECTIVO
     const PRECIO_ENVIO_LOCAL = 4500;
