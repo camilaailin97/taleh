@@ -5,33 +5,43 @@ function cerrarModal() {
 
 function abrirModal(titulo, mensaje, mostrarDatos, esTransferencia = false) {
     document.getElementById('titulo-modal').textContent = titulo;
-    document.getElementById('mensaje-modal').textContent = mensaje;
+    
+    // Agregamos la advertencia dentro del mensaje
+    const advertencia = " Por favor, copien los datos o saquen captura de pantalla antes de continuar. Es necesario presionar 'Entendido' para confirmar el pedido.";
+    document.getElementById('mensaje-modal').textContent = mensaje + advertencia;
+    
     document.getElementById('datos-bancarios').style.display = mostrarDatos ? 'block' : 'none';
     
     const btnWpp = document.getElementById('btn-wpp-modal');
     btnWpp.style.display = 'block';
     
-    if (esTransferencia) {
-        btnWpp.href = "https://wa.me/5491166289178?text=Hola!%20Realicé%20la%20transferencia%20del%20pedido.";
-        btnWpp.textContent = "Enviar comprobante por WhatsApp";
-    } else {
-        btnWpp.href = "https://wa.me/5491166289178?text=Hola!%20Tengo%20una%20consulta%20sobre%20mi%20pedido.";
-        btnWpp.textContent = "Consultar por WhatsApp";
-    }
+    // Configuración inicial del botón
+    btnWpp.textContent = "Entendido";
+    btnWpp.href = "#";
+    btnWpp.onclick = function(e) {
+        e.preventDefault();
+        finalizarPedido(esTransferencia); // Le pasamos si es transferencia para configurar el botón después
+    };
+    
     document.getElementById('modal-pago').style.display = 'flex';
 }
 
 // --- NUEVA FUNCIÓN PARA ENVIAR MAIL AL HACER CLIC EN "ENTENDIDO" ---
-function finalizarPedido() {
+function finalizarPedido(esTransferencia) {
     const esEnvio = document.querySelector('input[name="forma-entrega"][value="envio"]').checked;
     const dir = esEnvio ? 
         `${document.getElementById('checkout-calle').value} ${document.getElementById('checkout-numero').value}, ${document.getElementById('checkout-depto').value || ''} - ${document.getElementById('checkout-localidad').value}, ${document.getElementById('checkout-provincia').value} (CP: ${document.getElementById('checkout-cp').value})` 
         : "Retiro en local";
 
+    // Mostramos estado de carga
+    const btnWpp = document.getElementById('btn-wpp-modal');
+    btnWpp.textContent = "Enviando pedido...";
+    btnWpp.onclick = null;
+
     emailjs.send('service_izruv7a', 'template_3wgwcyl', {
         nombre: document.getElementById('checkout-nombre').value,
         email: document.getElementById('checkout-email').value,
-        celular: document.getElementById('checkout-celular').value, // Agregado
+        celular: document.getElementById('checkout-celular').value,
         lista_productos: JSON.parse(localStorage.getItem('taleh_carrito')).map(p => `${p.titulo} x${p.cantidad}`).join(', '),
         total: document.getElementById('resumen-total-general').textContent,
         metodo_pago: document.querySelector('input[name="forma-pago"]:checked').value,
@@ -39,8 +49,22 @@ function finalizarPedido() {
         datos_envio: dir
     }).then(() => {
         console.log("Email enviado tras confirmación");
-        cerrarModal(); 
-    }).catch(err => console.error("Error al enviar:", err));
+        
+        // Cambiamos el mensaje para avisar que se envió correctamente
+        document.getElementById('titulo-modal').textContent = "¡Pedido Enviado!";
+        document.getElementById('mensaje-modal').textContent = "Tu pedido fue registrado. Si realizaste transferencia, hacé clic abajo para enviarnos el comprobante.";
+        
+        // Cambiamos el botón a WhatsApp
+        btnWpp.textContent = esTransferencia ? "Enviar comprobante por WhatsApp" : "Contactar por WhatsApp";
+        btnWpp.href = "https://wa.me/5491166289178?text=Hola!%20Realicé%20el%20pedido%20y%20aquí%20adjunto%20el%20comprobante.";
+        btnWpp.onclick = null; // Ya no hace falta disparar el mail otra vez
+        
+    }).catch(err => {
+        console.error("Error al enviar:", err);
+        alert("Hubo un error al enviar el pedido, intentá nuevamente.");
+        btnWpp.textContent = "Entendido";
+        btnWpp.onclick = () => finalizarPedido(esTransferencia);
+    });
 }
 
 emailjs.init("mNybPhj1LBKcTnrN8");
