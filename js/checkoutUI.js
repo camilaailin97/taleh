@@ -151,7 +151,19 @@ document.addEventListener('DOMContentLoaded', () => {
             txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
             
             // OBLIGATORIO: Llamar a actualizarTotalFinal para que el precio total cambie
-            actualizarTotalFinal();
+            function actualizarTotalFinal() {
+    const subtotalConDescuento = obtenerSubtotalCarrito();
+    let totalFinal = subtotalConDescuento;
+
+    // Solo sumar si la opción elegida es 'envio'
+    const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
+    if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
+        totalFinal += costoEnvioActual;
+    }
+
+    // Actualizamos el DOM
+    txtTotal.textContent = `$${Math.round(totalFinal).toLocaleString('es-AR')}`;
+}
         });
     }
 
