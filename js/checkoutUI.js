@@ -110,43 +110,28 @@ document.addEventListener('DOMContentLoaded', () => {
     txtTotal.textContent = `$${Math.round(subtotalConDescuento).toLocaleString()}`;
 }
 
-// --- LÓGICA DE ENVÍO Y OCULTAR EFECTIVO ---
-document.addEventListener('DOMContentLoaded', () => {
-    // --- ELEMENTOS DEL DOM (IDs corregidos según tu HTML) ---
-    const txtSubtotal = document.getElementById('resumen-subtotal');
-    const txtDescuento = document.getElementById('resumen-descuento');
-    const txtEnvio = document.getElementById('resumen-envio');
-    const txtTotal = document.getElementById('resumen-total-general');
-    const inputCP = document.getElementById('checkout-cp');
-    const bloqueDireccion = document.getElementById('checkout-bloque-direccion');
-    const formPedido = document.getElementById('formulario-checkout-real');
-    const contenedorItems = document.getElementById('items-resumen-checkout');
-
-    // --- LÓGICA DE ENVÍO ---
-    const PRECIO_CABA = 5500;
-    const PRECIO_GBA = 7500;
-    const PRECIO_NACIONAL = 11500;
+    // LÓGICA DE ENVÍO Y OCULTAR EFECTIVO
+    const PRECIO_ENVIO_LOCAL = 4500;
+    const PRECIO_ENVIO_NACIONAL = 6800;
     let costoEnvioActual = 0;
 
     function calcularCostoPorCP(cp) {
         const n = parseInt(cp);
-        if (isNaN(n)) return PRECIO_NACIONAL;
-        if (n >= 1000 && n <= 1499) return PRECIO_CABA;
-        else if (n >= 1600 && n <= 1899) return PRECIO_GBA;
-        else return PRECIO_NACIONAL;
+        return ((n >= 1000 && n <= 1999) || (n >= 6000 && n <= 8999)) ? PRECIO_ENVIO_LOCAL : PRECIO_ENVIO_NACIONAL;
     }
 
-    // Evento: Cambiar tipo de entrega
     document.querySelectorAll('input[name="forma-entrega"]').forEach(radio => {
         radio.addEventListener('change', (e) => {
             const radioEfectivo = document.querySelector('input[value="efectivo"]').closest('label');
-            
             if (e.target.value === 'envio') {
                 bloqueDireccion.style.display = 'block';
                 inputCP.required = true;
                 radioEfectivo.style.display = 'none';
+                if (document.querySelector('input[value="efectivo"]').checked) {
+                    document.querySelector('input[value="transferencia"]').checked = true;
+                }
                 costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
-                txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
+                txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual}` : "Ingresá tu CP";
             } else {
                 bloqueDireccion.style.display = 'none';
                 inputCP.required = false;
@@ -158,32 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Evento: Escribir CP
-    if (inputCP) {
-        inputCP.addEventListener('input', () => {
-            costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
-            txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
-            actualizarTotalFinal();
-        });
-    }
-
-    // Función maestra de actualización
     function actualizarTotalFinal() {
-        let subtotalConDescuento = obtenerSubtotalCarrito();
-        let totalFinal = subtotalConDescuento;
-        
+        cargarResumenCheckout();
         const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
         if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
-            totalFinal += costoEnvioActual;
+            let subtotalConDescuento = parseFloat(txtTotal.textContent.replace('$', '').replace('.', '')) || 0;
+            txtTotal.textContent = `$${(subtotalConDescuento + costoEnvioActual).toLocaleString()}`;
         }
-
-        txtTotal.textContent = `$${Math.round(totalFinal).toLocaleString()}`;
     }
-
-    // Carga inicial
-    cargarResumenCheckout();
-});
-
 
     // EVENTO SUBMIT
     formPedido.addEventListener('submit', async (e) => {
