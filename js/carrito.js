@@ -1,3 +1,6 @@
+// Desactivar todos los console.log en la versión oficial
+console.log = function() {};
+
 // ==========================================================================
 // Taleh - Módulo del Carrito (Cerebro de Datos)
 // ==========================================================================
