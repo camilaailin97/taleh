@@ -154,6 +154,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 costoEnvioActual = 0;
                 txtEnvio.textContent = "Gratis";
             }
+
+// --- NUEVO: Escuchar cuando el usuario escribe el CP ---
+const inputCP = document.getElementById('cp'); // Asegúrate de que este sea el ID de tu input de CP en el HTML
+
+if (inputCP) {
+    inputCP.addEventListener('input', () => {
+        // Recalculamos el costo según el nuevo CP ingresado
+        costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
+        
+        // Actualizamos el texto en pantalla
+        txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
+        
+        // Recalculamos el total sumando el envío
+        actualizarTotalFinal();
+    });
+}
+
             actualizarTotalFinal();
         });
     });
