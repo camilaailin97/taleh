@@ -111,70 +111,78 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
 // --- LÓGICA DE ENVÍO Y OCULTAR EFECTIVO ---
-const PRECIO_CABA = 5500;
-const PRECIO_GBA = 7500;
-const PRECIO_NACIONAL = 11500;
-let costoEnvioActual = 0;
+document.addEventListener('DOMContentLoaded', () => {
+    // --- ELEMENTOS DEL DOM (IDs corregidos según tu HTML) ---
+    const txtSubtotal = document.getElementById('resumen-subtotal');
+    const txtDescuento = document.getElementById('resumen-descuento');
+    const txtEnvio = document.getElementById('resumen-envio');
+    const txtTotal = document.getElementById('resumen-total-general');
+    const inputCP = document.getElementById('checkout-cp');
+    const bloqueDireccion = document.getElementById('checkout-bloque-direccion');
+    const formPedido = document.getElementById('formulario-checkout-real');
+    const contenedorItems = document.getElementById('items-resumen-checkout');
 
-function calcularCostoPorCP(cp) {
-    const n = parseInt(cp);
-    if (isNaN(n)) return PRECIO_NACIONAL;
+    // --- LÓGICA DE ENVÍO ---
+    const PRECIO_CABA = 5500;
+    const PRECIO_GBA = 7500;
+    const PRECIO_NACIONAL = 11500;
+    let costoEnvioActual = 0;
 
-    if (n >= 1000 && n <= 1499) return PRECIO_CABA;
-    else if (n >= 1600 && n <= 1899) return PRECIO_GBA;
-    else return PRECIO_NACIONAL;
-}
-
-// 1. Evento para cambio de método de entrega (Retiro vs Envío)
-document.querySelectorAll('input[name="forma-entrega"]').forEach(radio => {
-    radio.addEventListener('change', (e) => {
-        const radioEfectivo = document.querySelector('input[value="efectivo"]').closest('label');
-        
-        if (e.target.value === 'envio') {
-            bloqueDireccion.style.display = 'block';
-            inputCP.required = true;
-            radioEfectivo.style.display = 'none';
-            if (document.querySelector('input[value="efectivo"]').checked) {
-                document.querySelector('input[value="transferencia"]').checked = true;
-            }
-            // Calculamos costo inicial al activar el envío
-            costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
-            txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
-        } else {
-            bloqueDireccion.style.display = 'none';
-            inputCP.required = false;
-            radioEfectivo.style.display = 'block';
-            costoEnvioActual = 0;
-            txtEnvio.textContent = "Gratis";
-        }
-        actualizarTotalFinal();
-    });
-});
-
-// 2. Evento para cuando escriben el CP (Usando el ID correcto: checkout-cp)
-const inputCP = document.getElementById('checkout-cp'); 
-if (inputCP) {
-    inputCP.addEventListener('input', () => {
-        costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
-        txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
-        actualizarTotalFinal();
-    });
-}
-
-// 3. Función maestra de actualización
-function actualizarTotalFinal() {
-    // Obtenemos el subtotal del carrito (ya sin errores de promos)
-    let subtotalFinal = obtenerSubtotalCarrito(); 
-    
-    // Verificamos si está activa la opción de envío
-    const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
-    if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
-        subtotalFinal += costoEnvioActual;
+    function calcularCostoPorCP(cp) {
+        const n = parseInt(cp);
+        if (isNaN(n)) return PRECIO_NACIONAL;
+        if (n >= 1000 && n <= 1499) return PRECIO_CABA;
+        else if (n >= 1600 && n <= 1899) return PRECIO_GBA;
+        else return PRECIO_NACIONAL;
     }
 
-    // Actualizamos el DOM
-    txtTotal.textContent = `$${Math.round(subtotalFinal).toLocaleString()}`;
-}
+    // Evento: Cambiar tipo de entrega
+    document.querySelectorAll('input[name="forma-entrega"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            const radioEfectivo = document.querySelector('input[value="efectivo"]').closest('label');
+            
+            if (e.target.value === 'envio') {
+                bloqueDireccion.style.display = 'block';
+                inputCP.required = true;
+                radioEfectivo.style.display = 'none';
+                costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
+                txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
+            } else {
+                bloqueDireccion.style.display = 'none';
+                inputCP.required = false;
+                radioEfectivo.style.display = 'block';
+                costoEnvioActual = 0;
+                txtEnvio.textContent = "Gratis";
+            }
+            actualizarTotalFinal();
+        });
+    });
+
+    // Evento: Escribir CP
+    if (inputCP) {
+        inputCP.addEventListener('input', () => {
+            costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
+            txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
+            actualizarTotalFinal();
+        });
+    }
+
+    // Función maestra de actualización
+    function actualizarTotalFinal() {
+        let subtotalConDescuento = obtenerSubtotalCarrito();
+        let totalFinal = subtotalConDescuento;
+        
+        const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
+        if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
+            totalFinal += costoEnvioActual;
+        }
+
+        txtTotal.textContent = `$${Math.round(totalFinal).toLocaleString()}`;
+    }
+
+    // Carga inicial
+    cargarResumenCheckout();
+});
 
 
     // EVENTO SUBMIT
