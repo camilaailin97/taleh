@@ -69,55 +69,64 @@ document.addEventListener('DOMContentLoaded', () => {
     const txtTotal = document.getElementById('resumen-total-general');
 
     function cargarResumenCheckout() {
-    if (!contenedorItems) return;
-    contenedorItems.innerHTML = '';
-    
-    if (datosCheckout.length === 0) {
-        contenedorItems.innerHTML = '<p style="text-align:center; color:rgba(43,29,15,0.5);">Tu carrito está vacío.</p>';
-        return;
+        if (!contenedorItems) return;
+        contenedorItems.innerHTML = '';
+        if (datosCheckout.length === 0) {
+            contenedorItems.innerHTML = '<p style="text-align:center; color:rgba(43,29,15,0.5);">Tu carrito está vacío.</p>';
+            return;
+        }
+        let subtotalSinDescuento = 0;
+        datosCheckout.forEach(producto => {
+            const precioLimpio = Number(producto.precio) || 0;
+            const totalItem = precioLimpio * producto.cantidad;
+            subtotalSinDescuento += totalItem;
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-checkout';
+            itemDiv.innerHTML = `
+                <img src="${producto.imagen || 'imagenes/default.jpg'}">
+                <div class="item-detalles">
+                    <p class="item-titulo">${producto.titulo}</p>
+                    <p class="item-cantidad">Cant: ${producto.cantidad}</p>
+                    <p class="item-precio-unitario">$${precioLimpio.toLocaleString()}</p>
+                </div>
+                <span class="item-precio-total">$${totalItem.toLocaleString()}</span>
+            `;
+            contenedorItems.appendChild(itemDiv);
+        });
+        const subtotalConDescuento = obtenerSubtotalCarrito(); 
+        const ahorroTotal = subtotalSinDescuento - subtotalConDescuento;
+        txtSubtotal.textContent = `$${subtotalSinDescuento.toLocaleString()}`;
+        txtDescuento.textContent = ahorroTotal > 0 ? `-$${Math.round(ahorroTotal).toLocaleString()}` : `-$0`;
+        txtTotal.textContent = `$${Math.round(subtotalConDescuento).toLocaleString()}`;
     }
 
-    let subtotalSinDescuento = 0;
 
-    datosCheckout.forEach(producto => {
-        const precioLimpio = Number(producto.precio) || 0;
-        const totalItem = precioLimpio * producto.cantidad;
-        subtotalSinDescuento += totalItem;
-
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'item-checkout';
-        itemDiv.innerHTML = `
-            <img src="${producto.imagen || 'imagenes/default.jpg'}">
-            <div class="item-detalles">
-                <p class="item-titulo">${producto.titulo}</p>
-                <p class="item-cantidad">Cant: ${producto.cantidad}</p>
-                <p class="item-precio-unitario">$${precioLimpio.toLocaleString()}</p>
-            </div>
-            <span class="item-precio-total">$${totalItem.toLocaleString()}</span>
-        `;
-        contenedorItems.appendChild(itemDiv);
-    });
-
-    // LLAMADA A LA FUNCIÓN UNIFICADA DE CARRITO.JS
-    const subtotalConDescuento = obtenerSubtotalCarrito(); 
-
-    // Calculamos el ahorro real
-    const ahorroTotal = subtotalSinDescuento - subtotalConDescuento;
-
-    // Actualizamos la interfaz con los valores calculados
-    txtSubtotal.textContent = `$${subtotalSinDescuento.toLocaleString()}`;
-    txtDescuento.textContent = ahorroTotal > 0 ? `-$${Math.round(ahorroTotal).toLocaleString()}` : `-$0`;
-    txtTotal.textContent = `$${Math.round(subtotalConDescuento).toLocaleString()}`;
-}
-
-    // LÓGICA DE ENVÍO Y OCULTAR EFECTIVO
-    const PRECIO_ENVIO_LOCAL = 4500;
-    const PRECIO_ENVIO_NACIONAL = 6800;
+// --- LÓGICA DE ENVÍO  ---
+    const PRECIO_CABA = 5500;
+    const PRECIO_GBA = 7500;
+    const PRECIO_NACIONAL = 11500;
     let costoEnvioActual = 0;
 
     function calcularCostoPorCP(cp) {
         const n = parseInt(cp);
-        return ((n >= 1000 && n <= 1999) || (n >= 6000 && n <= 8999)) ? PRECIO_ENVIO_LOCAL : PRECIO_ENVIO_NACIONAL;
+        if (isNaN(n)) return PRECIO_NACIONAL;
+
+        // CABA: 1000 - 1499
+        if (n >= 1000 && n <= 1499) return PRECIO_CABA;
+        // GBA: 1600 - 1899
+        else if (n >= 1600 && n <= 1899) return PRECIO_GBA;
+        // Interior: Resto
+        else return PRECIO_NACIONAL;
+    }
+
+    function actualizarTotalFinal() {
+        const subtotalConDescuento = obtenerSubtotalCarrito();
+        let totalFinal = subtotalConDescuento;
+        const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
+        if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
+            totalFinal += costoEnvioActual;
+        }
+        txtTotal.textContent = `$${Math.round(totalFinal).toLocaleString()}`;
     }
 
     document.querySelectorAll('input[name="forma-entrega"]').forEach(radio => {
@@ -131,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.querySelector('input[value="transferencia"]').checked = true;
                 }
                 costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
-                txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual}` : "Ingresá tu CP";
+                txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
             } else {
                 bloqueDireccion.style.display = 'none';
                 inputCP.required = false;
@@ -143,16 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    function actualizarTotalFinal() {
-        cargarResumenCheckout();
-        const formaEntregaActiva = document.querySelector('input[name="forma-entrega"]:checked');
-        if (formaEntregaActiva && formaEntregaActiva.value === 'envio') {
-            let subtotalConDescuento = parseFloat(txtTotal.textContent.replace('$', '').replace('.', '')) || 0;
-            txtTotal.textContent = `$${(subtotalConDescuento + costoEnvioActual).toLocaleString()}`;
-        }
+    if(inputCP) {
+        inputCP.addEventListener('input', () => {
+            costoEnvioActual = (inputCP.value.trim() !== '') ? calcularCostoPorCP(inputCP.value) : 0;
+            txtEnvio.textContent = (costoEnvioActual > 0) ? `$${costoEnvioActual.toLocaleString()}` : "Ingresá tu CP";
+            actualizarTotalFinal();
+        });
     }
 
-    // EVENTO SUBMIT
     formPedido.addEventListener('submit', async (e) => {
         e.preventDefault();
         const metodoElegido = document.querySelector('input[name="forma-pago"]:checked')?.value;
@@ -162,20 +169,16 @@ document.addEventListener('DOMContentLoaded', () => {
             abrirModal("¡Pedido Registrado!", metodoElegido === 'transferencia' ? "Realizá la transferencia y envianos el comprobante." : "Recordá que el pago es presencial en: Calle Pola 682, CABA.", metodoElegido === 'transferencia', metodoElegido === 'transferencia');
             return;
         }
-
         boton.disabled = true;
         boton.textContent = "Conectando...";
-        
         let aviso = document.createElement('p');
         aviso.id = "aviso-espera";
         aviso.style.color = "#a5865e";
         aviso.style.fontSize = "0.9em";
         aviso.style.marginTop = "10px";
-        aviso.textContent = "⌛ Estamos conectando con Mercado Pago. Por favor, no recargues la página ni cierres la ventana, esto puede demorar unos segundos.";
+        aviso.textContent = "⌛ Estamos conectando con Mercado Pago...";
         boton.parentNode.appendChild(aviso);
-
         finalizarPedido(); 
-
         try {
             const totalFinal = Number(txtTotal.textContent.replace("$", "").replace(/\./g, "").replace(",", ".").trim());
             const respuesta = await fetch("https://taleh-api.onrender.com/", {
@@ -194,6 +197,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    if(inputCP) inputCP.addEventListener('input', actualizarTotalFinal);
     cargarResumenCheckout();
 });
