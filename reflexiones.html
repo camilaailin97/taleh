@@ -7,7 +7,7 @@
     <!-- Fuentes mágicas -->
     <link href="https://fonts.googleapis.com/css2?family=Almendra:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/reflexiones.css">
-        <link rel="stylesheet" href="css/carrito.css">
+    <link rel="stylesheet" href="css/carrito.css">
 </head>
 <body>
 
@@ -21,39 +21,58 @@
         <!-- Contenedor del Feed del Blog -->
         <div class="feed-articulos">
             
-            <!-- Artículo destacado 1 (Con Video de YouTube incrustado) -->
+            <!-- Artículo 1 -->
             <article class="articulo-tarjeta">
-    <div class="contenedor-video">
-        <iframe src="https://www.youtube.com/embed/CcJTmDfvyY0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
-    <div class="articulo-contenido">
-        <p class="articulo-fecha">Mes de TAMUZ • 2026</p>
-        <h2>Tema del mes</h2>
-        <p class="articulo-extracto">
-            En esta enseñanza profundizamos en cómo el calendario bíblico nos alinea con el corazón del Creador. Te invito a ver el video y reflexionar sobre las estaciones de tu vida...
-        </p>
-        <a href="#" class="boton-leer">Leer Reflexión Completa →</a>
-    </div>
-</article>
-
-            <!-- Artículo 2 (Solo texto/imagen por si algún día no subís video) -->
-            <article class="articulo-tarjeta">
-                <div class="articulo-imagen-placeholder">
-                    <span>📖</span>
+                <div class="contenedor-video">
+                    <iframe src="https://www.youtube.com/embed/CcJTmDfvyY0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
                 <div class="articulo-contenido">
-                    <p class="articulo-fecha">Mes anterior • 2026</p>
-                    <h2>El Carácter del Remanente</h2>
-                    <p class="articulo-extracto">
-                        Una breve pero profunda meditación sobre la constancia, la fe inquebrantable en tiempos de quietud y lo que el corderito nos enseña sobre la entrega mansa.
-                    </p>
-                    <a href="#" class="boton-leer">Leer Reflexión Completa →</a>
+                    <p class="articulo-fecha">Mes de TAMUZ • 2026</p>
+                    <h2>Tema del mes</h2>
+                    <p class="articulo-extracto">En esta enseñanza profundizamos en cómo el calendario bíblico nos alinea con el corazón del Creador...</p>
+                    
+                    <!-- Botón disparador del Modal -->
+                <button onclick="mostrarReflexionTema()" class="boton-leer">Leer Reflexión Completa →</button>
                 </div>
             </article>
 
+            <!-- Artículo 2 -->
+            <article class="articulo-tarjeta">
+              <!-- Cambiamos el span por la etiqueta img -->
+             <div class="articulo-imagen-placeholder">
+                <img src="imagenes/seccion-reflexiones/tema-del-mes/ilustracion-tamuz2.png" alt="El Carácter del Remanente" class="img-articulo">
+            </div>
+    
+            <div class="articulo-contenido">
+             <p class="articulo-fecha">Mes anterior • 2026</p>
+            <h2>El Carácter del Remanente</h2>
+            <p class="articulo-extracto">Una breve pero profunda meditación sobre la constancia, la fe inquebrantable en tiempos de quietud...</p>
+        
+            <button onclick="mostrarReflexionTamuz()" class="boton-leer">Leer Reflexión Completa →</button>
+            </div>
+            </article>
         </div>
     </div>
-<script src="js/carrito.js"></script>
+
+    <!-- Modal de Reflexión (Se despliega sobre toda la pantalla) -->
+    <div id="modal-reflexion" class="modal-fondo">
+        <div class="modal-pergamino">
+            <button onclick="cerrarModal()" class="boton-cerrar-x">×</button>
+            <div id="contenido-reflexion">
+                <!-- Aquí se inyecta el contenido dinámicamente -->
+            </div>
+        </div>
+    </div>
+
+<iframe style="border-radius:12px" 
+src="https://open.spotify.com/embed/playlist/3dGiOFOBPvAaZCOy4vYhlL?utm_source=generator&theme=0" 
+width="100%" height="152" frameBorder="0" allowfullscreen="" 
+allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+</iframe>
+
+    <!-- Scripts -->
+    <script src="js/reflexiones.js"></script>
+    <script src="js/carrito.js"></script>
     <script src="js/tiendaUI.js"></script>
 </body>
 </html>

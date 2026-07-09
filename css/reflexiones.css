@@ -187,6 +187,100 @@
     transform: translateX(3px);
 }
 
+.modal-fondo {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85); /* Fondo oscuro semitransparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-pergamino {
+    background: #f4e4bc;
+    width: 80%;
+    max-width: 600px;
+    max-height: 80vh;
+    padding: 40px;
+    overflow-y: auto; /* Por si el texto es muy largo */
+    border: 5px double #5d4037;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+/* Fondo oscuro con desenfoque */
+.modal-fondo {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(8px); /* ¡Esto es lo que lo hace ver drástico! */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.modal-fondo.activo {
+    display: flex !important;
+    opacity: 1;
+}
+
+/* Efecto de Zoom (de pequeño a grande) */
+.modal-pergamino {
+    background: #f4e4bc;
+    width: 85%;
+    max-width: 650px;
+    padding: 40px;
+    border: 5px double #5d4037;
+    position: relative;
+    
+    /* El truco del desenrolle */
+    max-height: 0;              /* Empieza cerrado */
+    overflow: hidden;           /* Esconde el contenido */
+    transition: max-height 1.5s cubic-bezier(0.4, 0, 0.2, 1); /* Desenrolle suave */
+}
+
+/* Cuando se activa, "se desenrolla" */
+.modal-fondo.activo .modal-pergamino {
+    max-height: 80vh;           /* Se abre hasta su tamaño real */
+}
+/* El estilo de la "X" para cerrar */
+.boton-cerrar-x {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #5d4037;
+    cursor: pointer;
+    font-family: 'Cinzel Decorative', cursive;
+}
+
+.boton-cerrar-x:hover {
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* Asegura que la imagen llene el espacio del placeholder y no se deforme */
+.articulo-imagen-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Esto hace que la imagen se recorte para encajar sin deformarse */
+    display: block;
+}
+
+/* Opcional: si el placeholder tiene un tamaño fijo, asegúrate de que la imagen lo respete */
+.articulo-imagen-placeholder {
+    overflow: hidden; /* Evita que la imagen se salga de los bordes si tiene bordes redondeados */
+}
+
 
 /* 🖥️ CAMBIO DE FONDO PARA COMPUTADORAS (Imagen horizontal 16:9) */
 @media (min-width: 1024px) {
