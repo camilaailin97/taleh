@@ -180,6 +180,11 @@
     font-size: 16px;
     font-weight: bold;
     transition: color 0.2s ease, transform 0.2s ease;
+    /* Agrega estas líneas para asegurar que no tenga fondo ni borde */
+    background: transparent !important;
+    border: none !important;
+    padding: 0; /* Ajusta esto si el botón queda muy pequeño */
+    cursor: pointer;
 }
 
 .boton-leer:hover {

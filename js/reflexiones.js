@@ -33,7 +33,26 @@ function mostrarReflexionTema() {
         <div style="text-align: center;">
             <img src="imagenes/seccion-reflexiones/tema-del-mes/tamuz.png" style="width:40%; border-radius:8px; margin: 40px auto; display:block;">
         </div>
-        <p>Y aquí continúa la enseñanza...</p>
+        <p>Cuando lloras por las veces que intentaste <br>
+            Y tratas de olvidar las lágrimas que lloraste <br>
+            Solo tienes pena y tristeza <br>
+            El futuro incierto espera <br>
+            Puedes tener <br>
+            Paz en la tormenta <br>
+            Muchas veces yo me siento igual que tú <br>
+            Y mi corazón, anhela algo real <br>
+            El Señor viene a mí <br>
+            Y me ayuda a seguir <br>
+            En paz <br>
+            En medio de la tormenta <br>
+            Puedes tener <br>
+            Paz en la tormenta <br>
+            Fe y esperanza <br>
+            Cuando no puedas seguir <br>
+            Aún con tu mundo hecho pedazos <br>
+            El Señor guiará tus pasos <br>
+            En paz <br>
+            En medio de la tormenta...</p>
     `);
 }
 
