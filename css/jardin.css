@@ -9,7 +9,7 @@
     width: 100%;
     min-height: 100vh;
     /* Poné acá tu ilustración de la habitación. Si no tenés la ruta exacta todavía, podés usar un color de respaldo */
-    background: url('../imagenes/seccion-jardin/fondo-jardin.jpeg') no-repeat center top; 
+    background: url('../imagenes/seccion-jardin/fondo-jardin.webp') no-repeat center top; 
     background-size: cover;
     background-attachment: fixed; /* El fondo se queda quieto y las tarjetas suben mágicamente */
     padding: 60px 20px;
@@ -401,7 +401,7 @@
 @media (min-width: 1024px) {
     .contenedor-jardin {
         /* Aquí va tu hermosa imagen horizontal de compu */
-        background: url('../imagenes/seccion-jardin/fondo-jardin-compu.png') no-repeat center top; 
+        background: url('../imagenes/seccion-jardin/fondo-jardin-compu.webp') no-repeat center top; 
         background-size: cover;
         background-attachment: fixed; /* Efecto mágico tridimensional al hacer scroll */
         padding: 100px 40px; /* Los 40px que absorbe el subtítulo en PC */

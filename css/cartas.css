@@ -15,7 +15,7 @@
     align-items: center;
     position: relative;
     /* Poné acá tu ilustración de la habitación. Si no tenés la ruta exacta todavía, podés usar un color de respaldo */
-    background: url('../imagenes/seccion-cartas/fondo-celu.png') no-repeat center top; 
+    background: url('../imagenes/seccion-cartas/fondo-celu.webp') no-repeat center top; 
     background-size: cover;
     background-attachment: fixed; /* El fondo se queda quieto y las tarjetas suben mágicamente */
 }
@@ -605,7 +605,7 @@
 @media (min-width: 1024px) {
     .contenedor-cartas {
         /* ACÁ VA TU IMAGEN HORIZONTAL DE COMPU (16:9) */
-        background: url('../imagenes/seccion-cartas/fondo-compu.png') no-repeat center top; 
+        background: url('../imagenes/seccion-cartas/fondo-compu.webp') no-repeat center top; 
         background-size: cover;
         background-attachment: fixed; /* Efecto mágico tridimensional en compu */
         padding: 100px 40px; /* 💡 Aquí están los 40px de espacio por lado */

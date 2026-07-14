@@ -10,7 +10,7 @@
     width: 100%;
     min-height: 100vh;
     /* Poné acá tu ilustración de la habitación. Si no tenés la ruta exacta todavía, podés usar un color de respaldo */
-    background: url('../imagenes/seccion-biblioteca/fondo-biblioteca.jpeg') no-repeat center top; 
+    background: url('../imagenes/seccion-biblioteca/fondo-biblioteca.webp') no-repeat center top; 
     background-size: cover;
     background-attachment: fixed; /* El fondo se queda quieto y las tarjetas suben mágicamente */
     padding: 60px 20px;
@@ -448,7 +448,7 @@
 @media (min-width: 1024px) {
     .contenedor-biblioteca {
         /* ACÁ VA TU IMAGEN HORIZONTAL DE COMPU (16:9) */
-        background: url('../imagenes/seccion-biblioteca/fondo-biblioteca-compu.jpeg') no-repeat center top; 
+        background: url('../imagenes/seccion-biblioteca/fondo-biblioteca-compu.webp') no-repeat center top; 
         background-size: cover;
         background-attachment: fixed; /* Efecto mágico tridimensional en compu */
         padding: 100px 40px; /* 💡 Recordar: Acá tenés 40px a los costados */

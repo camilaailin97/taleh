@@ -9,7 +9,7 @@
 .contenedor-principal {
     width: 100%;
     min-height: 100vh; 
-    background-image: url('../imagenes/fondo-inicio-celu.png');
+    background-image: url('../imagenes/fondo-inicio-celu.webp');
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover; 
@@ -127,7 +127,7 @@
 /* --- MODO COMPUTADORA 🖥️ --- */
 @media (min-width: 768px) {
     .contenedor-principal {
-        background-image: url('../imagenes/fondo-inicio-compu.png'); 
+        background-image: url('../imagenes/fondo-inicio-compu.webp'); 
         padding: 40px 0 60px 0; 
     }
 
