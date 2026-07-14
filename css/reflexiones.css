@@ -244,7 +244,9 @@
     padding: 40px;
     border: 5px double #5d4037;
     position: relative;
-    
+    max-height: 90vh; 
+    display: flex;
+    flex-direction: column;
     /* El truco del desenrolle */
     max-height: 0;              /* Empieza cerrado */
     overflow: hidden;           /* Esconde el contenido */
@@ -253,8 +255,15 @@
 
 /* Cuando se activa, "se desenrolla" */
 .modal-fondo.activo .modal-pergamino {
-    max-height: 80vh;           /* Se abre hasta su tamaño real */
+    max-height: 90vh !important;           /* Se abre hasta su tamaño real */
 }
+
+#contenido-reflexion {
+    overflow-y: auto;    /* Esto habilita el scroll solo en el texto */
+    flex-grow: 1;        /* Hace que ocupe todo el espacio disponible */
+    padding-right: 10px; /* Un poco de aire para la barra de scroll */
+}
+
 /* El estilo de la "X" para cerrar */
 .boton-cerrar-x {
     position: absolute;
@@ -284,6 +293,30 @@
 /* Opcional: si el placeholder tiene un tamaño fijo, asegúrate de que la imagen lo respete */
 .articulo-imagen-placeholder {
     overflow: hidden; /* Evita que la imagen se salga de los bordes si tiene bordes redondeados */
+}
+
+
+/* 1. Ancho de la barra */
+#contenido-reflexion::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra vertical */
+}
+
+/* 2. El fondo de la barra (la pista) */
+#contenido-reflexion::-webkit-scrollbar-track {
+    background: #e8d5a8; /* Un tono un poco más oscuro que el fondo del pergamino */
+    border-radius: 10px;
+}
+
+/* 3. El manejador (la parte que se mueve) */
+#contenido-reflexion::-webkit-scrollbar-thumb {
+    background-color: #5d4037; /* El color marrón de tus bordes */
+    border-radius: 10px;
+    border: 2px solid #f4e4bc; /* Un borde para que parezca que está "incrustado" */
+}
+
+/* 4. Efecto al pasar el mouse por encima */
+#contenido-reflexion::-webkit-scrollbar-thumb:hover {
+    background-color: #3e2723; /* Un marrón más oscuro al pasar el mouse */
 }
 
 
