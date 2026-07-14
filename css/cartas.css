@@ -580,6 +580,32 @@
     transform: translateY(-3px);
 }
 
+/* --- BARRA DE SCROLL PERSONALIZADA PARA LAS CARTAS --- */
+
+/* 1. Ancho de la barra */
+.contenido-modal-pergamino::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* 2. El fondo de la barra (la pista) */
+.contenido-modal-pergamino::-webkit-scrollbar-track {
+    background: #e8d5a8; /* Tono de pergamino claro */
+    border-radius: 10px;
+}
+
+/* 3. El manejador (la parte que se mueve) */
+.contenido-modal-pergamino::-webkit-scrollbar-thumb {
+    background-color: #5d4037; /* Marrón oscuro, igual que en reflexiones */
+    border-radius: 10px;
+    border: 2px solid #f3eacf; /* Borde del mismo color que el pergamino para que "flote" */
+}
+
+/* 4. Efecto al pasar el mouse por encima */
+.contenido-modal-pergamino::-webkit-scrollbar-thumb:hover {
+    background-color: #3e2723; /* Un toque más oscuro al pasar el mouse */
+}
+
+
 
 
 /* Ajustes finos para celulares 📱 */
