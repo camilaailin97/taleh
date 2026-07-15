@@ -65,7 +65,7 @@ Amén."
     <p>Deja aquí tu pedido de oración de este mes de forma confidencial. Nos uniremos en fe por tus peticiones.</p>
     
     <!-- 🔄 CAMBIADO A FORMSUBMIT CON TU CORREO -->
-    <form class="formulario-oracion" action="https://formsubmit.co/taleh.cordero@gmail.com" method="POST">
+    <form id="formulario-oracion" class="formulario-oracion" action="https://formsubmit.co/taleh.cordero@gmail.com" method="POST">
         
         <!-- 🛠️ ASUNTO EXCLUSIVO: Para que en tu mail veas clarito qué es un pedido de oración -->
         <input type="hidden" name="_subject" value="🙏 NUEVA INTENCIÓN EN EL JARDÍN">
@@ -124,5 +124,14 @@ Amén."
     <script src="js/carrito.js"></script>
     <script src="js/tiendaUI.js"></script>
     <script src="js/donaciones.js"></script>
+
+<script>
+    document.getElementById('formulario-oracion').addEventListener('submit', function(e) {
+        // Esto permite que el formulario se envíe a FormSubmit normalmente
+        // sin que otros archivos .js interfieran
+        return true; 
+    });
+</script>
+
 </body>
 </html>
