@@ -64,30 +64,27 @@ Amén."
     <h2>🙏 Muro de Intenciones</h2>
     <p>Deja aquí tu pedido de oración de este mes de forma confidencial. Nos uniremos en fe por tus peticiones.</p>
     
-    <!-- 🔄 CAMBIADO A FORMSUBMIT CON TU CORREO -->
-    <form id="formulario-oracion" class="formulario-oracion" action="https://formspree.io/f/mzdnzwge" method="POST">
-        
-        <!-- 🛠️ ASUNTO EXCLUSIVO: Para que en tu mail veas clarito qué es un pedido de oración -->
-        <input type="hidden" name="_subject" value="🙏 NUEVA INTENCIÓN EN EL JARDÍN">
-        
-        <!-- 🔄 REDIRECCIÓN MÁGICA: Te devuelve al Jardín al instante sin pantalla blanca -->
-        <input type="hidden" name="_next" value="https://camilaailin97.github.io/taleh/jardin.html">
-        
-        <!-- ⚡ DIRECTO: Saca el captcha molesto -->
-        <input type="hidden" name="_captcha" value="false">
+    <!-- 🔄 CAMBIADO A Formspree CON TU CORREO -->
+<form id="formulario-oracion" class="formulario-oracion">
+    <div class="grupo-input">
+        <label for="nombre-oracion">Tu Nombre</label>
+        <input type="text" id="nombre-oracion" name="Nombre" placeholder="Ej. Elías">
+    </div>
+    
+    <div class="grupo-input">
+        <label for="pedido">¿Cuál es tu pedido o motivo de agradecimiento?</label>
+        <textarea id="pedido" name="Pedido" rows="4" required></textarea>
+    </div>
 
-        <div class="grupo-input">
-            <label for="nombre-oracion">Tu Nombre (O dejas vacío para Anónimo)</label>
-            <input type="text" id="nombre-oracion" name="Nombre / Anónimo" placeholder="Ej. Elías">
-        </div>
-        
-        <div class="grupo-input">
-            <label for="pedido">¿Cuál es tu pedido o motivo de agradecimiento?</label>
-            <textarea id="pedido" name="Pedido de Oración" rows="4" placeholder="Escribe aquí con total libertad para que oremos por vos..." required></textarea>
-        </div>
+    <button type="submit" id="boton-enviar" class="boton-enviar-oracion">Enviar al Muro</button>
+</form>
 
-        <button type="submit" class="boton-enviar-oracion">Enviar al Muro</button>
-    </form>
+<!-- Un mensaje de éxito oculto -->
+<div id="mensaje-exito" style="display:none; text-align:center; padding: 20px;">
+    <h3>¡Gracias por tu intención!</h3>
+    <p>Hemos recibido tu pedido con fe.</p>
+    <button onclick="location.reload()">Enviar otro pedido</button>
+</div>
 </div>
 
         <!-- ── SECCIÓN DE COSECHA Y APOJO (DONACIONES) ── -->
@@ -125,13 +122,7 @@ Amén."
     <script src="js/tiendaUI.js"></script>
     <script src="js/donaciones.js"></script>
 
-<script>
-    document.getElementById('formulario-oracion').addEventListener('submit', function(e) {
-        // Esto permite que el formulario se envíe a FormSubmit normalmente
-        // sin que otros archivos .js interfieran
-        return true; 
-    });
-</script>
+
 
 </body>
 </html>
