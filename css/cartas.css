@@ -605,7 +605,22 @@
     background-color: #3e2723; /* Un toque más oscuro al pasar el mouse */
 }
 
-
+.modal-exito {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 9999;
+}
+.contenido-modal-exito {
+    background: #f3eacf; padding: 30px; border-radius: 8px;
+    text-align: center; max-width: 400px; border: 2px solid #bba374;
+    font-family: 'Almendra', serif; color: #2a1b10;
+}
+.contenido-modal-exito button {
+    margin-top: 20px; padding: 10px 25px; background: #2a1b10;
+    color: #f4ebd0; border: none; cursor: pointer; border-radius: 4px;
+}
 
 
 /* Ajustes finos para celulares 📱 */

@@ -140,7 +140,7 @@
 <script src="js/carrito.js"></script>
 <script src="js/tiendaUI.js"></script>
 
-    <script>
+<script>
     document.getElementById('formulario-club').addEventListener('submit', function(e) {
         e.preventDefault(); // Evita que la página recargue
         
@@ -155,9 +155,11 @@
         })
         .then(response => {
             if (response.ok) {
-                alert('¡Gracias por unirte al Hayom Mail Club! Pronto nos pondremos en contacto contigo.');
+                // Activamos el modal personalizado en lugar del alert
+                document.getElementById('modal-exito').style.display = 'flex';
                 formulario.reset();
             } else {
+                // Mensaje de error personalizado en el modal o un alert simple
                 alert('Hubo un pequeño error al enviar. Por favor, intenta de nuevo.');
             }
         })
@@ -165,6 +167,20 @@
             alert('No se pudo conectar con el servidor. Por favor revisa tu conexión.');
         });
     });
+
+    // Función necesaria para cerrar el modal al hacer clic en el botón "Aceptar"
+    function cerrarModalExito() {
+        document.getElementById('modal-exito').style.display = 'none';
+    }
 </script>
+<!-- Modal de éxito personalizado -->
+<div id="modal-exito" class="modal-exito" style="display: none;">
+    <div class="contenido-modal-exito">
+        <h3>📜 ¡Suscripción Exitosa!</h3>
+        <p>Gracias por unirte al Hayom Mail Club. Pronto nos pondremos en contacto contigo.</p>
+        <button onclick="cerrarModalExito()">Aceptar</button>
+    </div>
+</div>
+
 </body>
 </html>
