@@ -124,7 +124,18 @@ Amén."
     <script src="js/tiendaUI.js"></script>
     <script src="js/donaciones.js"></script>
 
-
+<!-- Modal de Donación Personalizado -->
+<div id="modal-donacion" class="modal-fondo" style="display: none;">
+    <div class="modal-contenido">
+        <h2 style="font-family: 'Cinzel Decorative', serif; color: #dfb76c;">Sembrar en el Reino</h2>
+        <p style="font-family: 'Almendra', serif; margin-bottom: 20px;">Ingresa el monto de tu ofrenda:</p>
+        <input type="number" id="input-monto" placeholder="Ej. 1000" class="input-estilo">
+        <div class="modal-botones">
+            <button onclick="procesarDonacion()" class="boton-enviar-oracion">Continuar</button>
+            <button onclick="cerrarModal()" class="boton-donar-benefico" style="border:none; color: #aaa;">Cancelar</button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

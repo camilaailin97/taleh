@@ -1,28 +1,33 @@
-function iniciarDonacion(tipo) {
-    // 1. Pedimos el monto al usuario
-    const monto = prompt("¿Qué monto deseas donar?");
-    
-    if (!monto || monto <= 0) return; // Si cancela o pone 0, no hacemos nada
+// Variable global para guardar qué tipo de donación se eligió
+let tipoDonacionActual = '';
 
-    // 2. Llamamos a tu API en Render (la que acabamos de configurar)
+function iniciarDonacion(tipo) {
+    tipoDonacionActual = tipo;
+    document.getElementById('modal-donacion').style.display = 'flex';
+}
+
+function cerrarModal() {
+    document.getElementById('modal-donacion').style.display = 'none';
+}
+
+function procesarDonacion() {
+    const monto = document.getElementById('input-monto').value;
+    if (!monto || monto <= 0) return alert("Por favor ingresa un monto válido");
+
+    // Aquí llamamos a tu API de Render igual que antes
     fetch('https://taleh-api.onrender.com/donacion.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            tipo: tipo, 
-            monto: parseFloat(monto) 
-        })
+        body: JSON.stringify({ tipo: tipoDonacionActual, monto: parseFloat(monto) })
     })
     .then(response => response.json())
     .then(data => {
-        // 3. Mercado Pago nos devuelve un link (init_point), redirigimos ahí
         if (data.init_point) {
             window.location.href = data.init_point;
         } else {
-            alert("Hubo un error al generar el pago. Intenta de nuevo.");
+            alert("Hubo un error al generar el pago.");
         }
-    })
-    .catch(error => console.error('Error:', error));
+    });
 }
 
 document.getElementById('formulario-oracion').addEventListener('submit', function(e) {
