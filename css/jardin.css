@@ -387,6 +387,23 @@
     color: #fffbf2;
 }
 
+/* Estilo complementario para el botón de enviar otro pedido */
+.boton-recomenzar {
+    display: inline-block;
+    width: auto; /* Para que no ocupe todo el ancho si no quieres */
+    padding: 10px 25px;
+    margin-top: 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-recomenzar:hover {
+    background-color: #dfb76c; /* Color dorado/cálido al pasar el cursor */
+    color: #1a1a2e;
+    transform: translateY(-2px);
+}
+
 /* Adaptación para celulares */
 @media (max-width: 600px) {
     .seccion-ofrendas {
